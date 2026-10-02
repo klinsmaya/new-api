@@ -1,0 +1,32 @@
+=== RUN   TestDirectPayAccounting
+--- PASS: TestDirectPayAccounting (0.58s)
+=== RUN   TestDirectPayCacheRecovery
+--- PASS: TestDirectPayCacheRecovery (0.21s)
+=== RUN   TestDirectPayRedisFaultWindows
+    directpay_test.go:238: requires isolated real Redis
+--- SKIP: TestDirectPayRedisFaultWindows (0.00s)
+=== RUN   TestDirectPayBaselineBatchLossCounterexample
+    directpay_test.go:314: CONFIRMED_UNSAFE_BASELINE: cache loss before batch flush admitted 8000 against 5000
+--- PASS: TestDirectPayBaselineBatchLossCounterexample (0.20s)
+=== RUN   TestDirectPayWalletCapacityBoundary
+--- PASS: TestDirectPayWalletCapacityBoundary (0.21s)
+PASS
+ok  	github.com/QuantumNous/new-api/model	1.258s
+=== RUN   TestDirectPayControls
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+
+2026/10/02 17:40:24 [34;1m/workspace/new-api/controller/directpay_test.go:58
+[0m[35m[warn] [0mremoving callback `directpay_switch_failure` from /workspace/new-api/controller/directpay_test.go:58
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+
+2026/10/02 17:40:24 [31;1m/workspace/new-api/controller/directpay.go:187 [35;1mrecord not found
+[0m[33m[0.495ms] [34;1m[rows:0][0m SELECT * FROM `direct_pay_orders` WHERE merchant_order_no = 'private-order' AND user_id = 7 ORDER BY `direct_pay_orders`.`id` LIMIT 1
+--- PASS: TestDirectPayControls (0.06s)
+PASS
+ok  	github.com/QuantumNous/new-api/controller	0.115s

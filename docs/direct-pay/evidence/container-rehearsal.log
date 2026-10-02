@@ -1,0 +1,12 @@
+PASS original 1a4166d8 full schema initialized, directpay tables absent
+PASS pre-upgrade actual HTTP orders persisted with immutable snapshots
+PASS 40 real signed callbacks across two full instances, exactly one ledger, original pricing credit; local ACK max_ms=285.0
+PASS durable Inbox after ACK then SIGKILL, surviving peer settles once
+PASS compatible prior binary rollback with creation disabled: late pre-upgrade order settles from original snapshot
+PASS Chromium actual login-cookie refresh, wallet restore/reload, credited hides checkout; no extra order
+PASS Chromium committed-create response abort, reload/resume uses same key and same order
+PASS Chromium blocked popup does not report credit or lose checkout
+PASS Chromium expired checkout hidden while order polling continues
+PASS Chromium login loss redirects to sign-in without creating order
+PASS Redis outage returns retryable non-ACK; after durable ACK, Redis outage does not prevent DB credit; restart retains 700 reservation and replay adds once
+REHEARSAL_COMPLETE fixture-only; no official payment transport, no real funds

@@ -11,7 +11,7 @@ integration_points:
   - name: wallet_atomic_credit_and_cache
     paths: [model/topup.go, model/user.go, model/user_cache.go, model/user_auth_cache.go, model/quota_reserve.go, model/directpay_cache.go]
     symbols: [creditTopUpQuota, writeUserCache, TryReserveUserQuota, SyncDirectPayCredit]
-    tests: [TestDirectPayAccounting, TestDirectPayCacheRecovery]
+    tests: [TestDirectPayAccounting, TestDirectPayCacheRecovery, TestDirectPayRedisFaultWindows, TestDirectPayBaselineBatchLossCounterexample, TestDirectPayWalletCapacityBoundary]
   - name: payment_routes_and_permissions
     paths: [router/api-router.go, controller/payment_compliance.go, middleware/auth.go, controller/directpay.go]
     symbols: [UserAuth, AdminAuth, requirePaymentCompliance, DirectPayNotify]
@@ -24,3 +24,12 @@ integration_points:
     paths: [web/src/features/wallet, web/src/features/system-settings/integrations/payment-settings-section.tsx, web/package.json]
     symbols: [DirectPayment, DirectPaymentAdmin]
     tests: [web/src/features/wallet/direct-pay/__tests__/payment.test.tsx]
+
+  - name: frontend_payment_recovery_persistence
+    paths: [web/src/lib/frontend-cache.ts, web/src/features/wallet/direct-pay/store.ts]
+    symbols: [initializeFrontendCache, useDirectPayStore]
+    tests: [scripts/directpay/full-app-rehearsal.mjs]
+  - name: patched_builder
+    paths: [Dockerfile]
+    symbols: [builder2]
+    tests: [docs/direct-pay/BUILDER_SECURITY.md]

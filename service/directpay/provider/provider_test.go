@@ -1,6 +1,7 @@
 package provider
 
 import (
+	"bytes"
 	"context"
 	"crypto"
 	"crypto/aes"
@@ -461,4 +462,56 @@ func TestSignedCloseCertificateContract(t *testing.T) {
 			require.Error(t, a.Close(t.Context(), o))
 		})
 	}
+}
+
+func TestWechatNativeCreateSDKContract(t *testing.T) {
+	a, key := fixture(t, dp.Wechat)
+	o := a.identity()
+	o.OrderNo = "native-order"
+	o.MoneyMinor = 123
+	o.Method = dp.Native
+	o.ExpiresAt = time.Now().Unix() + 600
+	codeURL := "weixin://wxpay/local-fixture"
+	tamper := false
+	a.setWechatTransport(protocolTransport(func(r *http.Request) (*http.Response, error) {
+		assert.Equal(t, "/v3/pay/transactions/native", r.URL.Path)
+		raw, err := io.ReadAll(r.Body)
+		require.NoError(t, err)
+		var request struct {
+			AppID      string `json:"appid"`
+			MerchantID string `json:"mchid"`
+			Amount     struct {
+				Total    int    `json:"total"`
+				Currency string `json:"currency"`
+			} `json:"amount"`
+		}
+		require.NoError(t, common.Unmarshal(raw, &request))
+		assert.Equal(t, "app", request.AppID)
+		assert.Equal(t, "merchant", request.MerchantID)
+		assert.Equal(t, 123, request.Amount.Total)
+		assert.Equal(t, "CNY", request.Amount.Currency)
+		body, err := common.Marshal(map[string]string{"code_url": codeURL})
+		require.NoError(t, err)
+		stamp := strconv.FormatInt(time.Now().Unix(), 10)
+		h := make(http.Header)
+		h.Set("Wechatpay-Timestamp", stamp)
+		h.Set("Wechatpay-Nonce", "native")
+		h.Set("Wechatpay-Serial", a.cfg.PublicKeyID)
+		h.Set("Wechatpay-Signature", signFixture(t, key, stamp+"\nnative\n"+string(body)+"\n"))
+		if tamper {
+			body = append(body, ' ')
+		}
+		return &http.Response{StatusCode: 200, Header: h, Body: io.NopCloser(bytes.NewReader(body)), Request: r}, nil
+	}))
+	checkout, err := a.Create(t.Context(), o)
+	require.NoError(t, err)
+	assert.Equal(t, "qr", checkout.Kind)
+	assert.Equal(t, codeURL, checkout.Value)
+	tamper = true
+	_, err = a.Create(t.Context(), o)
+	require.Error(t, err)
+	tamper = false
+	codeURL = "https://untrusted.test"
+	_, err = a.Create(t.Context(), o)
+	require.Error(t, err)
 }

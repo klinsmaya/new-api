@@ -1,0 +1,6 @@
+[newapi-directpay-rehearsal:baseline] sha256:e559a50060f703c9b35df6894f9d409b6962e367ef86a6d340d69d0d7a766f4f
+[newapi-directpay-rehearsal:compatible] sha256:63314c3c608224395985a2454ef390052d6e614d2b228a78dc36fcb37521c533
+[newapi-directpay-rehearsal:current] sha256:bd5f50d30d7169b592dcaee9acf02c070c1ffde2de9211cbc1aa1a0ba908a255
+b627c1f48aca13ee897a9e6491d549499b13627e189861ed4d39dd7588812a92  .directpay-tools/new-api-baseline
+b85041d1d8e4a7ef1bc57182ed3048d654986b35f96edfe9378bbcf92f4e57ec  .directpay-tools/new-api-compatible-rollback
+58091fecf102f4d0ef2d80a2ab401f48726517c760951cc21abbe8827811038c  .directpay-tools/new-api-next

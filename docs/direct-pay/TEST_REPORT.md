@@ -2,7 +2,7 @@
 
 Baseline: klinsmaya/new-api 1a4166d8e8ba9802d2ca56fe8ecf0ed5404e80d5. Branch feat/direct-pay. Initial tree clean. Production deployment UNKNOWN; no production action.
 
-## Executed evidence
+## Initial candidate evidence (superseded where expanded below)
 
 | Check | Command (repository root unless noted) | Exit/result | Evidence |
 |---|---|---|---|
@@ -29,7 +29,7 @@ Coverage includes request-key replay/conflict, same transaction on another order
 
 Independent read-only first review found: Inbox starvation; missing revision scheduling starvation; unquoted MySQL key; ignored DB error in stop switch; quote-change recovery; PagePay nonexistent-order lifecycle. These were fixed. Independent second review found no new severe funds/security issue; tightened the suggested stale-batch lease CAS afterward. Latest incremental review is recorded in REVIEW.md when available. Static review is not runtime acceptance.
 
-## Not passed / external gates
+## Initial candidate gaps (historical; see continuation below)
 
 - Official Alipay sandbox: BLOCKED_EXTERNAL.
 - WeChat live Native and Alipay live smoke: BLOCKED_EXTERNAL.
@@ -47,3 +47,14 @@ Final source verification: scripts/directpay/test.sh passed with Go 1.26.8 (evid
 Phase accounting: P0 completed; P1/P2 core implemented with the recorded database tests; P3/P4 candidate implementation and public-key/component/build checks completed, but their full acceptance matrices are not complete. P5 official integration is externally blocked; P6 tooling/runbooks and snapshot simulation delivered, actual compatible-image upgrade/rollback not executed. These incomplete local gates are outstanding work, not attributed to missing merchant credentials. P7 remains separate and unimplemented.
 
 Final patched-toolchain database rerun: Go 1.26.8 `go test -p 1 ./model ./controller -run DirectPay -count=1` passed on MySQL and PostgreSQL, both exit 0 (evidence/final-mysql-1.26.8.log and final-postgres-1.26.8.log). MySQL rerun used real Redis; PostgreSQL rerun used the deterministic Redis fixture, with earlier real-Redis evidence retained. Latest UI regression rerun also passed 3/3, exit 0.
+
+
+## Continuation acceptance and current gates
+
+The follow-up request completed the formerly unrun local certificate SDK, real browser, two-full-instance concurrency, original-schema migration, actual fixture-image replacement/compatible rollback, Redis stop/restart, unknown-result replay and absolute-capacity tests. Exact commands, exit codes, artifacts, scope limits and reproduction are in LOCAL_REHEARSAL.md. The current limitations in KNOWN_LIMITATIONS.md supersede the initial gap list above. Source implementation is 0062e0834 plus the additional Native protocol test; Go builder patch is e77106090 and cache/production gate is 1d40b4abc.
+
+Important new outcome: a **confirmed inherited batch/cache-loss overspend** is reproduced by a characterization test. Production creation is hard-blocked in both runtime and admin API; historical settlement remains active. This is a release blocker, not a passing wallet-safety result. The independent reviewer identified missing-watermark replay and expired-primary rotation defects; both were fixed, tested and reviewed again. No new severe direct-pay funds/key defect was found in the final read-only review.
+
+Final executed evidence: expanded-postgres.log / expanded-mysql.log (each exit 0), certificate-contract.log (exit 0), expanded-race.log (exit 0), final-safety-regression.log (exit 0), expanded-typecheck.log / expanded-lint.log (0), expanded-ui.log (11/11, 0), browser-build.log (0), full-app-rehearsal.log / container-rehearsal.log (0). Fixture image builds are 0. Official Dockerfile builder target is exit 1 due anonymous registry 429; see official-dockerfile-build.log.
+
+P0 implementation baseline, P1-P4 candidate code and expanded local checks, P6 local upgrade/rollback tooling and executed rehearsals have deliverables. P5 official integration remains BLOCKED_EXTERNAL. G1/G2 remain NOT ACCEPTED because the inherited wallet safety finding, operational/load gates, official provider acceptance and distribution-image build are not cleared. This does not claim full production P0-P6 acceptance.

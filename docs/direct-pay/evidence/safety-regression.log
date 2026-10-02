@@ -1,0 +1,1228 @@
+ok  	github.com/QuantumNous/new-api/model	9.644s
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /api/verify/methods       --> github.com/QuantumNous/new-api/controller.GetVerificationMethods (4 handlers)
+[GIN-debug] POST   /api/verify               --> github.com/QuantumNous/new-api/controller.UniversalVerify (4 handlers)
+[GIN-debug] GET    /api/user/self            --> github.com/QuantumNous/new-api/controller.newAccessTokenTestRouter.func1 (4 handlers)
+[GIN-debug] POST   /api/user/2fa/setup       --> github.com/QuantumNous/new-api/controller.Setup2FA (4 handlers)
+[GIN-debug] POST   /api/user/2fa/disable     --> github.com/QuantumNous/new-api/controller.Disable2FA (4 handlers)
+[GIN-debug] GET    /api/user/access_tokens   --> github.com/QuantumNous/new-api/controller.ListAccessTokens (4 handlers)
+[GIN-debug] GET    /api/user/access_tokens/catalog --> github.com/QuantumNous/new-api/controller.GetAccessTokenCatalog (4 handlers)
+[GIN-debug] GET    /api/user/access_tokens/scopes --> github.com/QuantumNous/new-api/controller.GetAccessTokenScopes (4 handlers)
+[GIN-debug] POST   /api/user/access_tokens   --> github.com/QuantumNous/new-api/controller.CreateAccessToken (4 handlers)
+[GIN-debug] PATCH  /api/user/access_tokens/:id --> github.com/QuantumNous/new-api/controller.UpdateAccessToken (4 handlers)
+[GIN-debug] DELETE /api/user/access_tokens/:id --> github.com/QuantumNous/new-api/controller.DeleteAccessToken (4 handlers)
+[GIN-debug] DELETE /api/user/access_tokens/legacy --> github.com/QuantumNous/new-api/controller.RevokeLegacyAccessToken (4 handlers)
+[GIN-debug] DELETE /api/user/:id             --> github.com/QuantumNous/new-api/controller.DeleteUser (4 handlers)
+
+2026/10/02 17:25:13 [31;1m/workspace/new-api/model/user_access_token.go:102 [35;1mrecord not found
+[0m[33m[0.024ms] [34;1m[rows:0][0m SELECT * FROM `user_access_tokens` WHERE id = 2 AND user_id = 1 ORDER BY `user_access_tokens`.`id` LIMIT 1
+
+2026/10/02 17:25:13 [31;1m/workspace/new-api/model/user_access_token.go:90 [35;1mrecord not found
+[0m[33m[0.030ms] [34;1m[rows:0][0m SELECT * FROM `user_access_tokens` WHERE token_hash = "99f8ea7367a804c0e7258e9110cde7e23b3b89035fefa59021e44b3c88868388" ORDER BY `user_access_tokens`.`id` LIMIT 1
+
+2026/10/02 17:25:13 [31;1m/workspace/new-api/model/user_access_token.go:102 [35;1mrecord not found
+[0m[33m[0.020ms] [34;1m[rows:0][0m SELECT * FROM `user_access_tokens` WHERE id = 1 AND user_id = 1 ORDER BY `user_access_tokens`.`id` LIMIT 1
+
+2026/10/02 17:25:13 [31;1m/workspace/new-api/model/user.go:1243 [35;1mrecord not found
+[0m[33m[0.121ms] [34;1m[rows:0][0m SELECT * FROM `users` WHERE access_token = "legacy-opaque-token" AND `users`.`deleted_at` IS NULL ORDER BY `users`.`id` LIMIT 1
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /api/verify/methods       --> github.com/QuantumNous/new-api/controller.GetVerificationMethods (4 handlers)
+[GIN-debug] POST   /api/verify               --> github.com/QuantumNous/new-api/controller.UniversalVerify (4 handlers)
+[GIN-debug] GET    /api/user/self            --> github.com/QuantumNous/new-api/controller.newAccessTokenTestRouter.func1 (4 handlers)
+[GIN-debug] POST   /api/user/2fa/setup       --> github.com/QuantumNous/new-api/controller.Setup2FA (4 handlers)
+[GIN-debug] POST   /api/user/2fa/disable     --> github.com/QuantumNous/new-api/controller.Disable2FA (4 handlers)
+[GIN-debug] GET    /api/user/access_tokens   --> github.com/QuantumNous/new-api/controller.ListAccessTokens (4 handlers)
+[GIN-debug] GET    /api/user/access_tokens/catalog --> github.com/QuantumNous/new-api/controller.GetAccessTokenCatalog (4 handlers)
+[GIN-debug] GET    /api/user/access_tokens/scopes --> github.com/QuantumNous/new-api/controller.GetAccessTokenScopes (4 handlers)
+[GIN-debug] POST   /api/user/access_tokens   --> github.com/QuantumNous/new-api/controller.CreateAccessToken (4 handlers)
+[GIN-debug] PATCH  /api/user/access_tokens/:id --> github.com/QuantumNous/new-api/controller.UpdateAccessToken (4 handlers)
+[GIN-debug] DELETE /api/user/access_tokens/:id --> github.com/QuantumNous/new-api/controller.DeleteAccessToken (4 handlers)
+[GIN-debug] DELETE /api/user/access_tokens/legacy --> github.com/QuantumNous/new-api/controller.RevokeLegacyAccessToken (4 handlers)
+[GIN-debug] DELETE /api/user/:id             --> github.com/QuantumNous/new-api/controller.DeleteUser (4 handlers)
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /api/verify/methods       --> github.com/QuantumNous/new-api/controller.GetVerificationMethods (4 handlers)
+[GIN-debug] POST   /api/verify               --> github.com/QuantumNous/new-api/controller.UniversalVerify (4 handlers)
+[GIN-debug] GET    /api/user/self            --> github.com/QuantumNous/new-api/controller.newAccessTokenTestRouter.func1 (4 handlers)
+[GIN-debug] POST   /api/user/2fa/setup       --> github.com/QuantumNous/new-api/controller.Setup2FA (4 handlers)
+[GIN-debug] POST   /api/user/2fa/disable     --> github.com/QuantumNous/new-api/controller.Disable2FA (4 handlers)
+[GIN-debug] GET    /api/user/access_tokens   --> github.com/QuantumNous/new-api/controller.ListAccessTokens (4 handlers)
+[GIN-debug] GET    /api/user/access_tokens/catalog --> github.com/QuantumNous/new-api/controller.GetAccessTokenCatalog (4 handlers)
+[GIN-debug] GET    /api/user/access_tokens/scopes --> github.com/QuantumNous/new-api/controller.GetAccessTokenScopes (4 handlers)
+[GIN-debug] POST   /api/user/access_tokens   --> github.com/QuantumNous/new-api/controller.CreateAccessToken (4 handlers)
+[GIN-debug] PATCH  /api/user/access_tokens/:id --> github.com/QuantumNous/new-api/controller.UpdateAccessToken (4 handlers)
+[GIN-debug] DELETE /api/user/access_tokens/:id --> github.com/QuantumNous/new-api/controller.DeleteAccessToken (4 handlers)
+[GIN-debug] DELETE /api/user/access_tokens/legacy --> github.com/QuantumNous/new-api/controller.RevokeLegacyAccessToken (4 handlers)
+[GIN-debug] DELETE /api/user/:id             --> github.com/QuantumNous/new-api/controller.DeleteUser (4 handlers)
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /api/verify/methods       --> github.com/QuantumNous/new-api/controller.GetVerificationMethods (4 handlers)
+[GIN-debug] POST   /api/verify               --> github.com/QuantumNous/new-api/controller.UniversalVerify (4 handlers)
+[GIN-debug] GET    /api/user/self            --> github.com/QuantumNous/new-api/controller.newAccessTokenTestRouter.func1 (4 handlers)
+[GIN-debug] POST   /api/user/2fa/setup       --> github.com/QuantumNous/new-api/controller.Setup2FA (4 handlers)
+[GIN-debug] POST   /api/user/2fa/disable     --> github.com/QuantumNous/new-api/controller.Disable2FA (4 handlers)
+[GIN-debug] GET    /api/user/access_tokens   --> github.com/QuantumNous/new-api/controller.ListAccessTokens (4 handlers)
+[GIN-debug] GET    /api/user/access_tokens/catalog --> github.com/QuantumNous/new-api/controller.GetAccessTokenCatalog (4 handlers)
+[GIN-debug] GET    /api/user/access_tokens/scopes --> github.com/QuantumNous/new-api/controller.GetAccessTokenScopes (4 handlers)
+[GIN-debug] POST   /api/user/access_tokens   --> github.com/QuantumNous/new-api/controller.CreateAccessToken (4 handlers)
+[GIN-debug] PATCH  /api/user/access_tokens/:id --> github.com/QuantumNous/new-api/controller.UpdateAccessToken (4 handlers)
+[GIN-debug] DELETE /api/user/access_tokens/:id --> github.com/QuantumNous/new-api/controller.DeleteAccessToken (4 handlers)
+[GIN-debug] DELETE /api/user/access_tokens/legacy --> github.com/QuantumNous/new-api/controller.RevokeLegacyAccessToken (4 handlers)
+[GIN-debug] DELETE /api/user/:id             --> github.com/QuantumNous/new-api/controller.DeleteUser (4 handlers)
+
+2026/10/02 17:25:13 [31;1m/workspace/new-api/model/user_access_token.go:102 [35;1mrecord not found
+[0m[33m[0.021ms] [34;1m[rows:0][0m SELECT * FROM `user_access_tokens` WHERE id = 2 AND user_id = 1 ORDER BY `user_access_tokens`.`id` LIMIT 1
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /public                   --> github.com/QuantumNous/new-api/controller.TestAccessTokenAuditsResultsAndExcludesBrowserSessions.func2 (3 handlers)
+[GIN-debug] GET    /rate-limited             --> github.com/QuantumNous/new-api/controller.TestAccessTokenAuditsResultsAndExcludesBrowserSessions.UserAuth.func10 (4 handlers)
+[GIN-debug] GET    /read/:id                 --> github.com/QuantumNous/new-api/controller.TestAccessTokenAuditsResultsAndExcludesBrowserSessions.func4 (4 handlers)
+[GIN-debug] POST   /write                    --> github.com/QuantumNous/new-api/controller.TestAccessTokenAuditsResultsAndExcludesBrowserSessions.func5 (4 handlers)
+[GIN-debug] POST   /business-failure         --> github.com/QuantumNous/new-api/controller.TestAccessTokenAuditsResultsAndExcludesBrowserSessions.func6 (4 handlers)
+[GIN-debug] GET    /forbidden                --> github.com/QuantumNous/new-api/controller.TestAccessTokenAuditsResultsAndExcludesBrowserSessions.func7 (4 handlers)
+
+2026/10/02 17:25:13 [31;1m/workspace/new-api/model/user.go:1243 [35;1mrecord not found
+[0m[33m[0.068ms] [34;1m[rows:0][0m SELECT * FROM `users` WHERE access_token = "unknown-token" AND `users`.`deleted_at` IS NULL ORDER BY `users`.`id` LIMIT 1
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /api/audit/self           --> github.com/QuantumNous/new-api/controller.GetAuditLogs (4 handlers)
+[GIN-debug] GET    /api/audit                --> github.com/QuantumNous/new-api/controller.GetAuditLogs (5 handlers)
+
+2026/10/02 17:25:13 [34;1m/workspace/new-api/controller/access_token_audit_test.go:622
+[0m[35m[warn] [0mremoving callback `audit:fail` from /workspace/new-api/controller/access_token_audit_test.go:622
+
+2026/10/02 17:25:13 [34;1m/workspace/new-api/controller/access_token_audit_test.go:626
+[0m[35m[warn] [0mremoving callback `audit:write-fail` from /workspace/new-api/controller/access_token_audit_test.go:626
+[ERR] 2026/10/02 - 17:25:13 | SYSTEM | audit actor role unavailable (request_id=role-0, actor_role=0) 
+[ERR] 2026/10/02 - 17:25:13 | SYSTEM | audit actor role unavailable (request_id=role--1, actor_role=-1) 
+[ERR] 2026/10/02 - 17:25:13 | SYSTEM | audit actor role unavailable (request_id=role-99, actor_role=99) 
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /api/audit                --> github.com/QuantumNous/new-api/controller.GetAuditLogs (5 handlers)
+[GIN-debug] GET    /api/audit/self           --> github.com/QuantumNous/new-api/controller.GetAuditLogs (4 handlers)
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /change-role              --> github.com/QuantumNous/new-api/controller.TestAuditRoleSnapshotSurvivesActorChanges.func1 (4 handlers)
+
+2026/10/02 17:25:13 [31;1m/workspace/new-api/model/audit_log.go:237 [35;1mrecord not found
+[0m[33m[0.065ms] [34;1m[rows:0][0m SELECT `created_at`,`ip` FROM `audit_logs` WHERE (user_id = 1 AND token_ref = "d827ade22cf0220a56d2da89a7180799bf443d4978dc0bbc8176200b46ece834" AND category = "access_token") AND actor_role IN (1,10) ORDER BY created_at DESC,event_id DESC LIMIT 1
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[SYS] 2026/10/02 - 17:25:13 | SQL_DSN not set, using SQLite as database 
+[SYS] 2026/10/02 - 17:25:13 | database migration started 
+[SYS] 2026/10/02 - 17:25:13 | SQL_DSN not set, using SQLite as database 
+[SYS] 2026/10/02 - 17:25:13 | database migration started 
+
+2026/10/02 17:25:13 [32m/workspace/new-api/.directpay-tools/gopath/pkg/mod/github.com/glebarez/sqlite@v1.11.0/migrator.go:342
+[0m[33m[0.114ms] [34;1m[rows:1][0m SELECT * FROM PRAGMA_index_list("options")
+
+2026/10/02 17:25:13 [31;1m/workspace/new-api/controller/access_token_audit_test.go:1101 [35;1mconstraint failed: UNIQUE constraint failed: users.access_token (2067)
+[0m[33m[0.143ms] [34;1m[rows:0][0m INSERT INTO `users` (`direct_pay_credit_total`,`username`,`password`,`display_name`,`role`,`status`,`email`,`github_id`,`discord_id`,`oidc_id`,`wechat_id`,`telegram_id`,`access_token`,`access_token_created_at`,`quota`,`used_quota`,`request_count`,`group`,`aff_code`,`aff_count`,`aff_quota`,`aff_history`,`inviter_id`,`deleted_at`,`linux_do_id`,`setting`,`remark`,`stripe_customer`,`created_at`,`last_login_at`,`auth_version`) VALUES (0,"duplicate","placeholder","",1,1,"","","","","","","matrix-token",NULL,0,0,0,"default","duplicate-aff",0,0,0,0,NULL,"","","","",1790961913,0,1) RETURNING `id`
+
+2026/10/02 17:25:13 [31;1m/workspace/new-api/controller/access_token_audit_test.go:1107 [35;1mconstraint failed: UNIQUE constraint failed: user_access_tokens.token_hash (2067)
+[0m[33m[0.233ms] [34;1m[rows:0][0m INSERT INTO `user_access_tokens` (`user_id`,`name`,`token_hash`,`token_hint`,`scopes`,`expires_at`,`last_used_at`,`last_used_ip`,`created_at`) VALUES (1,"duplicate","d7ab4ceb96288a9461018d1e768f9271ef09a35885161875395fe7f78c0bbc47","dupe","[""profile:read""]",0,0,"",1790961913) RETURNING `id`
+[ERR] 2026/10/02 - 17:25:13 | SYSTEM | audit actor role unavailable (request_id=matrix-role-0, actor_role=0) 
+[ERR] 2026/10/02 - 17:25:13 | SYSTEM | audit actor role unavailable (request_id=matrix-role-99, actor_role=99) 
+[SYS] 2026/10/02 - 17:25:13 | SQL_DSN not set, using SQLite as database 
+[SYS] 2026/10/02 - 17:25:13 | database migration started 
+[SYS] 2026/10/02 - 17:25:13 | SQL_DSN not set, using SQLite as database 
+[SYS] 2026/10/02 - 17:25:13 | database migration started 
+
+2026/10/02 17:25:13 [32m/workspace/new-api/.directpay-tools/gopath/pkg/mod/github.com/glebarez/sqlite@v1.11.0/migrator.go:342
+[0m[33m[0.092ms] [34;1m[rows:1][0m SELECT * FROM PRAGMA_index_list("options")
+
+2026/10/02 17:25:13 [31;1m/workspace/new-api/controller/access_token_audit_test.go:1101 [35;1mconstraint failed: UNIQUE constraint failed: users.access_token (2067)
+[0m[33m[0.187ms] [34;1m[rows:0][0m INSERT INTO `users` (`direct_pay_credit_total`,`username`,`password`,`display_name`,`role`,`status`,`email`,`github_id`,`discord_id`,`oidc_id`,`wechat_id`,`telegram_id`,`access_token`,`access_token_created_at`,`quota`,`used_quota`,`request_count`,`group`,`aff_code`,`aff_count`,`aff_quota`,`aff_history`,`inviter_id`,`deleted_at`,`linux_do_id`,`setting`,`remark`,`stripe_customer`,`created_at`,`last_login_at`,`auth_version`) VALUES (0,"duplicate","placeholder","",1,1,"","","","","","","matrix-token",NULL,0,0,0,"default","duplicate-aff",0,0,0,0,NULL,"","","","",1790961913,0,1) RETURNING `id`
+
+2026/10/02 17:25:13 [31;1m/workspace/new-api/controller/access_token_audit_test.go:1107 [35;1mconstraint failed: UNIQUE constraint failed: user_access_tokens.token_hash (2067)
+[0m[33m[0.172ms] [34;1m[rows:0][0m INSERT INTO `user_access_tokens` (`user_id`,`name`,`token_hash`,`token_hint`,`scopes`,`expires_at`,`last_used_at`,`last_used_ip`,`created_at`) VALUES (1,"duplicate","30e33423b68a9a3494f6bc007d2c16fc4a78ac3f66b37099464d5fb637d3f883","dupe","[""profile:read""]",0,0,"",1790961913) RETURNING `id`
+[ERR] 2026/10/02 - 17:25:13 | SYSTEM | audit actor role unavailable (request_id=matrix-role-0, actor_role=0) 
+[ERR] 2026/10/02 - 17:25:13 | SYSTEM | audit actor role unavailable (request_id=matrix-role-99, actor_role=99) 
+[SYS] 2026/10/02 - 17:25:15 | 为新用户 new-member (角色: 1) 初始化边栏配置 
+[WARN] 2026/10/02 - 17:25:17 | SYSTEM | passkey verification rejected: code=SECURITY_VERIFICATION_FAILED reason=verification_error rp_id="example.com" 
+[WARN] 2026/10/02 - 17:25:17 | SYSTEM | passkey verification rejected: code=SECURITY_VERIFICATION_FAILED reason=verification_error rp_id="example.com" 
+[WARN] 2026/10/02 - 17:25:17 | SYSTEM | passkey verification rejected: code=AUTH_FLOW_INVALID reason=verification_failed rp_id="example.com" 
+[ERR] 2026/10/02 - 17:25:17 | SYSTEM | auth session internal error (POST /api/user/login/passkey/finish): private session creation failure 
+[WARN] 2026/10/02 - 17:25:18 | SYSTEM | passkey verification rejected: code=AUTH_FLOW_INVALID reason=verification_failed rp_id="example.com" 
+[WARN] 2026/10/02 - 17:25:18 | SYSTEM | passkey verification rejected: code=AUTH_FLOW_INVALID reason=verification_failed rp_id="" 
+[WARN] 2026/10/02 - 17:25:19 | SYSTEM | passkey verification rejected: code=SECURITY_VERIFICATION_FAILED reason=verification_error rp_id="example.com" 
+[ERR] 2026/10/02 - 17:25:20 | SYSTEM | auth session internal error (GET /api/oauth/auth-flow-test): exchange failed 
+[ERR] 2026/10/02 - 17:25:20 | SYSTEM | auth session internal error (GET /api/oauth/auth-flow-test): user info failed 
+[ERR] 2026/10/02 - 17:25:20 | SYSTEM | auth session internal error (GET /api/oauth/auth-flow-test): invalid character 'i' looking for beginning of object key string 
+[SYS] 2026/10/02 - 17:25:20 | 为新用户 424242 (角色: 1) 初始化边栏配置 
+[SYS] 2026/10/02 - 17:25:20 | 为新用户 octocat-legacy (角色: 1) 初始化边栏配置 
+[SYS] 2026/10/02 - 17:25:20 | [OAuth] Failed to load verified emails for user 2: emails unavailable 
+[SYS] 2026/10/02 - 17:25:21 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:21 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.122ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:21 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[ERR] 2026/10/02 - 17:25:21 | SYSTEM | audit actor role unavailable (request_id=202610021725215895524228268d9d6Fv1Y290w, actor_role=0) 
+[SYS] 2026/10/02 - 17:25:21 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:21 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.122ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:21 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:21 | SYSTEM | 用户 1 额度充足, 信任且不需要预扣费 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:21 | SYSTEM | 用户 2 需要预扣费 ＄0.003000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:21 | SYSTEM | 用户 3 需要预扣费 ＄0.003000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:21 | SYSTEM | 用户 4 需要预扣费 ＄0.003000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:21 | SYSTEM | 用户 5 需要预扣费 ＄0.003000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:21 | SYSTEM | 用户 6 额度充足, 信任且不需要预扣费 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:21 | SYSTEM | 用户 7 额度充足, 信任且不需要预扣费 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:21 | SYSTEM | 用户 8 需要预扣费 ＄0.003000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:21 | SYSTEM | 用户 9 需要预扣费 ＄0.001500 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:21 | SYSTEM | 用户 10 需要预扣费 ＄0.007500 (funding=wallet) 
+[SYS] 2026/10/02 - 17:25:21 | quota conversion (QuotaRound) overflow: original=+Inf, clamped=2147483647 
+[SYS] 2026/10/02 - 17:25:21 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:21 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.158ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:21 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:21 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.137ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:21 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[ERR] 2026/10/02 - 17:25:21 | SYSTEM | user 0 | strict_session_binding_unavailable 
+[ERR] 2026/10/02 - 17:25:21 | SYSTEM | user 0 | strict_session_binding_unavailable 
+[ERR] 2026/10/02 - 17:25:21 | SYSTEM | user 0 | strict_session_binding_unavailable 
+[ERR] 2026/10/02 - 17:25:21 | SYSTEM | user 0 | strict_session_binding_unavailable 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[ERR] 2026/10/02 - 17:25:21 | SYSTEM | user 0 | strict_session_binding_unavailable 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[ERR] 2026/10/02 - 17:25:21 | SYSTEM | user 0 | strict_session_binding_unavailable 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[ERR] 2026/10/02 - 17:25:21 | SYSTEM | user 0 | strict_session_binding_unavailable 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[ERR] 2026/10/02 - 17:25:21 | SYSTEM | user 0 | strict_session_binding_unavailable 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:21 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.089ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:21 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[SYS] 2026/10/02 - 17:25:21 | failed to validate cloned channel: invalid channel proxy: proxy URL must not include a path 
+[SYS] 2026/10/02 - 17:25:21 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:21 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.061ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:21 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+
+2026/10/02 17:25:21 [31;1m/workspace/new-api/model/channel.go:444 [35;1mrecord not found
+[0m[33m[0.107ms] [34;1m[rows:0][0m SELECT `channels`.`id`,`channels`.`type`,`channels`.`open_ai_organization`,`channels`.`test_model`,`channels`.`status`,`channels`.`name`,`channels`.`weight`,`channels`.`created_time`,`channels`.`test_time`,`channels`.`response_time`,`channels`.`base_url`,`channels`.`other`,`channels`.`balance`,`channels`.`balance_updated_time`,`channels`.`models`,`channels`.`group`,`channels`.`used_quota`,`channels`.`model_mapping`,`channels`.`status_code_mapping`,`channels`.`priority`,`channels`.`auto_ban`,`channels`.`other_info`,`channels`.`tag`,`channels`.`setting`,`channels`.`param_override`,`channels`.`header_override`,`channels`.`remark`,`channels`.`channel_info`,`channels`.`settings` FROM `channels` WHERE id = 999999 AND `channels`.`id` = 999999 ORDER BY `channels`.`id` LIMIT 1
+[ERR] 2026/10/02 - 17:25:21 | SYSTEM | audit actor role unavailable (request_id=202610021725217928994478268d9d6dxodOjOB, actor_role=0) 
+[SYS] 2026/10/02 - 17:25:21 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:21 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.059ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:21 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[ERR] 2026/10/02 - 17:25:21 | SYSTEM | audit actor role unavailable (request_id=202610021725217999692058268d9d61rB4Py8l, actor_role=0) 
+[SYS] 2026/10/02 - 17:25:21 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:21 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.167ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:21 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[WARN] 2026/10/02 - 17:25:21 | SYSTEM | conversion diagnostic: code="model_modifier_overrode_request" severity="warning" from="openai" to="" path="model.@thinking" message="model thinking modifier overrides structured request reasoning fields" 
+[WARN] 2026/10/02 - 17:25:21 | SYSTEM | conversion diagnostic: code="mapped_model_modifier_override" severity="warning" from="openai" to="" path="model.@thinking" message="mapped-model thinking modifier overrides the origin-model modifier" 
+[SYS] 2026/10/02 - 17:25:21 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:21 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.130ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:21 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[SYS] 2026/10/02 - 17:25:21 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:21 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.071ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:21 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[SYS] 2026/10/02 - 17:25:21 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:21 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.108ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:21 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+
+2026/10/02 17:25:21 [34;1m/workspace/new-api/controller/directpay_test.go:58
+[0m[35m[warn] [0mremoving callback `directpay_switch_failure` from /workspace/new-api/controller/directpay_test.go:58
+
+2026/10/02 17:25:21 [31;1m/workspace/new-api/controller/directpay.go:187 [35;1mrecord not found
+[0m[33m[0.070ms] [34;1m[rows:0][0m SELECT * FROM `direct_pay_orders` WHERE merchant_order_no = "private-order" AND user_id = 7 ORDER BY `direct_pay_orders`.`id` LIMIT 1
+[SYS] 2026/10/02 - 17:25:21 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:21 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.082ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:21 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[SYS] 2026/10/02 - 17:25:21 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:21 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.123ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:21 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[SYS] 2026/10/02 - 17:25:21 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:21 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.098ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:21 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[SYS] 2026/10/02 - 17:25:21 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:21 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.060ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:21 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[SYS] 2026/10/02 - 17:25:21 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:21 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:21 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.057ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:21 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[SYS] 2026/10/02 - 17:25:21 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:21 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.063ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:21 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[SYS] 2026/10/02 - 17:25:21 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:21 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.062ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:21 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[SYS] 2026/10/02 - 17:25:21 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:21 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.084ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:21 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[ERR] 2026/10/02 - 17:25:22 | SYSTEM | relay error: parameters.n must be an integer between 1 and 128 
+[ERR] 2026/10/02 - 17:25:22 | SYSTEM | relay error: invalid image parameters: json: cannot unmarshal number -1 into Go struct field ImageBillingParameters.n of type uint 
+[ERR] 2026/10/02 - 17:25:22 | SYSTEM | relay error: invalid image parameters: json: cannot unmarshal number 0.5 into Go struct field ImageBillingParameters.n of type uint 
+[ERR] 2026/10/02 - 17:25:22 | SYSTEM | relay error: parameters.n must be an integer between 1 and 128 
+[SYS] 2026/10/02 - 17:25:22 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:22 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.142ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:22 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+
+2026/10/02 17:25:22 [34;1m/workspace/new-api/controller/model_management_test.go:766
+[0m[35m[warn] [0mremoving callback `fail_listing_channels` from /workspace/new-api/controller/model_management_test.go:766
+
+2026/10/02 17:25:22 [34;1m/workspace/new-api/controller/model_management_test.go:814
+[0m[35m[warn] [0mremoving callback `fail_pricing_matrix` from /workspace/new-api/controller/model_management_test.go:814
+
+2026/10/02 17:25:22 [34;1m/workspace/new-api/controller/model_management_test.go:1017
+[0m[35m[warn] [0mremoving callback `fail_metadata_matrix` from /workspace/new-api/controller/model_management_test.go:1017
+[SYS] 2026/10/02 - 17:25:22 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:22 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.144ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:22 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+
+2026/10/02 17:25:22 [34;1m/workspace/new-api/controller/model_management_test.go:1232
+[0m[35m[warn] [0mremoving callback `vendor_delete_failure` from /workspace/new-api/controller/model_management_test.go:1232
+[SYS] 2026/10/02 - 17:25:22 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:22 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.100ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:22 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[SYS] 2026/10/02 - 17:25:22 | channels synced from database 
+
+2026/10/02 17:25:22 [34;1m/workspace/new-api/controller/model_management_test.go:1375
+[0m[35m[warn] [0mremoving callback `fail_model_deletion` from /workspace/new-api/controller/model_management_test.go:1375
+[SYS] 2026/10/02 - 17:25:22 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:22 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:22 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:22 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:22 | channels synced from database 
+
+2026/10/02 17:25:22 [34;1m/workspace/new-api/controller/model_management_test.go:1468
+[0m[35m[warn] [0mremoving callback `fail_deleted_pricing` from /workspace/new-api/controller/model_management_test.go:1468
+[SYS] 2026/10/02 - 17:25:22 | channels synced from database 
+
+2026/10/02 17:25:22 [34;1m/workspace/new-api/controller/model_management_test.go:1468
+[0m[35m[warn] [0mremoving callback `fail_deleted_pricing` from /workspace/new-api/controller/model_management_test.go:1468
+[SYS] 2026/10/02 - 17:25:22 | channels synced from database 
+[SYS] 2026/10/02 - 17:25:22 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:22 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.144ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:22 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[WARN] 2026/10/02 - 17:25:22 | SYSTEM | passkey verification rejected: code=AUTH_FLOW_INVALID reason=verification_failed rp_id="" 
+[WARN] 2026/10/02 - 17:25:22 | SYSTEM | passkey verification rejected: code=AUTH_FLOW_INVALID reason=verification_failed rp_id="" 
+[WARN] 2026/10/02 - 17:25:22 | SYSTEM | passkey verification rejected: code=AUTH_FLOW_INVALID reason=verification_failed rp_id="" 
+[WARN] 2026/10/02 - 17:25:22 | SYSTEM | passkey verification rejected: code=AUTH_FLOW_INVALID reason=verification_failed rp_id="" 
+[WARN] 2026/10/02 - 17:25:23 | SYSTEM | passkey verification rejected: code=SECURITY_VERIFICATION_FAILED reason=verification_error rp_id="www.example.com" 
+[WARN] 2026/10/02 - 17:25:23 | SYSTEM | passkey verification rejected: code=SECURITY_VERIFICATION_FAILED reason=verification_error rp_id="www.example.com" 
+[WARN] 2026/10/02 - 17:25:23 | SYSTEM | passkey verification rejected: code=SECURITY_VERIFICATION_FAILED reason=verification_error rp_id="www.example.com" 
+[WARN] 2026/10/02 - 17:25:23 | SYSTEM | passkey verification rejected: code=SECURITY_VERIFICATION_FAILED reason=invalid_request rp_id="www.example.com" 
+[WARN] 2026/10/02 - 17:25:23 | SYSTEM | passkey verification rejected: code=SECURITY_VERIFICATION_FAILED reason=invalid_signature rp_id="www.example.com" 
+[WARN] 2026/10/02 - 17:25:23 | SYSTEM | passkey verification rejected: code=SECURITY_VERIFICATION_FAILED reason=verification_error rp_id="www.example.com" 
+[WARN] 2026/10/02 - 17:25:23 | SYSTEM | passkey verification rejected: code=AUTH_FLOW_INVALID reason=verification_failed rp_id="" 
+[WARN] 2026/10/02 - 17:25:23 | SYSTEM | passkey verification rejected: code=PASSKEY_RP_ID_UNAVAILABLE reason=verification_failed rp_id="" 
+[WARN] 2026/10/02 - 17:25:23 | SYSTEM | passkey verification rejected: code=SECURITY_VERIFICATION_FAILED reason=invalid_request rp_id="www.example.com" 
+[WARN] 2026/10/02 - 17:25:23 | SYSTEM | passkey verification rejected: code=PASSKEY_RP_ID_UNAVAILABLE reason=verification_failed rp_id="" 
+[WARN] 2026/10/02 - 17:25:23 | SYSTEM | passkey verification rejected: code=PASSKEY_RP_ID_UNAVAILABLE reason=verification_failed rp_id="" 
+[WARN] 2026/10/02 - 17:25:23 | SYSTEM | passkey verification rejected: code=PASSKEY_RP_ID_UNAVAILABLE reason=verification_failed rp_id="" 
+[WARN] 2026/10/02 - 17:25:24 | SYSTEM | passkey verification rejected: code=PASSKEY_RP_ID_UNAVAILABLE reason=verification_failed rp_id="" 
+[WARN] 2026/10/02 - 17:25:25 | SYSTEM | passkey verification rejected: code=PASSKEY_RP_ID_UNAVAILABLE reason=verification_failed rp_id="" 
+[WARN] 2026/10/02 - 17:25:25 | SYSTEM | passkey verification rejected: code=PASSKEY_RP_ID_UNAVAILABLE reason=verification_failed rp_id="" 
+[WARN] 2026/10/02 - 17:25:25 | SYSTEM | passkey verification rejected: code=PASSKEY_RP_ID_UNAVAILABLE reason=verification_failed rp_id="" 
+[WARN] 2026/10/02 - 17:25:25 | SYSTEM | passkey verification rejected: code=AUTH_FLOW_INVALID reason=verification_failed rp_id="" 
+[SYS] 2026/10/02 - 17:25:25 | model price not found: kling-v1 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | 预扣费与实际消耗一致，无需调整：＄0.500000（按次计费） 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | Channel #1 pending video tasks: 1 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | 任务 task_kling_public 差额结算：delta=＄-0.499998 额度（实际：＄0.000002 额度，预扣：＄0.500000 额度，token重算：tokens=1, modelRatio=1.00, groupRatio=1.00, otherMultiplier=1.0000） 
+[ERR] 2026/10/02 - 17:25:25 | SYSTEM | task protocol database observation failed 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | 预扣费后补扣费：＄0.000014（实际消耗：＄0.000014，预扣费：＄0.000000） 
+[SYS] 2026/10/02 - 17:25:25 | failed to send quota notify to user 71: notification limit exceeded for user 71 with type email 
+
+2026/10/02 17:25:25 [31;1m/workspace/new-api/model/user.go:1462 [35;1mSQL logic error: no such table: tsubmit_1790961925455055279_users (1)
+[0m[33m[0.190ms] [34;1m[rows:0][0m UPDATE `tsubmit_1790961925455055279_users` SET `request_count`=request_count + 1,`used_quota`=used_quota + 0 WHERE id = 71 AND `tsubmit_1790961925455055279_users`.`deleted_at` IS NULL
+[SYS] 2026/10/02 - 17:25:25 | failed to update user used quota and request count: SQL logic error: no such table: tsubmit_1790961925455055279_users (1) 
+
+2026/10/02 17:25:25 [31;1m/workspace/new-api/model/channel.go:915 [35;1mSQL logic error: no such table: tsubmit_1790961925455055279_channels (1)
+[0m[33m[0.152ms] [34;1m[rows:0][0m UPDATE `tsubmit_1790961925455055279_channels` SET `used_quota`=used_quota + 0 WHERE id = 1
+[SYS] 2026/10/02 - 17:25:25 | failed to update channel used quota: channel_id=1, delta_quota=0, error=SQL logic error: no such table: tsubmit_1790961925455055279_channels (1) 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | Channel #1 pending video tasks: 1 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | 任务 task_terminal_disconnect 预扣费准确（＄0.000020 额度，adaptor计费调整） 
+[ERR] 2026/10/02 - 17:25:25 | SYSTEM | task protocol database observation failed 
+[ERR] 2026/10/02 - 17:25:25 | SYSTEM | task protocol render hook failed 
+[ERR] 2026/10/02 - 17:25:25 | SYSTEM | task protocol render hook failed 
+[ERR] 2026/10/02 - 17:25:25 | SYSTEM | task protocol final hook failed 
+[ERR] 2026/10/02 - 17:25:25 | SYSTEM | build task protocol renderer context failed 
+[ERR] 2026/10/02 - 17:25:25 | SYSTEM | task protocol retrieve render failed 
+[WARN] 2026/10/02 - 17:25:25 | SYSTEM | task protocol image download failed; returning the upstream URL instead of b64_json: blocked 
+[WARN] 2026/10/02 - 17:25:25 | SYSTEM | task protocol image download failed; returning the upstream URL instead of b64_json: blocked 
+[WARN] 2026/10/02 - 17:25:25 | SYSTEM | task protocol image poll failed for task task_image: transient poll failure 
+[WARN] 2026/10/02 - 17:25:25 | SYSTEM | task protocol image poll failed for task task_image: transient poll failure 
+[WARN] 2026/10/02 - 17:25:25 | SYSTEM | task protocol image poll failed for task task_image: transient poll failure 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | 预扣费后补扣费：＄0.000014（实际消耗：＄0.000014，预扣费：＄0.000000） 
+[SYS] 2026/10/02 - 17:25:25 | failed to send quota notify to user 71: notification limit exceeded for user 71 with type email 
+
+2026/10/02 17:25:25 [31;1m/workspace/new-api/model/user.go:1462 [35;1mSQL logic error: no such table: tsubmit_1790961925523644030_users (1)
+[0m[33m[0.157ms] [34;1m[rows:0][0m UPDATE `tsubmit_1790961925523644030_users` SET `request_count`=request_count + 1,`used_quota`=used_quota + 0 WHERE id = 71 AND `tsubmit_1790961925523644030_users`.`deleted_at` IS NULL
+[SYS] 2026/10/02 - 17:25:25 | failed to update user used quota and request count: SQL logic error: no such table: tsubmit_1790961925523644030_users (1) 
+
+2026/10/02 17:25:25 [31;1m/workspace/new-api/model/channel.go:915 [35;1mSQL logic error: no such table: tsubmit_1790961925523644030_channels (1)
+[0m[33m[0.122ms] [34;1m[rows:0][0m UPDATE `tsubmit_1790961925523644030_channels` SET `used_quota`=used_quota + 0 WHERE id = 1
+[SYS] 2026/10/02 - 17:25:25 | failed to update channel used quota: channel_id=1, delta_quota=0, error=SQL logic error: no such table: tsubmit_1790961925523644030_channels (1) 
+[ERR] 2026/10/02 - 17:25:25 | SYSTEM | channel error (channel #101, status code: 502): status_code=502, upstream failed 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | record error log: userId=7, channelId=101, modelName=gpt-test, tokenName=test-token, content=status_code=502, upstream failed 
+
+2026/10/02 17:25:25 [31;1m/workspace/new-api/model/task.go:497 [35;1mSQL logic error: no such table: tsubmit_1790961925546525595_tasks (1)
+[0m[33m[0.163ms] [34;1m[rows:0][0m INSERT INTO `tsubmit_1790961925546525595_tasks` (`created_at`,`updated_at`,`task_id`,`platform`,`user_id`,`group`,`channel_id`,`quota`,`action`,`status`,`fail_reason`,`submit_time`,`start_time`,`finish_time`,`progress`,`properties`,`private_data`,`data`) VALUES (1790961925,1790961925,"task_public","plugin",1,"default",1,0,"","NOT_START","",1790961925,0,0,"0%","{""input"":"""",""origin_model_name"":""plugin-model""}","{""upstream_task_id"":""upstream_private"",""execution"":{""request_path"":""/plugin/submit""},""billing_context"":{""origin_model_name"":""plugin-model""}}",(NULL)) RETURNING `id`
+[SYS] 2026/10/02 - 17:25:25 | insert task error: SQL logic error: no such table: tsubmit_1790961925546525595_tasks (1) 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | 预扣费与实际消耗一致，无需调整：＄0.000000（按次计费） 
+[SYS] 2026/10/02 - 17:25:25 | settle task billing error: settlement failed 
+[INFO] 2026/10/02 - 17:25:25 | request-public | 预扣费与实际消耗一致，无需调整：＄0.000000（按次计费） 
+
+2026/10/02 17:25:25 [31;1m/workspace/new-api/model/user.go:1462 [35;1mSQL logic error: no such table: tsubmit_1790961925549083177_users (1)
+[0m[33m[0.191ms] [34;1m[rows:0][0m UPDATE `tsubmit_1790961925549083177_users` SET `request_count`=request_count + 1,`used_quota`=used_quota + 0 WHERE id = 1 AND `tsubmit_1790961925549083177_users`.`deleted_at` IS NULL
+[SYS] 2026/10/02 - 17:25:25 | failed to update user used quota and request count: SQL logic error: no such table: tsubmit_1790961925549083177_users (1) 
+
+2026/10/02 17:25:25 [31;1m/workspace/new-api/model/channel.go:915 [35;1mSQL logic error: no such table: tsubmit_1790961925549083177_channels (1)
+[0m[33m[0.176ms] [34;1m[rows:0][0m UPDATE `tsubmit_1790961925549083177_channels` SET `used_quota`=used_quota + 0 WHERE id = 1
+[SYS] 2026/10/02 - 17:25:25 | failed to update channel used quota: channel_id=1, delta_quota=0, error=SQL logic error: no such table: tsubmit_1790961925549083177_channels (1) 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | 预扣费与实际消耗一致，无需调整：＄0.000000（按次计费） 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | 预扣费与实际消耗一致，无需调整：＄0.000000（按次计费） 
+[WARN] 2026/10/02 - 17:25:25 | SYSTEM | task plugin route POST /sync/images declares retainResult: false but returned an asynchronous result; retaining task task_public 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | 预扣费与实际消耗一致，无需调整：＄0.000000（按次计费） 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | 预扣费与实际消耗一致，无需调整：＄0.000000（按次计费） 
+
+2026/10/02 17:25:25 [31;1m/workspace/new-api/model/user.go:1462 [35;1mSQL logic error: no such table: tsubmit_1790961925568972576_users (1)
+[0m[33m[0.171ms] [34;1m[rows:0][0m UPDATE `tsubmit_1790961925568972576_users` SET `request_count`=request_count + 1,`used_quota`=used_quota + 0 WHERE id = 1 AND `tsubmit_1790961925568972576_users`.`deleted_at` IS NULL
+[SYS] 2026/10/02 - 17:25:25 | failed to update user used quota and request count: SQL logic error: no such table: tsubmit_1790961925568972576_users (1) 
+
+2026/10/02 17:25:25 [31;1m/workspace/new-api/model/channel.go:915 [35;1mSQL logic error: no such table: tsubmit_1790961925568972576_channels (1)
+[0m[33m[0.186ms] [34;1m[rows:0][0m UPDATE `tsubmit_1790961925568972576_channels` SET `used_quota`=used_quota + 0 WHERE id = 1
+[SYS] 2026/10/02 - 17:25:25 | failed to update channel used quota: channel_id=1, delta_quota=0, error=SQL logic error: no such table: tsubmit_1790961925568972576_channels (1) 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | 用户 1 需要预扣费 ＄0.040000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | 预扣费后返还扣费：＄0.020000（实际消耗：＄0.020000，预扣费：＄0.040000） 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | record consume log: userId=1, params={"channel_id":1,"prompt_tokens":0,"completion_tokens":0,"model_name":"document-model","token_name":"","quota":10000,"content":"操作 , 计算参数：units: 2","token_id":0,"use_time_seconds":0,"is_stream":false,"group":"default","other":{"admin_info":{"task_plugin":{"author":{"name":"Test"},"key":"generic-settlement","name":"Generic settlement","version":"1.0.0"}},"billing_mode":"tiered_expr","expr_b64":"dSgidW5pdHMiKSA9PSA3ID8gdGllcigibWlzc2luZyIsIHUoIm1pc3NpbmciKSAqIDEuMCkgOiB1KCJ1bml0cyIpID09IDggPyB0aWVyKCJpbnZhbGlkIiwgLTEuMCkgOiB1KCJ1bml0cyIpID4gMyA/IHRpZXIoImJ1bGsiLCB1KCJ1bml0cyIpICogMC4wMSkgOiB0aWVyKCJzbWFsbCIsIHUoInVuaXRzIikgKiAwLjAxKQ==","group_ratio":1,"is_task":true,"matched_tier":"small","model_price":0,"request_path":"/plugin/submit","root_info":{"task_plugin":{"api_version":1,"generation":0,"key":"generic-settlement","version":"1.0.0"},"upstream_task_id":"vendor-job"},"task_id":"task_HVJCjBoMOzN2znLG7Rohsu2nIP33tVom","task_sync":true,"usage_facts":{"units":2}}} 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | 用户 2 需要预扣费 ＄0.040000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | 预扣费后返还扣费：＄0.040000（实际消耗：＄0.000000，预扣费：＄0.040000） 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | record consume log: userId=2, params={"channel_id":2,"prompt_tokens":0,"completion_tokens":0,"model_name":"document-model","token_name":"","quota":0,"content":"操作 , 计算参数：units: 0","token_id":0,"use_time_seconds":0,"is_stream":false,"group":"default","other":{"admin_info":{"task_plugin":{"author":{"name":"Test"},"key":"generic-settlement","name":"Generic settlement","version":"1.0.0"}},"billing_mode":"tiered_expr","expr_b64":"dSgidW5pdHMiKSA9PSA3ID8gdGllcigibWlzc2luZyIsIHUoIm1pc3NpbmciKSAqIDEuMCkgOiB1KCJ1bml0cyIpID09IDggPyB0aWVyKCJpbnZhbGlkIiwgLTEuMCkgOiB1KCJ1bml0cyIpID4gMyA/IHRpZXIoImJ1bGsiLCB1KCJ1bml0cyIpICogMC4wMSkgOiB0aWVyKCJzbWFsbCIsIHUoInVuaXRzIikgKiAwLjAxKQ==","group_ratio":1,"is_task":true,"matched_tier":"small","model_price":0,"request_path":"/plugin/submit","root_info":{"task_plugin":{"api_version":1,"generation":0,"key":"generic-settlement","version":"1.0.0"},"upstream_task_id":"vendor-job"},"task_id":"task_LmicYJTW4lAqnFcQb9GmTj0pZWmn3PNF","task_sync":true,"usage_facts":{"units":0}}} 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | 用户 3 需要预扣费 ＄0.040000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | 预扣费与实际消耗一致，无需调整：＄0.060000（按次计费） 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | record consume log: userId=3, params={"channel_id":3,"prompt_tokens":0,"completion_tokens":0,"model_name":"document-model","token_name":"","quota":30000,"content":"操作 , 计算参数：units: 6","token_id":0,"use_time_seconds":0,"is_stream":false,"group":"default","other":{"admin_info":{"task_plugin":{"author":{"name":"Test"},"key":"generic-settlement","name":"Generic settlement","version":"1.0.0"}},"billing_mode":"tiered_expr","expr_b64":"dSgidW5pdHMiKSA9PSA3ID8gdGllcigibWlzc2luZyIsIHUoIm1pc3NpbmciKSAqIDEuMCkgOiB1KCJ1bml0cyIpID09IDggPyB0aWVyKCJpbnZhbGlkIiwgLTEuMCkgOiB1KCJ1bml0cyIpID4gMyA/IHRpZXIoImJ1bGsiLCB1KCJ1bml0cyIpICogMC4wMSkgOiB0aWVyKCJzbWFsbCIsIHUoInVuaXRzIikgKiAwLjAxKQ==","group_ratio":1,"is_task":true,"matched_tier":"bulk","model_price":0,"request_path":"/plugin/submit","root_info":{"task_plugin":{"api_version":1,"generation":0,"key":"generic-settlement","version":"1.0.0"},"upstream_task_id":"vendor-job"},"task_id":"task_48wsl1HYWUxDww6B29432zfw2B11IEZy","task_sync":true,"usage_facts":{"units":6}}} 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | 用户 4 需要预扣费 ＄0.040000 (funding=wallet) 
+[SYS] 2026/10/02 - 17:25:25 | task plugin generic-settlement rejected invalid extractUsageOnComplete billing facts 
+[WARN] 2026/10/02 - 17:25:25 | SYSTEM | task plugin generic-settlement completion usage rejected; retaining reserved quota: plugin usage value must be a finite non-negative number 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | 预扣费与实际消耗一致，无需调整：＄0.040000（按次计费） 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | record consume log: userId=4, params={"channel_id":4,"prompt_tokens":0,"completion_tokens":0,"model_name":"document-model","token_name":"","quota":20000,"content":"操作 , 计算参数：units: 4","token_id":0,"use_time_seconds":0,"is_stream":false,"group":"default","other":{"admin_info":{"task_plugin":{"author":{"name":"Test"},"key":"generic-settlement","name":"Generic settlement","version":"1.0.0"}},"billing_mode":"tiered_expr","expr_b64":"dSgidW5pdHMiKSA9PSA3ID8gdGllcigibWlzc2luZyIsIHUoIm1pc3NpbmciKSAqIDEuMCkgOiB1KCJ1bml0cyIpID09IDggPyB0aWVyKCJpbnZhbGlkIiwgLTEuMCkgOiB1KCJ1bml0cyIpID4gMyA/IHRpZXIoImJ1bGsiLCB1KCJ1bml0cyIpICogMC4wMSkgOiB0aWVyKCJzbWFsbCIsIHUoInVuaXRzIikgKiAwLjAxKQ==","group_ratio":1,"is_task":true,"matched_tier":"bulk","model_price":0,"request_path":"/plugin/submit","root_info":{"task_plugin":{"api_version":1,"generation":0,"key":"generic-settlement","version":"1.0.0"},"upstream_task_id":"vendor-job"},"task_id":"task_Fi1DVYNPgjt8lnX38B3OHFpf7K1PmMc4","task_sync":true,"usage_facts":{"units":4}}} 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | 用户 5 需要预扣费 ＄0.040000 (funding=wallet) 
+[WARN] 2026/10/02 - 17:25:25 | SYSTEM | task immediate usage settlement failed; retaining reserved quota: expr run error: invalid operation: <nil> * float64 (1:48)
+ | u("units") == 7 ? tier("missing", u("missing") * 1.0) : u("units") == 8 ? tier("invalid", -1.0) : u("units") > 3 ? tier("bulk", u("units") * 0.01) : tier("small", u("units") * 0.01)
+ | ...............................................^ 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | 预扣费与实际消耗一致，无需调整：＄0.040000（按次计费） 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | record consume log: userId=5, params={"channel_id":5,"prompt_tokens":0,"completion_tokens":0,"model_name":"document-model","token_name":"","quota":20000,"content":"操作 , 计算参数：units: 4","token_id":0,"use_time_seconds":0,"is_stream":false,"group":"default","other":{"admin_info":{"task_plugin":{"author":{"name":"Test"},"key":"generic-settlement","name":"Generic settlement","version":"1.0.0"}},"billing_mode":"tiered_expr","expr_b64":"dSgidW5pdHMiKSA9PSA3ID8gdGllcigibWlzc2luZyIsIHUoIm1pc3NpbmciKSAqIDEuMCkgOiB1KCJ1bml0cyIpID09IDggPyB0aWVyKCJpbnZhbGlkIiwgLTEuMCkgOiB1KCJ1bml0cyIpID4gMyA/IHRpZXIoImJ1bGsiLCB1KCJ1bml0cyIpICogMC4wMSkgOiB0aWVyKCJzbWFsbCIsIHUoInVuaXRzIikgKiAwLjAxKQ==","group_ratio":1,"is_task":true,"matched_tier":"bulk","model_price":0,"request_path":"/plugin/submit","root_info":{"task_plugin":{"api_version":1,"generation":0,"key":"generic-settlement","version":"1.0.0"},"upstream_task_id":"vendor-job"},"task_id":"task_xrGfKS223IEh9PIX2k2rZsxHX7tsCy2W","task_sync":true,"usage_facts":{"units":4}}} 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | 用户 6 需要预扣费 ＄0.040000 (funding=wallet) 
+[WARN] 2026/10/02 - 17:25:25 | SYSTEM | task immediate usage settlement failed; retaining reserved quota: task completion expression produced an invalid cost 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | 预扣费与实际消耗一致，无需调整：＄0.040000（按次计费） 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | record consume log: userId=6, params={"channel_id":6,"prompt_tokens":0,"completion_tokens":0,"model_name":"document-model","token_name":"","quota":20000,"content":"操作 , 计算参数：units: 4","token_id":0,"use_time_seconds":0,"is_stream":false,"group":"default","other":{"admin_info":{"task_plugin":{"author":{"name":"Test"},"key":"generic-settlement","name":"Generic settlement","version":"1.0.0"}},"billing_mode":"tiered_expr","expr_b64":"dSgidW5pdHMiKSA9PSA3ID8gdGllcigibWlzc2luZyIsIHUoIm1pc3NpbmciKSAqIDEuMCkgOiB1KCJ1bml0cyIpID09IDggPyB0aWVyKCJpbnZhbGlkIiwgLTEuMCkgOiB1KCJ1bml0cyIpID4gMyA/IHRpZXIoImJ1bGsiLCB1KCJ1bml0cyIpICogMC4wMSkgOiB0aWVyKCJzbWFsbCIsIHUoInVuaXRzIikgKiAwLjAxKQ==","group_ratio":1,"is_task":true,"matched_tier":"bulk","model_price":0,"request_path":"/plugin/submit","root_info":{"task_plugin":{"api_version":1,"generation":0,"key":"generic-settlement","version":"1.0.0"},"upstream_task_id":"vendor-job"},"task_id":"task_MssBwWK03HjCfaDEbqZDCWxQbHhVxOIB","task_sync":true,"usage_facts":{"units":4}}} 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | 用户 7 需要预扣费 ＄0.040000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | 预扣费与实际消耗一致，无需调整：＄0.040000（按次计费） 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | record consume log: userId=7, params={"channel_id":7,"prompt_tokens":0,"completion_tokens":0,"model_name":"document-model","token_name":"","quota":20000,"content":"操作 , 计算参数：units: 4","token_id":0,"use_time_seconds":0,"is_stream":false,"group":"default","other":{"admin_info":{"task_plugin":{"author":{"name":"Test"},"key":"generic-settlement","name":"Generic settlement","version":"1.0.0"}},"billing_mode":"tiered_expr","expr_b64":"dSgidW5pdHMiKSA9PSA3ID8gdGllcigibWlzc2luZyIsIHUoIm1pc3NpbmciKSAqIDEuMCkgOiB1KCJ1bml0cyIpID09IDggPyB0aWVyKCJpbnZhbGlkIiwgLTEuMCkgOiB1KCJ1bml0cyIpID4gMyA/IHRpZXIoImJ1bGsiLCB1KCJ1bml0cyIpICogMC4wMSkgOiB0aWVyKCJzbWFsbCIsIHUoInVuaXRzIikgKiAwLjAxKQ==","group_ratio":1,"is_task":true,"matched_tier":"bulk","model_price":0,"request_path":"/plugin/submit","root_info":{"task_plugin":{"api_version":1,"generation":0,"key":"generic-settlement","version":"1.0.0"},"upstream_task_id":"vendor-job"},"task_id":"task_dxmbm9a2c6cAu4zQjNW8O8hAH5ZvOGOq","task_sync":true,"usage_facts":{"units":4}}} 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | 用户 8 需要预扣费 ＄0.040000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | 预扣费后返还扣费：＄0.040000（实际消耗：＄0.000000，预扣费：＄0.040000） 
+[INFO] 2026/10/02 - 17:25:25 | SYSTEM | record consume log: userId=8, params={"channel_id":8,"prompt_tokens":0,"completion_tokens":0,"model_name":"document-model","token_name":"","quota":0,"content":"操作 , 计算参数：units: 4","token_id":0,"use_time_seconds":0,"is_stream":false,"group":"default","other":{"admin_info":{"task_plugin":{"author":{"name":"Test"},"key":"generic-settlement","name":"Generic settlement","version":"1.0.0"}},"billing_mode":"tiered_expr","expr_b64":"dSgidW5pdHMiKSA9PSA3ID8gdGllcigibWlzc2luZyIsIHUoIm1pc3NpbmciKSAqIDEuMCkgOiB1KCJ1bml0cyIpID09IDggPyB0aWVyKCJpbnZhbGlkIiwgLTEuMCkgOiB1KCJ1bml0cyIpID4gMyA/IHRpZXIoImJ1bGsiLCB1KCJ1bml0cyIpICogMC4wMSkgOiB0aWVyKCJzbWFsbCIsIHUoInVuaXRzIikgKiAwLjAxKQ==","group_ratio":1,"is_task":true,"matched_tier":"bulk","model_price":0,"request_path":"/plugin/submit","root_info":{"task_plugin":{"api_version":1,"generation":0,"key":"generic-settlement","version":"1.0.0"},"upstream_task_id":"vendor-job"},"task_id":"task_pmywApy36amhfXTBNDUeMnNWtSzQekzH","task_sync":true,"usage_facts":{"units":4}}} 
+[SYS] 2026/10/02 - 17:25:25 | reserve adjusted task billing error: insufficient funds 
+[SYS] 2026/10/02 - 17:25:25 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:25 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.131ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:25 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[SYS] 2026/10/02 - 17:25:25 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:25 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.125ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:25 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[ERR] 2026/10/02 - 17:25:25 | after | user 5062002 | Invalid token 
+[SYS] 2026/10/02 - 17:25:25 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:25 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.081ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:25 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[ERR] 2026/10/02 - 17:25:25 | after | user 5062003 | Invalid token 
+[SYS] 2026/10/02 - 17:25:25 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:25 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.119ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:25 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[ERR] 2026/10/02 - 17:25:25 | after | user 5062004 | Invalid token 
+[SYS] 2026/10/02 - 17:25:25 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:25 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.080ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:25 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[ERR] 2026/10/02 - 17:25:25 | after | user 5062005 | User has been banned 
+[SYS] 2026/10/02 - 17:25:25 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:25 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.104ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:25 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[SYS] 2026/10/02 - 17:25:25 | ValidateUserToken: failed to get token: record not found 
+[ERR] 2026/10/02 - 17:25:25 | after | user 0 | Invalid token 
+[SYS] 2026/10/02 - 17:25:25 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:25 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.129ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:25 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[ERR] 2026/10/02 - 17:25:25 | after | user 5062007 | 您的 IP 不在令牌允许访问的列表中 
+[SYS] 2026/10/02 - 17:25:25 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:25 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.135ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:25 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[SYS] 2026/10/02 - 17:25:25 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:25 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.071ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:25 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[ERR] 2026/10/02 - 17:25:25 | SYSTEM | user 5062009 | 您已达到请求数限制：1分钟内最多请求1次 
+[SYS] 2026/10/02 - 17:25:25 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:25 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.098ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:25 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:25 | responses-ws-billing-ws-0 | 用户 5062010 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:26 | responses-ws-billing-ws-0 | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:26 | responses-ws-billing-ws-0 | record consume log: userId=5062010, params={"channel_id":1,"prompt_tokens":0,"completion_tokens":1,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":1,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1016,"decision":{"action":"stop","reason":"stream_not_successful","source":"system"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":3,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_error":"context deadline exceeded","end_reason":"timeout","status":"error"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[SYS] 2026/10/02 - 17:25:26 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:26 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.120ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:26 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:26 | responses-http-billing | 用户 5062011 需要预扣费 ＄0.002000 (funding=wallet) 
+[ERR] 2026/10/02 - 17:25:27 | responses-http-billing | scanner error: read tcp 127.0.0.1:43084->127.0.0.1:38547: use of closed network connection 
+[ERR] 2026/10/02 - 17:25:27 | responses-http-billing | stream ended: reason=timeout, received=2 
+[INFO] 2026/10/02 - 17:25:27 | responses-http-billing | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:27 | responses-http-billing | record consume log: userId=5062011, params={"channel_id":1,"prompt_tokens":0,"completion_tokens":1,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":1,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1004,"decision":{"action":"stop","reason":"stream_not_successful","source":"system"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":4,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"timeout","status":"error"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[SYS] 2026/10/02 - 17:25:27 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:27 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.114ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:27 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:27 | responses-http-billing | 用户 5062012 需要预扣费 ＄0.002000 (funding=wallet) 
+[ERR] 2026/10/02 - 17:25:27 | responses-http-billing | scanner error: read tcp 127.0.0.1:56710->127.0.0.1:40579: use of closed network connection 
+[ERR] 2026/10/02 - 17:25:27 | responses-http-billing | stream ended: reason=client_gone end_error="context canceled", received=2 
+[INFO] 2026/10/02 - 17:25:27 | responses-http-billing | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:27 | responses-http-billing | record consume log: userId=5062012, params={"channel_id":1,"prompt_tokens":0,"completion_tokens":1,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":3,"decision":{"action":"stop","reason":"stream_not_successful","source":"system"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":2,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_error":"context canceled","end_reason":"client_gone","status":"error"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[SYS] 2026/10/02 - 17:25:27 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:27 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.098ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:27 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | 预扣费后补扣费：＄0.002000（实际消耗：＄0.002000，预扣费：＄0.000000） 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | record consume log: userId=5062013, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":10,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":0,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"token","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"cGFyYW0oInNlcnZpY2VfdGllciIpID09ICJwcmlvcml0eSIgPyB0aWVyKCJwcmlvcml0eSIsIHAgKiA0KSA6IHRpZXIoImJhc2UiLCBwICogMik=","frt":1,"group_ratio":1,"is_model_mapped":true,"matched_tier":"base","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","response_model":{"requested_model":"ws-billing","upstream_model":"gpt-4o","returned_model":"ws-billing"},"stream_status":{"end_reason":"done","response_status":"completed","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-1 | 预扣费后补扣费：＄0.004000（实际消耗：＄0.004000，预扣费：＄0.000000） 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-1 | record consume log: userId=5062013, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":10,"model_name":"ws-billing","token_name":"","quota":2000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":0,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":0,"decision":{"action":"select","reason":"pinned_channel","source":"channel_constraint"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":null},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"token","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"cGFyYW0oInNlcnZpY2VfdGllciIpID09ICJwcmlvcml0eSIgPyB0aWVyKCJwcmlvcml0eSIsIHAgKiA0KSA6IHRpZXIoImJhc2UiLCBwICogMik=","frt":1,"group_ratio":1,"is_model_mapped":true,"matched_tier":"priority","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","response_model":{"requested_model":"ws-billing","upstream_model":"gpt-4o","returned_model":"ws-billing"},"stream_status":{"end_reason":"done","response_status":"completed","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[ERR] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-2 | user 5062013 | Invalid token 
+[SYS] 2026/10/02 - 17:25:27 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:27 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.163ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:27 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | 用户 5062014 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | record consume log: userId=5062014, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":10,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":3,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"completed","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[INFO] 2026/10/02 - 17:25:27 | responses-http-billing | 用户 5062014 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:27 | responses-http-billing | stream ended: reason=done 
+[INFO] 2026/10/02 - 17:25:27 | responses-http-billing | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:27 | responses-http-billing | record consume log: userId=5062014, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":10,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":1,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":1,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"completed","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[SYS] 2026/10/02 - 17:25:27 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:27 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.106ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:27 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | 用户 5062015 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | record consume log: userId=5062015, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":10,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":3,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":4,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":4,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"completed","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[INFO] 2026/10/02 - 17:25:27 | responses-http-billing | 用户 5062015 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:27 | responses-http-billing | stream ended: reason=done 
+[INFO] 2026/10/02 - 17:25:27 | responses-http-billing | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:27 | responses-http-billing | record consume log: userId=5062015, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":10,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":1,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":2,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"completed","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[SYS] 2026/10/02 - 17:25:27 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:27 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.130ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:27 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | 用户 5062016 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | record consume log: userId=5062016, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":10,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":2,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"completed","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[INFO] 2026/10/02 - 17:25:27 | responses-http-billing | 用户 5062016 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:27 | responses-http-billing | stream ended: reason=done 
+[INFO] 2026/10/02 - 17:25:27 | responses-http-billing | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:27 | responses-http-billing | record consume log: userId=5062016, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":10,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":1,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":2,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"completed","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[SYS] 2026/10/02 - 17:25:27 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:27 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.129ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:27 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | 预扣费后补扣费：＄0.000002（实际消耗：＄0.000002，预扣费：＄0.000000） 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | record consume log: userId=5062017, params={"channel_id":1,"prompt_tokens":0,"completion_tokens":1,"model_name":"ws-billing","token_name":"","quota":1,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":0,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"stop","reason":"stream_not_successful","source":"system"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"token","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigib3V0cHV0IiwgYyAqIDIp","frt":1,"group_ratio":1,"is_model_mapped":true,"matched_tier":"output","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_error":"context canceled","end_reason":"client_gone","status":"error"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[SYS] 2026/10/02 - 17:25:27 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:27 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.082ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:27 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | 预扣费后补扣费：＄0.002000（实际消耗：＄0.002000，预扣费：＄0.000000） 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | record consume log: userId=5062018, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":10,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":0,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"token","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigiYmFzZSIsIHAgKiAyKQ==","frt":2,"group_ratio":1,"is_model_mapped":true,"matched_tier":"base","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"completed","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[SYS] 2026/10/02 - 17:25:27 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:27 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.132ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:27 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | 用户 5062019 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | 用户 5062019 请求失败, 返还预扣费（token_quota=＄0.002000, funding=wallet） 
+[SYS] 2026/10/02 - 17:25:27 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:27 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.089ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:27 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | 用户 5062020 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | 用户 5062020 请求失败, 返还预扣费（token_quota=＄0.002000, funding=wallet） 
+[SYS] 2026/10/02 - 17:25:27 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:27 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.130ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:27 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | 用户 5062021 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | record consume log: userId=5062021, params={"channel_id":1,"prompt_tokens":0,"completion_tokens":0,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"stop","reason":"stream_not_successful","source":"system"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":2,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"failed","status":"error"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-1 | 用户 5062021 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-1 | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-1 | record consume log: userId=5062021, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":1,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":0,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":0,"decision":{"action":"select","reason":"pinned_channel","source":"channel_constraint"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":null},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":1,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"completed","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[ERR] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-2 | user 5062021 | 您已达到请求数限制：1分钟内最多请求1次 
+[SYS] 2026/10/02 - 17:25:27 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:27 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.104ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:27 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | 用户 5062022 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | record consume log: userId=5062022, params={"channel_id":1,"prompt_tokens":0,"completion_tokens":0,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"stop","reason":"stream_not_successful","source":"system"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":2,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"failed","status":"error"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-1 | 用户 5062022 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-1 | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-1 | record consume log: userId=5062022, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":1,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":0,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":0,"decision":{"action":"select","reason":"pinned_channel","source":"channel_constraint"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":null},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":1,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"completed","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[ERR] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-2 | user 5062022 | 您已达到请求数限制：1分钟内最多请求1次 
+[SYS] 2026/10/02 - 17:25:27 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:27 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.125ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:27 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | 预扣费后补扣费：＄0.002000（实际消耗：＄0.002000，预扣费：＄0.000000） 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | record consume log: userId=5062023, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":10,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":0,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"stop","reason":"stream_not_successful","source":"system"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"token","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigiaW5wdXQiLCBwICogMik=","frt":2,"group_ratio":1,"is_model_mapped":true,"matched_tier":"input","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"failed","status":"error"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-1 | 预扣费后补扣费：＄0.002000（实际消耗：＄0.002000，预扣费：＄0.000000） 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-1 | record consume log: userId=5062023, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":1,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":0,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":0,"decision":{"action":"select","reason":"pinned_channel","source":"channel_constraint"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":0,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":null},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"token","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigiaW5wdXQiLCBwICogMik=","frt":1,"group_ratio":1,"is_model_mapped":true,"matched_tier":"input","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"completed","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[ERR] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-2 | user 5062023 | 您已达到请求数限制：1分钟内最多请求1次 
+[SYS] 2026/10/02 - 17:25:27 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:27 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.184ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:27 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | 预扣费后补扣费：＄0.002000（实际消耗：＄0.002000，预扣费：＄0.000000） 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | record consume log: userId=5062024, params={"channel_id":1,"prompt_tokens":0,"completion_tokens":1,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":0,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"stop","reason":"stream_not_successful","source":"system"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"token","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigib3V0cHV0IiwgYyAqIDIwMDAp","frt":2,"group_ratio":1,"is_model_mapped":true,"matched_tier":"output","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"failed","status":"error"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-1 | 预扣费后补扣费：＄0.002000（实际消耗：＄0.002000，预扣费：＄0.000000） 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-1 | record consume log: userId=5062024, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":1,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":0,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":0,"decision":{"action":"select","reason":"pinned_channel","source":"channel_constraint"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":null},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"token","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigib3V0cHV0IiwgYyAqIDIwMDAp","frt":0,"group_ratio":1,"is_model_mapped":true,"matched_tier":"output","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"completed","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[ERR] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-2 | user 5062024 | 您已达到请求数限制：1分钟内最多请求1次 
+[SYS] 2026/10/02 - 17:25:27 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:27 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.100ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:27 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | 用户 5062025 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | record consume log: userId=5062025, params={"channel_id":1,"prompt_tokens":0,"completion_tokens":0,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"stop","reason":"stream_not_successful","source":"system"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":2,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"failed","status":"error"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-1 | 用户 5062025 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-1 | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-1 | record consume log: userId=5062025, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":1,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":0,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":0,"decision":{"action":"select","reason":"pinned_channel","source":"channel_constraint"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":null},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":1,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"completed","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[ERR] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-2 | user 5062025 | 您已达到请求数限制：1分钟内最多请求1次 
+[SYS] 2026/10/02 - 17:25:27 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:27 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.098ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:27 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | 用户 5062026 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | record consume log: userId=5062026, params={"channel_id":1,"prompt_tokens":0,"completion_tokens":0,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"stop","reason":"stream_not_successful","source":"system"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":2,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"failed","status":"error"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-1 | 用户 5062026 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-1 | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-1 | record consume log: userId=5062026, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":1,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":0,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":0,"decision":{"action":"select","reason":"pinned_channel","source":"channel_constraint"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":null},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":1,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"completed","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[ERR] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-2 | user 5062026 | 您已达到请求数限制：1分钟内最多请求1次 
+[SYS] 2026/10/02 - 17:25:27 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:27 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.097ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:27 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:27 | responses-ws-billing-ws-0 | 用户 5062027 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | record consume log: userId=5062027, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":1,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"stop","reason":"stream_not_successful","source":"system"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":2,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"incomplete","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[ERR] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-1 | user 5062027 | 您已达到请求数限制：1分钟内最多请求1次 
+[SYS] 2026/10/02 - 17:25:28 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:28 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.117ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:28 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | 用户 5062028 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | record consume log: userId=5062028, params={"channel_id":1,"prompt_tokens":0,"completion_tokens":0,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":2,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"completed","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[ERR] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-1 | user 5062028 | 您已达到请求数限制：1分钟内最多请求1次 
+[SYS] 2026/10/02 - 17:25:28 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:28 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.118ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:28 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | 用户 5062029 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | stream ended: reason=done 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | record consume log: userId=5062029, params={"channel_id":1,"prompt_tokens":0,"completion_tokens":0,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"stop","reason":"stream_not_successful","source":"system"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":2,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"failed","status":"error"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | 用户 5062029 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | record consume log: userId=5062029, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":1,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":1,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":2,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"completed","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[ERR] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-1 | user 5062029 | 您已达到请求数限制：1分钟内最多请求1次 
+[SYS] 2026/10/02 - 17:25:28 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:28 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.088ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:28 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | 用户 5062030 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | stream ended: reason=done 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | record consume log: userId=5062030, params={"channel_id":1,"prompt_tokens":0,"completion_tokens":0,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"stop","reason":"stream_not_successful","source":"system"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":1,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"failed","status":"error"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | 用户 5062030 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | record consume log: userId=5062030, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":1,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":1,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":2,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"completed","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[ERR] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-1 | user 5062030 | 您已达到请求数限制：1分钟内最多请求1次 
+[SYS] 2026/10/02 - 17:25:28 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:28 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.122ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:28 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | stream ended: reason=done 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | 预扣费后补扣费：＄0.002000（实际消耗：＄0.002000，预扣费：＄0.000000） 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | record consume log: userId=5062031, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":10,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":0,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"stop","reason":"stream_not_successful","source":"system"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"token","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigiaW5wdXQiLCBwICogMik=","frt":1,"group_ratio":1,"is_model_mapped":true,"matched_tier":"input","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"failed","status":"error"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | 预扣费后补扣费：＄0.002000（实际消耗：＄0.002000，预扣费：＄0.000000） 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | record consume log: userId=5062031, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":1,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":1,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":0,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"token","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigiaW5wdXQiLCBwICogMik=","frt":1,"group_ratio":1,"is_model_mapped":true,"matched_tier":"input","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"completed","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[ERR] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-1 | user 5062031 | 您已达到请求数限制：1分钟内最多请求1次 
+[SYS] 2026/10/02 - 17:25:28 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:28 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.105ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:28 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | stream ended: reason=done 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | 预扣费后补扣费：＄0.002000（实际消耗：＄0.002000，预扣费：＄0.000000） 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | record consume log: userId=5062032, params={"channel_id":1,"prompt_tokens":0,"completion_tokens":1,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":0,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"stop","reason":"stream_not_successful","source":"system"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"token","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigib3V0cHV0IiwgYyAqIDIwMDAp","frt":1,"group_ratio":1,"is_model_mapped":true,"matched_tier":"output","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"failed","status":"error"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | 预扣费后补扣费：＄0.002000（实际消耗：＄0.002000，预扣费：＄0.000000） 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | record consume log: userId=5062032, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":1,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":1,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":0,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"token","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigib3V0cHV0IiwgYyAqIDIwMDAp","frt":2,"group_ratio":1,"is_model_mapped":true,"matched_tier":"output","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"completed","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[ERR] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-1 | user 5062032 | 您已达到请求数限制：1分钟内最多请求1次 
+[SYS] 2026/10/02 - 17:25:28 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:28 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.090ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:28 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | 用户 5062033 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | stream ended: reason=done 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | record consume log: userId=5062033, params={"channel_id":1,"prompt_tokens":0,"completion_tokens":0,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"stop","reason":"stream_not_successful","source":"system"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":1,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"failed","status":"error"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | 用户 5062033 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | record consume log: userId=5062033, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":1,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":1,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":1,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"completed","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[ERR] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-1 | user 5062033 | 您已达到请求数限制：1分钟内最多请求1次 
+[SYS] 2026/10/02 - 17:25:28 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:28 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.102ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:28 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | 用户 5062034 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | stream ended: reason=done 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | record consume log: userId=5062034, params={"channel_id":1,"prompt_tokens":0,"completion_tokens":0,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"stop","reason":"stream_not_successful","source":"system"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":1,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"failed","status":"error"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | 用户 5062034 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | record consume log: userId=5062034, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":1,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":1,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":1,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"completed","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[ERR] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-1 | user 5062034 | 您已达到请求数限制：1分钟内最多请求1次 
+[SYS] 2026/10/02 - 17:25:28 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:28 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.098ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:28 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | 用户 5062035 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | stream ended: reason=done 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | record consume log: userId=5062035, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":1,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"stop","reason":"stream_not_successful","source":"system"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":2,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"incomplete","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[ERR] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | user 5062035 | 您已达到请求数限制：1分钟内最多请求1次 
+[SYS] 2026/10/02 - 17:25:28 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:28 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.112ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:28 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | 用户 5062036 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | stream ended: reason=done 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | record consume log: userId=5062036, params={"channel_id":1,"prompt_tokens":0,"completion_tokens":0,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":1,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"completed","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[ERR] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | user 5062036 | 您已达到请求数限制：1分钟内最多请求1次 
+[SYS] 2026/10/02 - 17:25:28 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:28 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.076ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:28 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | 用户 5062037 需要预扣费 ＄0.002000 (funding=wallet) 
+[ERR] 2026/10/02 - 17:25:28 | responses-http-billing | channel error (channel #1, status code: 400): status_code=400, test rejection 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | 用户 5062037 请求失败, 返还预扣费（token_quota=＄0.002000, funding=wallet） 
+[ERR] 2026/10/02 - 17:25:28 | responses-http-billing | relay error: test rejection 
+[SYS] 2026/10/02 - 17:25:28 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:28 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.097ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:28 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | 用户 5062038 需要预扣费 ＄0.002000 (funding=wallet) 
+[ERR] 2026/10/02 - 17:25:28 | responses-http-billing | channel error (channel #1, status code: 400): status_code=400, test rejection 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | 用户 5062038 请求失败, 返还预扣费（token_quota=＄0.002000, funding=wallet） 
+[ERR] 2026/10/02 - 17:25:28 | responses-http-billing | relay error: test rejection 
+[SYS] 2026/10/02 - 17:25:28 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:28 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.076ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:28 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | 用户 5062039 需要预扣费 ＄0.002000 (funding=wallet) 
+[ERR] 2026/10/02 - 17:25:28 | responses-http-billing | channel error (channel #1, status code: 500): status_code=500, test rejection 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:28 | responses-http-billing | record consume log: userId=5062039, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":1,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":false,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":1,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","status":500,"error_code":"server_error","error_source":"upstream","elapsed_ms":1,"decision":{"action":"failure","reason":"upstream_failure","source":"upstream"}},{"attempt":1,"channel_id":1,"group":"default","status":500,"error_code":"server_error","error_source":"upstream","elapsed_ms":1,"decision":{"action":"retry","reason":"retry_status_matched","source":"global"},"health":"unchanged"},{"attempt":2,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":2,"channel_id":1,"group":"default","elapsed_ms":3,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":["1","1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":-1000,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[SYS] 2026/10/02 - 17:25:28 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:28 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.091ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:28 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[ERR] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-1 | user 5062040 | Invalid token 
+[SYS] 2026/10/02 - 17:25:28 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:28 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.074ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:28 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | 用户 5062041 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | record consume log: userId=5062041, params={"channel_id":1,"prompt_tokens":0,"completion_tokens":0,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"stop","reason":"stream_not_successful","source":"system"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":2,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"failed","status":"error"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[SYS] 2026/10/02 - 17:25:28 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:28 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.077ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:28 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | 用户 5062042 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | record consume log: userId=5062042, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":10,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":2,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"completed","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[SYS] 2026/10/02 - 17:25:28 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:28 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.136ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:28 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | 用户 5062043 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | record consume log: userId=5062043, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":0,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"stop","reason":"stream_not_successful","source":"system"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":2,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"cancelled","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[SYS] 2026/10/02 - 17:25:28 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:28 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.115ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:28 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | 用户 5062044 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | record consume log: userId=5062044, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":10,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":2,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"completed","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-1 | 用户 5062044 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-1 | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-1 | record consume log: userId=5062044, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":10,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":0,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":0,"decision":{"action":"select","reason":"pinned_channel","source":"channel_constraint"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":null},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":1,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"completed","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[SYS] 2026/10/02 - 17:25:28 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:28 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.087ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:28 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | 用户 5062045 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | record consume log: userId=5062045, params={"channel_id":1,"prompt_tokens":0,"completion_tokens":0,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"stop","reason":"stream_not_successful","source":"system"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":2,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"failed","status":"error"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-1 | 用户 5062045 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-1 | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-1 | record consume log: userId=5062045, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":10,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":0,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":0,"decision":{"action":"select","reason":"pinned_channel","source":"channel_constraint"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":null},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":2,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"completed","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[SYS] 2026/10/02 - 17:25:28 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:28 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.103ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:28 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | 用户 5062046 需要预扣费 ＄0.002000 (funding=wallet) 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | 预扣费与实际消耗一致，无需调整：＄0.002000（按次计费） 
+[INFO] 2026/10/02 - 17:25:28 | responses-ws-billing-ws-0 | record consume log: userId=5062046, params={"channel_id":1,"prompt_tokens":1000,"completion_tokens":10,"model_name":"ws-billing","token_name":"","quota":1000,"content":"","token_id":1,"use_time_seconds":0,"is_stream":true,"group":"default","other":{"admin_info":{"is_multi_key":true,"multi_key_index":0,"request_policy":[{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":1,"decision":{"action":"attempt","reason":"channel_selected","source":"routing"}},{"attempt":1,"channel_id":1,"group":"default","elapsed_ms":2,"decision":{"action":"success","reason":"request_completed","source":"upstream"}}],"usage_billing_path":"upstream","use_channel":["1"]},"billing_mode":"tiered_expr","billing_preference":"wallet_only","billing_source":"wallet","billing_unit":"request","cache_ratio":0,"cache_tokens":0,"completion_ratio":0,"expr_b64":"dGllcigicmVxdWVzdCIsIGZpeGVkKDAuMDAyKSk=","fixed_price":0.002,"frt":2,"group_ratio":1,"is_model_mapped":true,"matched_tier":"request","model_price":0,"model_ratio":0,"request_conversion":["OpenAI Responses"],"request_path":"/v1/responses","stream_status":{"end_reason":"done","response_status":"completed","status":"ok"},"upstream_model_name":"gpt-4o","user_group_ratio":-1}} 
+[SYS] 2026/10/02 - 17:25:28 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:28 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.090ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:28 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[SYS] 2026/10/02 - 17:25:28 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:28 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.117ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:28 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[ERR] 2026/10/02 - 17:25:29 | SYSTEM | auth session internal error (DELETE /api/user/self): injected deletion failure 
+[ERR] 2026/10/02 - 17:25:29 | SYSTEM | auth session internal error (DELETE /api/user/self): database is locked (5) (SQLITE_BUSY) 
+--- FAIL: TestSecurityAccountDeletionConcurrentRequestsHaveOneWinner (0.08s)
+    security_account_test.go:212: database: sqlite 3.50.4
+    security_account_test.go:232: 
+        	Error Trace:	/workspace/new-api/controller/security_account_test.go:232
+        	Error:      	Not equal: 
+        	            	expected: 1
+        	            	actual  : 0
+        	Test:       	TestSecurityAccountDeletionConcurrentRequestsHaveOneWinner
+[ERR] 2026/10/02 - 17:25:36 | SYSTEM | auth session internal error (POST /api/user/access_tokens): private database failure 
+[ERR] 2026/10/02 - 17:25:36 | SYSTEM | auth session internal error (PATCH /api/user/access_tokens/1): private database failure 
+[ERR] 2026/10/02 - 17:25:36 | SYSTEM | auth session internal error (DELETE /api/user/access_tokens/1): private database failure 
+[ERR] 2026/10/02 - 17:25:36 | SYSTEM | auth session internal error (DELETE /api/user/access_tokens/legacy): private database failure 
+[ERR] 2026/10/02 - 17:25:38 | SYSTEM | auth session internal error (POST /api/user/passkey/register/begin): injected creation failure 
+[ERR] 2026/10/02 - 17:25:38 | SYSTEM | auth session internal error (POST /api/verify): private proof database failure 
+[WARN] 2026/10/02 - 17:25:38 | SYSTEM | passkey verification rejected: code=SECURITY_CONTEXT_INVALID reason=verification_failed rp_id="" 
+[WARN] 2026/10/02 - 17:25:38 | SYSTEM | passkey verification rejected: code=AUTH_FLOW_INVALID reason=verification_failed rp_id="" 
+[WARN] 2026/10/02 - 17:25:38 | SYSTEM | passkey verification rejected: code=SECURITY_PROOF_METHOD_MISMATCH reason=verification_failed rp_id="example.com" 
+[WARN] 2026/10/02 - 17:25:38 | SYSTEM | passkey verification rejected: code=AUTH_FLOW_INVALID reason=verification_failed rp_id="" 
+[WARN] 2026/10/02 - 17:25:38 | SYSTEM | passkey verification rejected: code=AUTH_FLOW_INVALID reason=verification_failed rp_id="" 
+[ERR] 2026/10/02 - 17:25:41 | SYSTEM | auth session internal error (GET /api/verify/methods): database connection failed: private-db-host private_table SELECT secret_column 
+[ERR] 2026/10/02 - 17:25:41 | SYSTEM | auth session internal error (POST /api/verify): database connection failed: private-db-host private_table SELECT secret_column 
+[ERR] 2026/10/02 - 17:25:41 | SYSTEM | auth session internal error (POST /api/user/passkey/register/begin): database connection failed: private-db-host private_table SELECT secret_column 
+[ERR] 2026/10/02 - 17:25:41 | SYSTEM | auth session internal error (GET /api/user/2fa/status): database connection failed: private-db-host private_table SELECT secret_column 
+[ERR] 2026/10/02 - 17:25:41 | SYSTEM | auth session internal error (POST /api/user/2fa/setup): database connection failed: private-db-host private_table SELECT secret_column 
+[ERR] 2026/10/02 - 17:25:41 | SYSTEM | auth session internal error (POST /api/user/2fa/setup): database connection failed: private-db-host private_table SELECT secret_column 
+[ERR] 2026/10/02 - 17:25:41 | SYSTEM | auth session internal error (POST /api/oauth/state): database connection failed: private-db-host private_table SELECT secret_column 
+[ERR] 2026/10/02 - 17:25:41 | SYSTEM | auth session internal error (POST /api/channel/1/key): database connection failed: private-db-host private_table SELECT secret_column 
+[ERR] 2026/10/02 - 17:25:43 | SYSTEM | auth session internal error (POST /api/channel/999/key): private database failure 
+[ERR] 2026/10/02 - 17:25:43 | SYSTEM | auth session internal error (POST /api/user/999/2fa): private database failure 
+
+2026/10/02 17:25:44 [31;1m/workspace/new-api/model/task.go:445 [35;1mrecord not found
+[0m[33m[0.051ms] [34;1m[rows:0][0m SELECT * FROM `tsubmit_1790961944494300000_tasks` WHERE user_id = 8 and task_id = "task_generic" ORDER BY `tsubmit_1790961944494300000_tasks`.`id` LIMIT 1
+
+2026/10/02 17:25:44 [31;1m/workspace/new-api/model/task.go:445 [35;1mrecord not found
+[0m[33m[0.031ms] [34;1m[rows:0][0m SELECT * FROM `tsubmit_1790961944494300000_tasks` WHERE user_id = 8 and task_id = "task_generic" ORDER BY `tsubmit_1790961944494300000_tasks`.`id` LIMIT 1
+
+2026/10/02 17:25:44 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.081ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "lifecycle-only" AND `task_plugins`.`version` = "1" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:44 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.040ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "lifecycle-only" AND `task_plugins`.`version` = "1" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:44 [31;1m/workspace/new-api/model/task_plugin.go:160 [35;1mrecord not found
+[0m[33m[0.035ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "kling" AND `task_plugins`.`active` = true ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:44 [31;1m/workspace/new-api/model/task_plugin.go:160 [35;1mrecord not found
+[0m[33m[0.059ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "kling" AND `task_plugins`.`active` = true ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:44 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.046ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "kling" AND `task_plugins`.`version` = "1.1.0-test-factory-status" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:44 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.146ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "kling-shadow" AND `task_plugins`.`version` = "1.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:44 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.042ms] [34;1m[rows:0][0m SELECT * FROM `tsubmit_1790961944818258278_task_plugins` WHERE `tsubmit_1790961944818258278_task_plugins`.`key` = "alibaba" AND `tsubmit_1790961944818258278_task_plugins`.`version` = "roundtrip" ORDER BY `tsubmit_1790961944818258278_task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:44 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.118ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "large-source" AND `task_plugins`.`version` = "1.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:160 [35;1mrecord not found
+[0m[33m[0.190ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "large-source" AND `task_plugins`.`version` = "2.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:160 [35;1mrecord not found
+[0m[33m[0.059ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "usage-options-probe" AND `task_plugins`.`active` = true ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.051ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "kling" AND `task_plugins`.`version` = "1.1.0-test-override" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:292 [35;1mrecord not found
+[0m[33m[0.048ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "kling" ORDER BY created_at DESC, id DESC,`task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.051ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "delete-promote-probe" AND `task_plugins`.`version` = "1.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.048ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "delete-promote-probe" AND `task_plugins`.`version` = "2.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.044ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "upload-sync-probe" AND `task_plugins`.`version` = "1.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.032ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "activate-sync-probe" AND `task_plugins`.`version` = "1.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.036ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "activate-sync-probe" AND `task_plugins`.`version` = "2.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.044ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "batch-sync-first" AND `task_plugins`.`version` = "1.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.037ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "batch-sync-second" AND `task_plugins`.`version` = "1.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.051ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "runtime-revision-probe" AND `task_plugins`.`version` = "1.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.065ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "runtime-revision-probe" AND `task_plugins`.`version` = "2.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.037ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "runtime-error-probe" AND `task_plugins`.`version` = "1.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+[SYS] 2026/10/02 - 17:25:45 | compile task plugin runtime-error-probe@1.0.0: compile plugin: runtime-error-probe.js:1:22: SyntaxError: Unexpected end of input 
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.038ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "runtime-database-failure" AND `task_plugins`.`version` = "1.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:192 [35;1msql: database is closed
+[0m[33m[0.048ms] [34;1m[rows:0][0m SELECT `task_plugins`.`id`,`task_plugins`.`key`,`task_plugins`.`api_version`,`task_plugins`.`version`,`task_plugins`.`source_hash`,`task_plugins`.`enabled`,`task_plugins`.`active`,`task_plugins`.`created_at`,`task_plugins`.`remark` FROM `task_plugins` WHERE `task_plugins`.`active` = true ORDER BY `key`,`version`,`id`
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:192 [35;1msql: database is closed
+[0m[33m[0.009ms] [34;1m[rows:0][0m SELECT `task_plugins`.`id`,`task_plugins`.`key`,`task_plugins`.`api_version`,`task_plugins`.`version`,`task_plugins`.`source_hash`,`task_plugins`.`enabled`,`task_plugins`.`active`,`task_plugins`.`created_at`,`task_plugins`.`remark` FROM `task_plugins` WHERE `task_plugins`.`active` = true ORDER BY `key`,`version`,`id`
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.040ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "sync-retained-plugin" AND `task_plugins`.`version` = "1.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.049ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "sync-retained-owner" AND `task_plugins`.`version` = "1.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.049ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "sync-retained-plugin" AND `task_plugins`.`version` = "2.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.065ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "sync-retained-owner" AND `task_plugins`.`version` = "2.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.040ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "dryrun-probe" AND `task_plugins`.`version` = "1.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.035ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "dryrun-probe" AND `task_plugins`.`version` = "1.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.034ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "dryrun-probe" AND `task_plugins`.`version` = "1.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.041ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "preflight-force" AND `task_plugins`.`version` = "1.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.119ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "preflight-disabled" AND `task_plugins`.`version` = "1.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:160 [35;1mrecord not found
+[0m[33m[0.044ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "kling" AND `task_plugins`.`version` = "1.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:160 [35;1mrecord not found
+[0m[33m[0.032ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "kling" AND `task_plugins`.`version` = "1.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.042ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "sha256-match" AND `task_plugins`.`version` = "1.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.047ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "sha256-absent" AND `task_plugins`.`version` = "1.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.044ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "display-low" AND `task_plugins`.`version` = "1.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.046ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "display-zero" AND `task_plugins`.`version` = "1.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.072ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "display-beta" AND `task_plugins`.`version` = "1.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.171ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "display-alpha" AND `task_plugins`.`version` = "1.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:160 [35;1mrecord not found
+[0m[33m[0.020ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "sha256-match" AND `task_plugins`.`active` = true ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:160 [35;1mrecord not found
+[0m[33m[0.049ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "icon-sidecar" AND `task_plugins`.`version` = "1.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:105 [35;1mrecord not found
+[0m[33m[0.045ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "icon-sidecar" AND `task_plugins`.`version` = "1.0.0" ORDER BY `task_plugins`.`id` LIMIT 1
+
+2026/10/02 17:25:45 [31;1m/workspace/new-api/model/task_plugin.go:160 [35;1mrecord not found
+[0m[33m[0.027ms] [34;1m[rows:0][0m SELECT * FROM `task_plugins` WHERE `task_plugins`.`key` = "no-such-plugin" AND `task_plugins`.`active` = true ORDER BY `task_plugins`.`id` LIMIT 1
+[ERR] 2026/10/02 - 17:25:46 | SYSTEM | auth session internal error (GET /api/oauth/telegram): private Telegram bind storage failure 
+
+2026/10/02 17:25:47 [31;1m/workspace/new-api/model/token.go:266 [35;1mrecord not found
+[0m[33m[0.037ms] [34;1m[rows:0][0m SELECT * FROM `tokens` WHERE (id = 1 and user_id = 2) AND `tokens`.`deleted_at` IS NULL AND `tokens`.`id` = 1 ORDER BY `tokens`.`id` LIMIT 1
+
+2026/10/02 17:25:47 [34;1m/workspace/new-api/controller/token_test.go:729
+[0m[35m[warn] [0mremoving callback `token-audit:fail` from /workspace/new-api/controller/token_test.go:729
+
+2026/10/02 17:25:47 [34;1m/workspace/new-api/controller/token_test.go:732
+[0m[35m[warn] [0mremoving callback `token-audit:fail` from /workspace/new-api/controller/token_test.go:732
+
+2026/10/02 17:25:47 [31;1m/workspace/new-api/model/token.go:266 [35;1mrecord not found
+[0m[33m[0.046ms] [34;1m[rows:0][0m SELECT * FROM `tokens` WHERE (id = 23 and user_id = 1) AND `tokens`.`deleted_at` IS NULL AND `tokens`.`id` = 23 ORDER BY `tokens`.`id` LIMIT 1
+
+2026/10/02 17:25:47 [31;1m/workspace/new-api/model/token.go:266 [35;1mrecord not found
+[0m[33m[0.043ms] [34;1m[rows:0][0m SELECT * FROM `tokens` WHERE (id = 33 and user_id = 1) AND `tokens`.`deleted_at` IS NULL AND `tokens`.`id` = 33 ORDER BY `tokens`.`id` LIMIT 1
+
+2026/10/02 17:25:47 [31;1m/workspace/new-api/model/token.go:266 [35;1mrecord not found
+[0m[33m[0.046ms] [34;1m[rows:0][0m SELECT * FROM `tokens` WHERE (id = 999999 and user_id = 1) AND `tokens`.`deleted_at` IS NULL AND `tokens`.`id` = 999999 ORDER BY `tokens`.`id` LIMIT 1
+
+2026/10/02 17:25:47 [31;1m/workspace/new-api/model/token.go:266 [35;1mrecord not found
+[0m[33m[0.041ms] [34;1m[rows:0][0m SELECT * FROM `tokens` WHERE (id = 41 and user_id = 1) AND `tokens`.`deleted_at` IS NULL AND `tokens`.`id` = 41 ORDER BY `tokens`.`id` LIMIT 1
+
+2026/10/02 17:25:47 [31;1m/workspace/new-api/model/token.go:266 [35;1mrecord not found
+[0m[33m[0.041ms] [34;1m[rows:0][0m SELECT * FROM `tokens` WHERE (id = 999999 and user_id = 1) AND `tokens`.`deleted_at` IS NULL AND `tokens`.`id` = 999999 ORDER BY `tokens`.`id` LIMIT 1
+
+2026/10/02 17:25:47 [31;1m/workspace/new-api/model/user.go:1243 [35;1mrecord not found
+[0m[33m[0.071ms] [34;1m[rows:0][0m SELECT * FROM `users` WHERE access_token = "Bearer" AND `users`.`deleted_at` IS NULL ORDER BY `users`.`id` LIMIT 1
+[ERR] 2026/10/02 - 17:25:47 | 202610021725472298507528268d9d6Qlvr3aec | audit log write failed (request_id=202610021725472298507528268d9d6Qlvr3aec): audit unavailable 
+
+2026/10/02 17:25:47 [34;1m/workspace/new-api/controller/token_test.go:883
+[0m[35m[warn] [0mremoving callback `token-audit:log-fail` from /workspace/new-api/controller/token_test.go:883
+
+2026/10/02 17:25:47 [34;1m/workspace/new-api/controller/token_test.go:729
+[0m[35m[warn] [0mremoving callback `token-audit:fail` from /workspace/new-api/controller/token_test.go:729
+
+2026/10/02 17:25:47 [34;1m/workspace/new-api/controller/token_test.go:732
+[0m[35m[warn] [0mremoving callback `token-audit:fail` from /workspace/new-api/controller/token_test.go:732
+
+2026/10/02 17:25:47 [31;1m/workspace/new-api/model/token.go:266 [35;1mrecord not found
+[0m[33m[0.062ms] [34;1m[rows:0][0m SELECT * FROM `tokens` WHERE (id = 23 and user_id = 1) AND `tokens`.`deleted_at` IS NULL AND `tokens`.`id` = 23 ORDER BY `tokens`.`id` LIMIT 1
+
+2026/10/02 17:25:47 [31;1m/workspace/new-api/model/token.go:266 [35;1mrecord not found
+[0m[33m[0.038ms] [34;1m[rows:0][0m SELECT * FROM `tokens` WHERE (id = 33 and user_id = 1) AND `tokens`.`deleted_at` IS NULL AND `tokens`.`id` = 33 ORDER BY `tokens`.`id` LIMIT 1
+
+2026/10/02 17:25:47 [31;1m/workspace/new-api/model/token.go:266 [35;1mrecord not found
+[0m[33m[0.047ms] [34;1m[rows:0][0m SELECT * FROM `tokens` WHERE (id = 999999 and user_id = 1) AND `tokens`.`deleted_at` IS NULL AND `tokens`.`id` = 999999 ORDER BY `tokens`.`id` LIMIT 1
+
+2026/10/02 17:25:47 [31;1m/workspace/new-api/model/token.go:266 [35;1mrecord not found
+[0m[33m[0.038ms] [34;1m[rows:0][0m SELECT * FROM `tokens` WHERE (id = 41 and user_id = 1) AND `tokens`.`deleted_at` IS NULL AND `tokens`.`id` = 41 ORDER BY `tokens`.`id` LIMIT 1
+
+2026/10/02 17:25:47 [31;1m/workspace/new-api/model/token.go:266 [35;1mrecord not found
+[0m[33m[0.039ms] [34;1m[rows:0][0m SELECT * FROM `tokens` WHERE (id = 999999 and user_id = 1) AND `tokens`.`deleted_at` IS NULL AND `tokens`.`id` = 999999 ORDER BY `tokens`.`id` LIMIT 1
+
+2026/10/02 17:25:47 [31;1m/workspace/new-api/model/user.go:1243 [35;1mrecord not found
+[0m[33m[0.051ms] [34;1m[rows:0][0m SELECT * FROM `users` WHERE access_token = "Bearer" AND `users`.`deleted_at` IS NULL ORDER BY `users`.`id` LIMIT 1
+[ERR] 2026/10/02 - 17:25:47 | 202610021725472783042908268d9d6cJ6MaGtf | audit log write failed (request_id=202610021725472783042908268d9d6cJ6MaGtf): audit unavailable 
+
+2026/10/02 17:25:47 [34;1m/workspace/new-api/controller/token_test.go:883
+[0m[35m[warn] [0mremoving callback `token-audit:log-fail` from /workspace/new-api/controller/token_test.go:883
+[SYS] 2026/10/02 - 17:25:47 | quota conversion (WalletQuotaFromDecimal) overflow: original=9.007199255e+15, clamped=9007199254740991 
+[SYS] 2026/10/02 - 17:25:47 | quota conversion (WalletQuotaFromDecimal) overflow: original=9.007199255e+15, clamped=9007199254740991 
+[SYS] 2026/10/02 - 17:25:47 | quota conversion (WalletQuotaFromDecimal) overflow: original=9.007199254740992e+15, clamped=9007199254740991 
+[SYS] 2026/10/02 - 17:25:47 | quota conversion (WalletQuotaFromDecimal) overflow: original=9.007199254740991e+21, clamped=9007199254740991 
+[SYS] 2026/10/02 - 17:25:47 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:47 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.073ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:47 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[SYS] 2026/10/02 - 17:25:47 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:47 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.063ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:47 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[SYS] 2026/10/02 - 17:25:47 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:47 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.070ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:47 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[SYS] 2026/10/02 - 17:25:47 | SQL_DSN not set, using SQLite as database 
+
+2026/10/02 17:25:47 [31;1m/workspace/new-api/model/user_access_token.go:307 [35;1msqlite error 1
+[0m[33m[0.066ms] [34;1m[rows:0][0m INSERT INTO `options` (`key`,`value`) VALUES (?,?) ON CONFLICT DO NOTHING
+[SYS] 2026/10/02 - 17:25:47 | initialize legacy access token deadline: SQL logic error: no such table: options (1) 
+[SYS] 2026/10/02 - 17:25:47 | failed to record log: quota log unavailable 
+[ERR] 2026/10/02 - 17:25:47 | SYSTEM | audit log write failed (request_id=quota-test-request): quota log unavailable 
+
+2026/10/02 17:25:47 [31;1m/workspace/new-api/model/user_quota_adjustment.go:40 [35;1mrecord not found
+[0m[33m[0.075ms] [34;1m[rows:0][0m SELECT * FROM `users` WHERE `users`.`id` = 12345 AND `users`.`deleted_at` IS NULL ORDER BY `users`.`id` LIMIT 1
+
+2026/10/02 17:25:47 [31;1m/workspace/new-api/model/user_quota_adjustment.go:40 [35;1mrecord not found
+[0m[33m[0.068ms] [34;1m[rows:0][0m SELECT * FROM `users` WHERE `users`.`id` = 1 AND `users`.`deleted_at` IS NULL ORDER BY `users`.`id` LIMIT 1
+
+2026/10/02 17:25:47 [34;1m/workspace/new-api/controller/user_manage_test.go:446
+[0m[35m[warn] [0mremoving callback `test:quota_read_error` from /workspace/new-api/controller/user_manage_test.go:446
+[SYS] 2026/10/02 - 17:25:47 | quota conversion (WalletQuotaFromDecimal) overflow: original=9.007199254740992e+15, clamped=9007199254740991 
+[SYS] 2026/10/02 - 17:25:47 | quota conversion (WalletQuotaFromDecimal) underflow: original=-9.007199254740992e+15, clamped=-9007199254740991 
+
+2026/10/02 17:25:47 [34;1m/workspace/new-api/controller/user_manage_test.go:563
+[0m[35m[warn] [0mremoving callback `test:concurrent_quota_start` from /workspace/new-api/controller/user_manage_test.go:563
+
+2026/10/02 17:25:47 [31;1m/workspace/new-api/model/user_quota_adjustment.go:63 [35;1mquota rollback
+[0m[33m[0.064ms] [34;1m[rows:1][0m UPDATE `users` SET `quota`=500 WHERE id = 10000 AND `users`.`deleted_at` IS NULL
+[SYS] 2026/10/02 - 17:25:47 | failed to sync manual quota adjustment for user 10000: ERR quota cache unavailable 
+[SYS] 2026/10/02 - 17:25:47 | failed to synchronously populate user cache: ERR quota cache unavailable 
+[SYS] 2026/10/02 - 17:25:47 | failed to synchronously populate user cache: ERR quota cache unavailable 
+FAIL
+FAIL	github.com/QuantumNous/new-api/controller	34.618s
+ok  	github.com/QuantumNous/new-api/service/directpay	0.032s
+ok  	github.com/QuantumNous/new-api/service/directpay/provider	0.290s
+FAIL

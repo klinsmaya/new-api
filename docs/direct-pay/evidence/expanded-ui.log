@@ -1,0 +1,9 @@
+
+ RUN  v4.1.10 /workspace/new-api/web
+
+
+ Test Files  2 passed (2)
+      Tests  11 passed (11)
+   Start at  17:41:52
+   Duration  2.03s (transform 464ms, setup 399ms, import 835ms, tests 532ms, environment 1.66s)
+

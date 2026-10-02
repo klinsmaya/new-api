@@ -1,0 +1,4 @@
+ok  	github.com/QuantumNous/new-api/model	8.776s
+ok  	github.com/QuantumNous/new-api/controller	35.293s
+ok  	github.com/QuantumNous/new-api/service/directpay	0.024s
+ok  	github.com/QuantumNous/new-api/service/directpay/provider	0.694s

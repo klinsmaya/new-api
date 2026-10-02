@@ -1,0 +1,37 @@
+=== RUN   TestHistoricalReconciliationWithCreationDisabled
+
+2026/10/02 17:45:23 [31;1m/workspace/new-api/model/directpay.go:68 [35;1mrecord not found
+[0m[33m[0.103ms] [34;1m[rows:0][0m SELECT * FROM `direct_pay_orders` WHERE user_id = 1 AND request_key = "key" ORDER BY `direct_pay_orders`.`id` LIMIT 1
+--- PASS: TestHistoricalReconciliationWithCreationDisabled (0.01s)
+=== RUN   TestProductionCreationSafetyGate
+--- PASS: TestProductionCreationSafetyGate (0.00s)
+PASS
+ok  	github.com/QuantumNous/new-api/service/directpay	0.030s
+=== RUN   TestAlipaySDKContract
+--- PASS: TestAlipaySDKContract (0.09s)
+=== RUN   TestWechatSDKContract
+--- PASS: TestWechatSDKContract (0.13s)
+=== RUN   TestMoneyBoundaries
+--- PASS: TestMoneyBoundaries (0.00s)
+=== RUN   TestCertificateSDKContract
+=== RUN   TestCertificateSDKContract/alipay_direct
+=== RUN   TestCertificateSDKContract/wechat_direct
+--- PASS: TestCertificateSDKContract (0.19s)
+    --- PASS: TestCertificateSDKContract/alipay_direct (0.08s)
+    --- PASS: TestCertificateSDKContract/wechat_direct (0.11s)
+=== RUN   TestCertificateExpiredPrimaryRotation
+=== RUN   TestCertificateExpiredPrimaryRotation/alipay_direct
+=== RUN   TestCertificateExpiredPrimaryRotation/wechat_direct
+--- PASS: TestCertificateExpiredPrimaryRotation (0.40s)
+    --- PASS: TestCertificateExpiredPrimaryRotation/alipay_direct (0.15s)
+    --- PASS: TestCertificateExpiredPrimaryRotation/wechat_direct (0.25s)
+=== RUN   TestSignedCloseCertificateContract
+=== RUN   TestSignedCloseCertificateContract/alipay_direct
+=== RUN   TestSignedCloseCertificateContract/wechat_direct
+--- PASS: TestSignedCloseCertificateContract (0.07s)
+    --- PASS: TestSignedCloseCertificateContract/alipay_direct (0.03s)
+    --- PASS: TestSignedCloseCertificateContract/wechat_direct (0.03s)
+=== RUN   TestWechatNativeCreateSDKContract
+--- PASS: TestWechatNativeCreateSDKContract (0.03s)
+PASS
+ok  	github.com/QuantumNous/new-api/service/directpay/provider	0.918s
