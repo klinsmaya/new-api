@@ -24,6 +24,7 @@ import (
 
 	"github.com/QuantumNous/new-api/common"
 	dp "github.com/QuantumNous/new-api/types/directpay"
+	"github.com/go-pay/gopay/alipay"
 	"github.com/go-pay/gopay/pkg/xhttp"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -168,7 +169,7 @@ func TestWechatSDKContract(t *testing.T) {
 	o.MoneyMinor = 100
 	o.ExpiresAt = time.Now().Unix() + 600
 	tampered := false
-	a.wx.SetHttpClient(xhttp.NewClient().SetTransport(protocolTransport(func(r *http.Request) (*http.Response, error) {
+	a.setWechatTransport(protocolTransport(func(r *http.Request) (*http.Response, error) {
 		assert.Equal(t, "api.mch.weixin.qq.com", r.URL.Host)
 		assert.NotEmpty(t, r.Header.Get("Authorization"))
 		payload := string(plain)
@@ -181,7 +182,7 @@ func TestWechatSDKContract(t *testing.T) {
 			payload += " "
 		}
 		return &http.Response{StatusCode: 200, Header: responseHeader, Body: io.NopCloser(strings.NewReader(payload)), Request: r}, nil
-	})))
+	}))
 	e, err = a.Query(t.Context(), o)
 	require.NoError(t, err)
 	assert.EqualValues(t, 100, e.MoneyMinor)
@@ -260,7 +261,7 @@ func TestCertificateSDKContract(t *testing.T) {
 			if provider == dp.Alipay {
 				a.ali.SetHttpClient(xhttp.NewClient().SetTransport(transport))
 			} else {
-				a.wx.SetHttpClient(xhttp.NewClient().SetTransport(transport))
+				a.setWechatTransport(transport)
 			}
 			proof, err := a.Query(t.Context(), o)
 			require.NoError(t, err)
@@ -294,6 +295,170 @@ func TestCertificateSDKContract(t *testing.T) {
 				_, err = New(cfg)
 				require.Error(t, err)
 			}
+		})
+	}
+}
+
+func TestCertificateExpiredPrimaryRotation(t *testing.T) {
+	for _, kind := range []string{dp.Alipay, dp.Wechat} {
+		t.Run(kind, func(t *testing.T) {
+			original, oldKey := fixture(t, kind)
+			cfg := original.cfg
+			cfg.VerificationMode = "certificate"
+			cfg.PublicKeyID = "A1"
+			cfg.PublicKey = fixtureCertificate(t, oldKey, 161, time.Now().Add(-2*time.Hour), time.Now().Add(-time.Hour))
+			cfg.AppCertificate = fixtureCertificate(t, oldKey, 163, time.Now().Add(-time.Hour), time.Now().Add(time.Hour))
+			cfg.RootCertificate = cfg.AppCertificate
+			nextKey, err := rsa.GenerateKey(rand.Reader, 2048)
+			require.NoError(t, err)
+			nextCert := fixtureCertificate(t, nextKey, 177, time.Now().Add(-time.Hour), time.Now().Add(time.Hour))
+			nextID := "B1"
+			if kind == dp.Alipay {
+				nextID, err = alipay.GetCertSN([]byte(nextCert))
+				require.NoError(t, err)
+			}
+			cfg.TrustedVerificationKeys = map[string]string{nextID: nextCert}
+			a, err := New(cfg)
+			require.NoError(t, err)
+			o := a.identity()
+			o.OrderNo = "rotation"
+			o.MoneyMinor = 100
+			o.ExpiresAt = time.Now().Unix() + 600
+			calls := 0
+			badSerial := false
+			transport := protocolTransport(func(r *http.Request) (*http.Response, error) {
+				calls++
+				header := make(http.Header)
+				payload := `{"code":"10000","out_trade_no":"rotation","trade_no":"tx","trade_status":"TRADE_SUCCESS","total_amount":"1.00","send_pay_date":"2026-10-02 12:00:00"}`
+				serial := nextID
+				if badSerial {
+					serial = "UNKNOWN"
+				}
+				body := ""
+				if kind == dp.Alipay {
+					body = `{"alipay_trade_query_response":` + payload + `,"alipay_cert_sn":"` + serial + `","sign":"` + signFixture(t, nextKey, payload) + `"}`
+				} else {
+					payload = `{"appid":"app","mchid":"merchant","out_trade_no":"rotation","transaction_id":"tx","trade_type":"NATIVE","trade_state":"SUCCESS","success_time":"2026-10-02T12:00:00+08:00","amount":{"total":100,"currency":"CNY"}}`
+					stamp := strconv.FormatInt(time.Now().Unix(), 10)
+					header.Set("Wechatpay-Timestamp", stamp)
+					header.Set("Wechatpay-Nonce", "rotation")
+					header.Set("Wechatpay-Serial", serial)
+					header.Set("Wechatpay-Signature", signFixture(t, nextKey, stamp+"\nrotation\n"+payload+"\n"))
+					body = payload
+				}
+				return &http.Response{StatusCode: 200, Header: header, Body: io.NopCloser(strings.NewReader(body)), Request: r}, nil
+			})
+			if kind == dp.Alipay {
+				a.ali.SetHttpClient(xhttp.NewClient().SetTransport(transport))
+			} else {
+				a.setWechatTransport(transport)
+			}
+			_, err = a.Query(t.Context(), o)
+			require.NoError(t, err)
+			badSerial = true
+			_, err = a.Query(t.Context(), o)
+			require.Error(t, err)
+			assert.Equal(t, 2, calls, "unknown serial must not cause SDK certificate download")
+			// Keep original account/revision evidence while selecting the next verifier.
+			if kind == dp.Alipay {
+				form := url.Values{"app_id": {"app"}, "seller_id": {"merchant"}, "out_trade_no": {"rotation"}, "trade_no": {"tx"}, "trade_status": {"TRADE_SUCCESS"}, "total_amount": {"1.00"}, "gmt_payment": {"2026-10-02 12:00:00"}}
+				keys := make([]string, 0, len(form))
+				for k := range form {
+					keys = append(keys, k)
+				}
+				sort.Strings(keys)
+				pairs := []string{}
+				for _, k := range keys {
+					pairs = append(pairs, k+"="+form.Get(k))
+				}
+				canonical := strings.Join(pairs, "&")
+				form.Set("sign_type", "RSA2")
+				form.Set("sign", signFixture(t, nextKey, canonical))
+				proof, err := a.Notify(nil, []byte(form.Encode()))
+				require.NoError(t, err)
+				assert.Equal(t, o.Revision, proof.Revision)
+				form.Set("sign", signFixture(t, oldKey, canonical))
+				_, err = a.Notify(nil, []byte(form.Encode()))
+				require.Error(t, err)
+			} else {
+				plain := []byte(`{"appid":"app","mchid":"merchant","out_trade_no":"rotation","transaction_id":"tx","trade_type":"NATIVE","trade_state":"SUCCESS","success_time":"2026-10-02T12:00:00+08:00","amount":{"total":100,"currency":"CNY"}}`)
+				block, err := aes.NewCipher([]byte(cfg.APIv3Key))
+				require.NoError(t, err)
+				gcm, err := cipher.NewGCM(block)
+				require.NoError(t, err)
+				encrypted := gcm.Seal(nil, []byte("nonce1234567"), plain, []byte("transaction"))
+				body, err := common.Marshal(map[string]any{"id": "rotation", "event_type": "TRANSACTION.SUCCESS", "resource": map[string]any{"algorithm": "AEAD_AES_256_GCM", "nonce": "nonce1234567", "associated_data": "transaction", "ciphertext": base64.StdEncoding.EncodeToString(encrypted)}})
+				require.NoError(t, err)
+				stamp := strconv.FormatInt(time.Now().Unix(), 10)
+				header := make(http.Header)
+				header.Set("Wechatpay-Timestamp", stamp)
+				header.Set("Wechatpay-Nonce", "rotation")
+				header.Set("Wechatpay-Serial", nextID)
+				header.Set("Wechatpay-Signature", signFixture(t, nextKey, stamp+"\nrotation\n"+string(body)+"\n"))
+				proof, err := a.Notify(header, body)
+				require.NoError(t, err)
+				assert.Equal(t, o.Revision, proof.Revision)
+				header.Set("Wechatpay-Serial", "A1")
+				header.Set("Wechatpay-Signature", signFixture(t, oldKey, stamp+"\nrotation\n"+string(body)+"\n"))
+				_, err = a.Notify(header, body)
+				require.Error(t, err)
+			}
+			nextRevision := o
+			nextRevision.Revision = "v2"
+			_, err = a.Query(t.Context(), nextRevision)
+			require.Error(t, err)
+		})
+	}
+}
+
+func TestSignedCloseCertificateContract(t *testing.T) {
+	for _, kind := range []string{dp.Alipay, dp.Wechat} {
+		t.Run(kind, func(t *testing.T) {
+			a, key := fixture(t, kind)
+			cfg := a.cfg
+			cfg.VerificationMode = "certificate"
+			cfg.PublicKeyID = "A1"
+			cert := fixtureCertificate(t, key, 161, time.Now().Add(-time.Hour), time.Now().Add(time.Hour))
+			cfg.PublicKey = cert
+			cfg.AppCertificate = cert
+			cfg.RootCertificate = cert
+			a, err := New(cfg)
+			require.NoError(t, err)
+			o := a.identity()
+			o.OrderNo = "close-order"
+			tamper := false
+			transport := protocolTransport(func(r *http.Request) (*http.Response, error) {
+				header := make(http.Header)
+				status := 200
+				body := ""
+				if kind == dp.Alipay {
+					payload := `{"code":"10000","out_trade_no":"close-order"}`
+					sig := signFixture(t, key, payload)
+					if tamper {
+						payload = strings.Replace(payload, "close-order", "other-order", 1)
+					}
+					body = `{"alipay_trade_close_response":` + payload + `,"alipay_cert_sn":"` + a.ali.AliPayPublicCertSN + `","sign":"` + sig + `"}`
+				} else {
+					status = 204
+					stamp := strconv.FormatInt(time.Now().Unix(), 10)
+					header.Set("Wechatpay-Timestamp", stamp)
+					header.Set("Wechatpay-Nonce", "close")
+					header.Set("Wechatpay-Serial", "A1")
+					header.Set("Wechatpay-Signature", signFixture(t, key, stamp+"\nclose\n\n"))
+					if tamper {
+						header.Set("Wechatpay-Nonce", "wrong")
+					}
+				}
+				return &http.Response{StatusCode: status, Header: header, Body: io.NopCloser(strings.NewReader(body)), Request: r}, nil
+			})
+			if kind == dp.Alipay {
+				a.ali.SetHttpClient(xhttp.NewClient().SetTransport(transport))
+			} else {
+				a.setWechatTransport(transport)
+			}
+			require.NoError(t, a.Close(t.Context(), o))
+			tamper = true
+			require.Error(t, a.Close(t.Context(), o))
 		})
 	}
 }

@@ -313,3 +313,25 @@ func TestDirectPayBaselineBatchLossCounterexample(t *testing.T) {
 	assert.True(t, ok, "if baseline is repaired, replace this characterization with safety assertions and review release gate")
 	t.Log("CONFIRMED_UNSAFE_BASELINE: cache loss before batch flush admitted 8000 against 5000")
 }
+
+func TestDirectPayWalletCapacityBoundary(t *testing.T) {
+	directPayDB(t, false)
+	user := createReserveTestUser(t, common.MaxWalletQuota-1000)
+	_, proof := directPayPurchase(t, user, "capacity-exact")
+	require.NoError(t, ReceiveDirectPayEvent(proof))
+	var ev DirectPayEvent
+	require.NoError(t, DB.Where("order_no = ?", proof.OrderNo).First(&ev).Error)
+	require.NoError(t, SettleDirectPayEvent(ev.ID))
+	assert.Equal(t, common.MaxWalletQuota, getUserQuotaFromDB(t, user.Id))
+	order, proof := directPayPurchase(t, user, "capacity-overflow")
+	require.NoError(t, ReceiveDirectPayEvent(proof))
+	ev = DirectPayEvent{}
+	require.NoError(t, DB.Where("order_no = ?", proof.OrderNo).First(&ev).Error)
+	require.NoError(t, SettleDirectPayEvent(ev.ID))
+	require.NoError(t, DB.First(&ev, ev.ID).Error)
+	assert.Equal(t, "wallet_unavailable", ev.Reason)
+	assert.Equal(t, common.MaxWalletQuota, getUserQuotaFromDB(t, user.Id))
+	var count int64
+	require.NoError(t, DB.Model(&DirectPayLedger{}).Where("order_id = ?", order.ID).Count(&count).Error)
+	assert.Zero(t, count)
+}

@@ -11,7 +11,6 @@ import (
 	"errors"
 	"net/http"
 	"net/url"
-	"strconv"
 	"strings"
 	"time"
 
@@ -90,9 +89,6 @@ func New(c Config) (*Adapter, error) {
 			a.verifier, err = xpem.DecodePublicKey([]byte(xrsa.FormatAlipayPublicKey(c.PublicKey)))
 		case "certificate":
 			err = a.ali.SetCertSnByContent([]byte(c.AppCertificate), []byte(c.RootCertificate), []byte(c.PublicKey))
-			if err == nil {
-				a.ali.AutoVerifySign([]byte(c.PublicKey))
-			}
 		default:
 			return nil, errors.New("invalid Alipay verification mode")
 		}
@@ -138,51 +134,126 @@ func New(c Config) (*Adapter, error) {
 			a.wx.SnCertMap.Store(id, key)
 		}
 	}
+	if a.wx != nil {
+		a.setWechatTransport(http.DefaultTransport.(*http.Transport).Clone())
+	}
 	return a, nil
 }
 
-// Certificates are explicitly provisioned trust anchors. Never trust a certificate
-// supplied by a callback or automatically fetch an unknown serial. Recheck dates
-// on each operation because a long-running process can outlive its certificates.
+// Configured certificate bytes are pinned trust anchors, never callback input.
+func parseCertificate(content string) (*x509.Certificate, error) {
+	block, rest := pem.Decode([]byte(content))
+	if block == nil || block.Type != "CERTIFICATE" || len(strings.TrimSpace(string(rest))) != 0 {
+		return nil, errors.New("invalid configured certificate")
+	}
+	cert, err := x509.ParseCertificate(block.Bytes)
+	if err != nil {
+		return nil, errors.New("invalid configured certificate")
+	}
+	if _, ok := cert.PublicKey.(*rsa.PublicKey); !ok {
+		return nil, errors.New("RSA certificate required")
+	}
+	return cert, nil
+}
+func certificateActive(cert *x509.Certificate) bool {
+	now := time.Now()
+	return !now.Before(cert.NotBefore) && now.Before(cert.NotAfter)
+}
+func (a *Adapter) certificateMaterials() (map[string]string, error) {
+	primaryID := a.cfg.PublicKeyID
+	if a.cfg.Provider == dp.Alipay {
+		var err error
+		primaryID, err = alipay.GetCertSN([]byte(a.cfg.PublicKey))
+		if err != nil {
+			return nil, dp.ErrEvidence
+		}
+	}
+	materials := map[string]string{primaryID: a.cfg.PublicKey}
+	for id, content := range a.cfg.TrustedVerificationKeys {
+		if id == primaryID {
+			return nil, dp.ErrEvidence
+		}
+		materials[id] = content
+	}
+	for id, content := range materials {
+		cert, err := parseCertificate(content)
+		if err != nil {
+			return nil, err
+		}
+		expected := strings.ToUpper(cert.SerialNumber.Text(16))
+		if a.cfg.Provider == dp.Alipay {
+			expected, err = alipay.GetCertSN([]byte(content))
+			if err != nil {
+				return nil, dp.ErrEvidence
+			}
+		}
+		if id == "" || id != expected {
+			return nil, errors.New("certificate serial mismatch")
+		}
+	}
+	return materials, nil
+}
+func (a *Adapter) selectedCertificate(id string) (string, error) {
+	materials, err := a.certificateMaterials()
+	if err != nil {
+		return "", err
+	}
+	content, ok := materials[id]
+	if !ok {
+		return "", dp.ErrEvidence
+	}
+	cert, err := parseCertificate(content)
+	if err != nil || !certificateActive(cert) {
+		return "", dp.ErrEvidence
+	}
+	return content, nil
+}
+
+// Retained expired anchors cannot verify anything, but must not prevent a
+// historical revision from using a separately provisioned active next anchor.
 func (a *Adapter) validateCertificates(includeSigner bool) error {
 	if a.cfg.VerificationMode != "certificate" {
 		return nil
 	}
-	materials := map[string]string{a.cfg.PublicKeyID: a.cfg.PublicKey}
-	if a.cfg.Provider == dp.Alipay {
-		materials = map[string]string{"platform": a.cfg.PublicKey}
-		if includeSigner {
-			materials["app"] = a.cfg.AppCertificate
-			materials["root"] = a.cfg.RootCertificate
-		}
-	} else {
-		for id, content := range a.cfg.TrustedVerificationKeys {
-			materials[id] = content
+	materials, err := a.certificateMaterials()
+	if err != nil {
+		return err
+	}
+	active := false
+	for _, content := range materials {
+		cert, _ := parseCertificate(content)
+		if certificateActive(cert) {
+			active = true
 		}
 	}
-	for id, content := range materials {
-		remaining := []byte(content)
-		count := 0
+	if !active {
+		return errors.New("no active configured verification certificate")
+	}
+	if includeSigner && a.cfg.Provider == dp.Alipay {
+		cert, err := parseCertificate(a.cfg.AppCertificate)
+		if err != nil || !certificateActive(cert) {
+			return errors.New("application certificate outside validity window")
+		}
+		// Root bundles may retain old roots; require at least one currently valid
+		// certificate and reject malformed bundles without echoing their content.
+		remaining := []byte(a.cfg.RootCertificate)
+		activeRoot := false
 		for len(strings.TrimSpace(string(remaining))) > 0 {
 			block, rest := pem.Decode(remaining)
 			if block == nil || block.Type != "CERTIFICATE" {
-				return errors.New("invalid configured certificate")
+				return dp.ErrEvidence
 			}
-			cert, err := x509.ParseCertificate(block.Bytes)
-			if err != nil || time.Now().Before(cert.NotBefore) || !time.Now().Before(cert.NotAfter) {
-				return errors.New("configured certificate outside validity window")
+			root, err := x509.ParseCertificate(block.Bytes)
+			if err != nil {
+				return dp.ErrEvidence
 			}
-			if a.cfg.Provider == dp.Wechat && (id == "" || !strings.EqualFold(cert.SerialNumber.Text(16), id)) {
-				return errors.New("certificate serial mismatch")
+			if certificateActive(root) {
+				activeRoot = true
 			}
-			if _, ok := cert.PublicKey.(*rsa.PublicKey); !ok && id != "root" {
-				return errors.New("RSA certificate required")
-			}
-			count++
 			remaining = rest
 		}
-		if count == 0 {
-			return errors.New("configured certificate missing")
+		if !activeRoot {
+			return errors.New("no active configured root certificate")
 		}
 	}
 	return nil
@@ -222,14 +293,18 @@ func (a *Adapter) Create(ctx context.Context, o dp.Snapshot) (dp.Checkout, error
 	}
 	return dp.Checkout{Kind: "qr", Value: r.Response.CodeUrl}, nil
 }
-func (a *Adapter) verifyAli(data, sign string) error {
+func (a *Adapter) verifyAli(data, sign, serial string) error {
 	var ok bool
 	var err error
 	if data == "" || sign == "" {
 		return dp.ErrEvidence
 	}
 	if a.cfg.VerificationMode == "certificate" {
-		ok, err = alipay.VerifySyncSignWithCert([]byte(a.cfg.PublicKey), data, sign)
+		content, certErr := a.selectedCertificate(serial)
+		if certErr != nil {
+			return dp.ErrEvidence
+		}
+		ok, err = alipay.VerifySyncSignWithCert([]byte(content), data, sign)
 	} else {
 		ok, err = alipay.VerifySyncSign(a.cfg.PublicKey, data, sign)
 	}
@@ -256,10 +331,7 @@ func (a *Adapter) Query(ctx context.Context, o dp.Snapshot) (dp.Evidence, error)
 		if err != nil || len(envelope.Response) == 0 {
 			return e, dp.ErrUnknown
 		}
-		if a.cfg.VerificationMode == "certificate" && envelope.CertSN != a.ali.AliPayPublicCertSN {
-			return e, dp.ErrEvidence
-		}
-		if err = a.verifyAli(string(envelope.Response), envelope.Sign); err != nil {
+		if err = a.verifyAli(string(envelope.Response), envelope.Sign, envelope.CertSN); err != nil {
 			return e, err
 		}
 		var p alipay.TradeQuery
@@ -340,14 +412,25 @@ func (a *Adapter) Close(ctx context.Context, o dp.Snapshot) error {
 		return dp.ErrEvidence
 	}
 	if a.ali != nil {
-		r, err := a.ali.TradeClose(ctx, gopay.BodyMap{"out_trade_no": o.OrderNo})
-		if err != nil || r == nil || r.Response == nil {
+		var envelope struct {
+			Response json.RawMessage `json:"alipay_trade_close_response"`
+			Sign     string          `json:"sign"`
+			CertSN   string          `json:"alipay_cert_sn"`
+		}
+		if err := a.ali.PostAliPayAPISelfV2(ctx, gopay.BodyMap{"biz_content": gopay.BodyMap{"out_trade_no": o.OrderNo}}, "alipay.trade.close", &envelope); err != nil {
 			return dp.ErrUnknown
 		}
-		if r.Response.OutTradeNo != o.OrderNo {
+		if err := a.verifyAli(string(envelope.Response), envelope.Sign, envelope.CertSN); err != nil {
+			return err
+		}
+		var response struct {
+			Code    string `json:"code"`
+			OrderNo string `json:"out_trade_no"`
+		}
+		if common.Unmarshal(envelope.Response, &response) != nil || response.Code != "10000" || response.OrderNo != o.OrderNo {
 			return dp.ErrEvidence
 		}
-		return a.verifyAli(r.SignData, r.Sign)
+		return nil
 	}
 	r, err := a.wx.V3TransactionCloseOrder(ctx, o.OrderNo)
 	if err != nil || r == nil || r.Code != 0 {
@@ -377,7 +460,21 @@ func (a *Adapter) Notify(h http.Header, body []byte) (dp.Evidence, error) {
 		}
 		var ok bool
 		if a.cfg.VerificationMode == "certificate" {
-			ok, err = alipay.VerifySignWithCert([]byte(a.cfg.PublicKey), bm)
+			materials, materialErr := a.certificateMaterials()
+			if materialErr != nil {
+				return e, dp.ErrEvidence
+			}
+			for id := range materials {
+				content, certErr := a.selectedCertificate(id)
+				if certErr != nil {
+					continue
+				}
+				verified, verifyErr := alipay.VerifySignWithCert([]byte(content), bm)
+				if verifyErr == nil && verified {
+					ok = true
+					break
+				}
+			}
 		} else {
 			ok, err = alipay.VerifySign(a.cfg.PublicKey, bm)
 		}
@@ -402,11 +499,7 @@ func (a *Adapter) Notify(h http.Header, body []byte) (dp.Evidence, error) {
 		}
 		e.PaidAt = paid.Unix()
 	} else {
-		stamp, err := strconv.ParseInt(h.Get("Wechatpay-Timestamp"), 10, 64)
-		if err != nil || stamp < time.Now().Unix()-300 || stamp > time.Now().Unix()+300 || a.verifiers[h.Get("Wechatpay-Serial")] == nil || h.Get("Wechatpay-Nonce") == "" || strings.HasPrefix(h.Get("Wechatpay-Signature"), "WECHATPAY/SIGNTEST/") {
-			return e, dp.ErrEvidence
-		}
-		if err := wx.V3VerifySignByPK(h.Get("Wechatpay-Timestamp"), h.Get("Wechatpay-Nonce"), string(body), h.Get("Wechatpay-Signature"), a.verifiers[h.Get("Wechatpay-Serial")]); err != nil {
+		if a.verifyWechat(h, body) != nil {
 			return e, dp.ErrEvidence
 		}
 		var envelope struct {

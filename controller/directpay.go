@@ -244,7 +244,7 @@ func AdminDirectPay(c *gin.Context) {
 	}
 	var enabled model.Option
 	_ = model.DB.Where(&model.Option{Key: "directpay.create_enabled"}).First(&enabled).Error
-	c.JSON(200, gin.H{"success": true, "data": gin.H{"accounts": accounts, "orders": orders, "events": events, "create_enabled": enabled.Value == "true", "startup_allows_create": direct.Active.Config.CreateEnabled, "refund_enabled": false}})
+	c.JSON(200, gin.H{"success": true, "data": gin.H{"accounts": accounts, "orders": orders, "events": events, "create_enabled": enabled.Value == "true", "startup_allows_create": direct.Active.Config.CreateEnabled && direct.Active.Config.DeploymentTier != "production", "refund_enabled": false}})
 }
 func AdminDirectPaySwitch(c *gin.Context) {
 	var req struct {
@@ -252,6 +252,10 @@ func AdminDirectPaySwitch(c *gin.Context) {
 	}
 	if c.ShouldBindJSON(&req) != nil {
 		c.Status(400)
+		return
+	}
+	if req.Enabled && direct.Active.Config.DeploymentTier == "production" {
+		c.JSON(403, gin.H{"success": false, "message": "Production direct payments are blocked pending wallet safety acceptance"})
 		return
 	}
 	if req.Enabled && !requirePaymentCompliance(c) {
