@@ -24,3 +24,5 @@
 - model/main.go AutoMigrate: SQLite/MySQL/PostgreSQL primary DB; separate log DB. Expansion only; no production migration run.
 
 Official integration: BLOCKED_EXTERNAL until separately provisioned sandbox/live accounts, approved products, trusted HTTPS callbacks, and operator payment are available.
+
+Completed baseline outcome: scoped original Go 1.26.1 `go test ./model ./controller ./service` exited 0 (model 7.705s, controller 35.148s, service 0.662s). Later dependency review prepared official Go 1.26.8 locally; no Dockerfile/production builder pin was changed.

@@ -1,0 +1,14 @@
+ok  	github.com/QuantumNous/new-api/model	0.223s
+ok  	github.com/QuantumNous/new-api/controller	0.083s
+ok  	github.com/QuantumNous/new-api/service/directpay	0.028s
+ok  	github.com/QuantumNous/new-api/service/directpay/provider	0.270s
+
+ RUN  v4.1.10 /workspace/new-api/web
+
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  17:04:26
+   Duration  1.52s (transform 184ms, setup 186ms, import 416ms, tests 248ms, environment 538ms)
+
+exit_code=0

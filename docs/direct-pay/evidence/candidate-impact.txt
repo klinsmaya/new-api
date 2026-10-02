@@ -1,0 +1,706 @@
+ controller/directpay.go                            | 287 +++++++++++++++++++++
+ controller/directpay_test.go                       |  74 ++++++
+ go.mod                                             |  15 +-
+ go.sum                                             |  28 ++
+ main.go                                            |   5 +
+ model/directpay.go                                 | 213 +++++++++++++++
+ model/directpay_cache.go                           |  41 +++
+ model/directpay_test.go                            | 214 +++++++++++++++
+ model/main.go                                      |   1 +
+ model/topup.go                                     |   4 +
+ model/user.go                                      |  22 +-
+ model/user_auth_cache.go                           |   4 +-
+ model/user_cache.go                                |  21 +-
+ router/api-router.go                               |  10 +
+ .../integrations/payment-settings-section.tsx      |   2 +
+ .../wallet/direct-pay/__tests__/payment.test.tsx   |  86 ++++++
+ web/src/features/wallet/direct-pay/admin.tsx       |  96 +++++++
+ web/src/features/wallet/direct-pay/payment.tsx     | 266 +++++++++++++++++++
+ web/src/features/wallet/direct-pay/store.ts        |  30 +++
+ web/src/features/wallet/index.tsx                  |   2 +
+ web/src/i18n/locales/en.json                       |  20 +-
+ web/src/i18n/locales/fr.json                       |  20 +-
+ web/src/i18n/locales/ja.json                       |  20 +-
+ web/src/i18n/locales/ru.json                       |  20 +-
+ web/src/i18n/locales/vi.json                       |  20 +-
+ web/src/i18n/locales/zh-TW.json                    |  20 +-
+ web/src/i18n/locales/zh.json                       |  20 +-
+ 27 files changed, 1521 insertions(+), 40 deletions(-)
+diff --git a/model/main.go b/model/main.go
+index 04df50796..3d0697344 100644
+--- a/model/main.go
++++ b/model/main.go
+@@ -354,6 +354,7 @@ func migrateDB() error {
+ 		&Log{},
+ 		&Midjourney{},
+ 		&TopUp{},
++		&DirectPayOrder{}, &DirectPayEvent{}, &DirectPayLedger{}, &DirectPayAccountBinding{},
+ 		&QuotaData{},
+ 		&Task{},
+ 		&TaskPlugin{},
+diff --git a/model/topup.go b/model/topup.go
+index 9e031d0f4..42fb3a782 100644
+--- a/model/topup.go
++++ b/model/topup.go
+@@ -468,6 +468,10 @@ func ManualCompleteTopUp(tradeNo string, callerIp string) error {
+ 			return errors.New("充值订单不存在")
+ 		}
+ 
++		if topUp.PaymentProvider == "wechat_direct" || topUp.PaymentProvider == "alipay_direct" {
++			return errors.New("direct payment requires verified provider query; use direct-pay refresh")
++		}
++
+ 		// 幂等处理：已成功直接返回
+ 		if topUp.Status == common.TopUpStatusSuccess {
+ 			return nil
+diff --git a/model/user.go b/model/user.go
+index 9f1e8564c..fef64bf9a 100644
+--- a/model/user.go
++++ b/model/user.go
+@@ -77,6 +77,7 @@ func resolveUserSortOptions(sortOptions []UserSortOptions) UserSortOptions {
+ // User if you add sensitive fields, don't forget to clean them in setupLogin function.
+ // Otherwise, the sensitive information will be saved on local storage in plain text!
+ type User struct {
++	DirectPayCreditTotal int64                      `json:"-" gorm:"type:bigint;default:0"`
+ 	Id                   int                        `json:"id"`
+ 	Username             string                     `json:"username" gorm:"unique;index" validate:"max=20"`
+ 	Password             string                     `json:"password" gorm:"not null;" validate:"min=8,max=128"`
+@@ -116,16 +117,17 @@ type User struct {
+ 
+ func (user *User) ToBaseUser() *UserBase {
+ 	cache := &UserBase{
+-		Id:          user.Id,
+-		Group:       user.Group,
+-		Quota:       user.Quota,
+-		Status:      user.Status,
+-		Role:        user.Role,
+-		Username:    user.Username,
+-		Setting:     user.Setting,
+-		Email:       user.Email,
+-		AuthVersion: user.AuthVersion,
+-		CacheSchema: userCacheSchemaVersion,
++		DirectPayCreditTotal: user.DirectPayCreditTotal,
++		Id:                   user.Id,
++		Group:                user.Group,
++		Quota:                user.Quota,
++		Status:               user.Status,
++		Role:                 user.Role,
++		Username:             user.Username,
++		Setting:              user.Setting,
++		Email:                user.Email,
++		AuthVersion:          user.AuthVersion,
++		CacheSchema:          userCacheSchemaVersion,
+ 	}
+ 	return cache
+ }
+diff --git a/model/user_auth_cache.go b/model/user_auth_cache.go
+index a657f786a..c6bca5937 100644
+--- a/model/user_auth_cache.go
++++ b/model/user_auth_cache.go
+@@ -77,14 +77,14 @@ redis.call('HSET', KEYS[1],
+   'Status', ARGV[5], 'Role', ARGV[6], 'Username', ARGV[7],
+   'Setting', ARGV[8], 'AuthVersion', ARGV[1], 'CacheSchema', ARGV[9])
+ if ARGV[10] == '1' and redis.call('HEXISTS', KEYS[1], 'Quota') == 0 then
+-  redis.call('HSET', KEYS[1], 'Quota', ARGV[11])
++  redis.call('HSET', KEYS[1], 'Quota', ARGV[11], 'DirectPayCreditTotal', ARGV[13])
+ end
+ redis.call('EXPIRE', KEYS[1], ARGV[12])
+ return 1`
+ 	result, err := common.RDB.Eval(context.Background(), script,
+ 		[]string{getUserCacheKey(user.Id), getUserAuthFenceKey(user.Id), getUserAuthVersionKey(user.Id)},
+ 		user.AuthVersion, user.Id, user.Group, user.Email, user.Status, user.Role,
+-		user.Username, user.Setting, user.CacheSchema, includeQuotaArg, user.Quota, ttl,
++		user.Username, user.Setting, user.CacheSchema, includeQuotaArg, user.Quota, ttl, user.DirectPayCreditTotal,
+ 	).Int()
+ 	if err != nil {
+ 		return err
+diff --git a/model/user_cache.go b/model/user_cache.go
+index 2dc6219dd..e6b5b6549 100644
+--- a/model/user_cache.go
++++ b/model/user_cache.go
+@@ -14,16 +14,17 @@ import (
+ const userCacheSchemaVersion = 2
+ 
+ type UserBase struct {
+-	Id          int    `json:"id"`
+-	Group       string `json:"group"`
+-	Email       string `json:"email"`
+-	Quota       int    `json:"quota"`
+-	Status      int    `json:"status"`
+-	Role        int    `json:"role"`
+-	Username    string `json:"username"`
+-	Setting     string `json:"setting"`
+-	AuthVersion int64  `json:"-"`
+-	CacheSchema int    `json:"-"`
++	DirectPayCreditTotal int64  `json:"-"`
++	Id                   int    `json:"id"`
++	Group                string `json:"group"`
++	Email                string `json:"email"`
++	Quota                int    `json:"quota"`
++	Status               int    `json:"status"`
++	Role                 int    `json:"role"`
++	Username             string `json:"username"`
++	Setting              string `json:"setting"`
++	AuthVersion          int64  `json:"-"`
++	CacheSchema          int    `json:"-"`
+ }
+ 
+ func (user *UserBase) WriteContext(c *gin.Context) {
+diff --git a/router/api-router.go b/router/api-router.go
+index ac2d0b408..6e2acadfe 100644
+--- a/router/api-router.go
++++ b/router/api-router.go
+@@ -23,6 +23,7 @@ func SetApiRouter(router *gin.Engine) {
+ 	apiRouter.Use(middleware.GlobalAPIRateLimit())
+ 	anonymousRequestBodyLimit := middleware.AnonymousRequestBodyLimit()
+ 	{
++		apiRouter.POST("/direct-pay/notify/:account", controller.DirectPayNotify)
+ 		apiRouter.GET("/setup", controller.GetSetup)
+ 		apiRouter.POST("/setup", anonymousRequestBodyLimit, controller.PostSetup)
+ 		apiRouter.GET("/status", controller.GetStatus)
+@@ -119,6 +120,12 @@ func SetApiRouter(router *gin.Engine) {
+ 				selfRoute.POST("/passkey/verify/finish", middleware.UserCriticalRateLimit("security-verification"), middleware.DisableCache(), controller.PasskeyVerifyFinish)
+ 				selfRoute.DELETE("/passkey", middleware.DisableCache(), controller.PasskeyDelete)
+ 				selfRoute.GET("/aff", controller.GetAffCode)
++				selfRoute.GET("/direct-pay/methods", controller.DirectPayMethods)
++				selfRoute.POST("/direct-pay/quote", middleware.CriticalRateLimit(), controller.DirectPayQuote)
++				selfRoute.POST("/direct-pay/orders", middleware.CriticalRateLimit(), controller.CreateDirectPay)
++				selfRoute.GET("/direct-pay/orders/:order", controller.GetDirectPay)
++				selfRoute.POST("/direct-pay/orders/:order/refresh", middleware.UserCriticalRateLimit("directpay-refresh"), controller.RefreshDirectPay)
++				selfRoute.POST("/direct-pay/orders/:order/close", middleware.UserCriticalRateLimit("directpay-refresh"), controller.RefreshDirectPay)
+ 				selfRoute.GET("/topup/info", controller.GetTopUpInfo)
+ 				selfRoute.GET("/topup/self", controller.GetUserTopUps)
+ 				selfRoute.POST("/topup", middleware.CriticalRateLimit(), controller.TopUp)
+@@ -154,6 +161,9 @@ func SetApiRouter(router *gin.Engine) {
+ 			adminRoute.Use(middleware.AdminAuth())
+ 			{
+ 				adminRoute.GET("/", controller.GetAllUsers)
++				adminRoute.POST("/direct-pay/admin/:order/refresh", middleware.CriticalRateLimit(), controller.AdminRefreshDirectPay)
++				adminRoute.GET("/direct-pay/admin", controller.AdminDirectPay)
++				adminRoute.PUT("/direct-pay/admin", controller.AdminDirectPaySwitch)
+ 				adminRoute.GET("/topup", controller.GetAllTopUps)
+ 				adminRoute.POST("/topup/complete", controller.AdminCompleteTopUp)
+ 				adminRoute.GET("/search", controller.SearchUsers)
+diff --git a/web/src/features/wallet/direct-pay/__tests__/payment.test.tsx b/web/src/features/wallet/direct-pay/__tests__/payment.test.tsx
+new file mode 100644
+index 000000000..689ea9386
+--- /dev/null
++++ b/web/src/features/wallet/direct-pay/__tests__/payment.test.tsx
+@@ -0,0 +1,86 @@
++import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
++import { render, screen } from '@testing-library/react'
++import { createInstance } from 'i18next'
++import { I18nextProvider } from 'react-i18next'
++import { afterEach, beforeEach, expect, it, vi } from 'vitest'
++
++import { api } from '@/lib/api'
++
++import { DirectPayment } from '../payment'
++import { useDirectPayStore } from '../store'
++
++const i18n = createInstance()
++beforeEach(async () => {
++  await i18n.init({
++    lng: 'en',
++    resources: {},
++    interpolation: { escapeValue: false },
++  })
++  useDirectPayStore.setState({ orders: { 7: 'existing-order' }, purchases: {} })
++})
++afterEach(() => {
++  vi.restoreAllMocks()
++  useDirectPayStore.setState({ orders: {}, purchases: {} })
++})
++it.each([
++  {
++    payment: 'paid',
++    settlement: 'credit_pending',
++    credited: false,
++    expired: false,
++  },
++  { payment: 'paid', settlement: 'credited', credited: true, expired: false },
++  {
++    payment: 'pending',
++    settlement: 'uncredited',
++    credited: false,
++    expired: true,
++  },
++])(
++  'restores $payment/$settlement without creating an order or treating redirect as credit',
++  async (state) => {
++    const post = vi.spyOn(api, 'post')
++    vi.spyOn(api, 'get').mockImplementation(async (path) => ({
++      data: {
++        success: true,
++        data: path.endsWith('/methods')
++          ? []
++          : {
++              order_no: 'existing-order',
++              money_minor: 123,
++              quota_to_credit: 1000,
++              payment_state: state.payment,
++              settlement_state: state.settlement,
++              expires_at: state.expired ? 1 : Date.now() / 1000 + 600,
++              environment: 'sandbox',
++              checkout_kind: 'redirect',
++              checkout_value:
++                'https://openapi-sandbox.dl.alipaydev.com/gateway.do',
++            },
++      },
++    }))
++    const credited = vi.fn()
++    const client = new QueryClient({
++      defaultOptions: {
++        queries: { retry: false },
++        mutations: { retry: false },
++      },
++    })
++    render(
++      <I18nextProvider i18n={i18n}>
++        <QueryClientProvider client={client}>
++          <DirectPayment userId={7} onCredited={credited} />
++        </QueryClientProvider>
++      </I18nextProvider>
++    )
++    await screen.findByText('existing-order')
++    expect(screen.getByText('Alipay sandbox')).toBeVisible()
++    expect(
++      screen.queryByRole('button', { name: 'Go to Alipay' })
++    ).not.toBeInTheDocument()
++    expect(post).not.toHaveBeenCalled()
++    if (state.credited) expect(credited).toHaveBeenCalledOnce()
++    else expect(credited).not.toHaveBeenCalled()
++    client.clear()
++  }
++)
+diff --git a/web/src/features/wallet/direct-pay/admin.tsx b/web/src/features/wallet/direct-pay/admin.tsx
+new file mode 100644
+index 000000000..23a95f727
+--- /dev/null
++++ b/web/src/features/wallet/direct-pay/admin.tsx
+@@ -0,0 +1,96 @@
++import { useMutation, useQuery } from '@tanstack/react-query'
++import { useTranslation } from 'react-i18next'
++
++import { Button } from '@/components/ui/button'
++import { api } from '@/lib/api'
++import { requireServerSuccess } from '@/lib/server-error-message'
++
++type Overview = {
++  create_enabled: boolean
++  startup_allows_create: boolean
++  accounts: {
++    account_ref: string
++    provider: string
++    environment: string
++    notify_url: string
++  }[]
++  orders: {
++    order_no: string
++    money_minor: number
++    payment_state: string
++    settlement_state: string
++    last_error: string
++  }[]
++}
++export function DirectPaymentAdmin() {
++  const { t } = useTranslation()
++  const query = useQuery({
++    queryKey: ['direct-pay-admin'],
++    queryFn: async () => {
++      const r = await api.get('/api/user/direct-pay/admin')
++      return requireServerSuccess(r.data).data as Overview
++    },
++  })
++  const toggle = useMutation({
++    mutationFn: async () => {
++      const r = await api.put('/api/user/direct-pay/admin', {
++        enabled: !query.data?.create_enabled,
++      })
++      requireServerSuccess(r.data)
++      await query.refetch()
++    },
++  })
++  const refresh = useMutation({
++    mutationFn: async (order: string) => {
++      const r = await api.post(`/api/user/direct-pay/admin/${order}/refresh`)
++      requireServerSuccess(r.data)
++      await query.refetch()
++    },
++  })
++  return (
++    <section
++      className='mb-6 space-y-3'
++      aria-label={t('Official direct payment')}
++    >
++      <h3 className='font-semibold'>{t('Official direct payment')}</h3>
++      <p>
++        {t(
++          'Credentials are provided by a mounted secret. Refunds remain disabled. Stopping new orders keeps historical settlement active.'
++        )}
++      </p>
++      <Button
++        type='button'
++        onClick={() => toggle.mutate()}
++        disabled={
++          !query.data ||
++          toggle.isPending ||
++          (!query.data.startup_allows_create && !query.data.create_enabled)
++        }
++      >
++        {query.data?.create_enabled
++          ? t('Stop new direct payments')
++          : t('Enable direct payments')}
++      </Button>
++      {query.data?.accounts.map((a) => (
++        <p key={a.account_ref}>
++          {a.provider} · {a.environment} · {a.account_ref} · {a.notify_url}
++        </p>
++      ))}
++      <ul>
++        {query.data?.orders.map((o) => (
++          <li key={o.order_no}>
++            {o.order_no} · CNY {(o.money_minor / 100).toFixed(2)} ·{' '}
++            {o.payment_state} / {o.settlement_state} · {o.last_error}
++            <Button
++              type='button'
++              disabled={refresh.isPending}
++              onClick={() => refresh.mutate(o.order_no)}
++            >
++              {t('Refresh')}
++            </Button>
++          </li>
++        ))}
++      </ul>
++    </section>
++  )
++}
+diff --git a/web/src/features/wallet/direct-pay/payment.tsx b/web/src/features/wallet/direct-pay/payment.tsx
+new file mode 100644
+index 000000000..f794506a1
+--- /dev/null
++++ b/web/src/features/wallet/direct-pay/payment.tsx
+@@ -0,0 +1,266 @@
++import { useMutation, useQuery } from '@tanstack/react-query'
++import { isAxiosError } from 'axios'
++import { QRCodeSVG } from 'qrcode.react'
++import { useEffect, useState } from 'react'
++import { useTranslation } from 'react-i18next'
++
++import { ConfirmDialog } from '@/components/confirm-dialog'
++import { Button } from '@/components/ui/button'
++import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
++import { Input } from '@/components/ui/input'
++import { Label } from '@/components/ui/label'
++import { toIntlLocale } from '@/i18n/languages'
++import { api } from '@/lib/api'
++import { formatNumber } from '@/lib/format'
++import { requireServerSuccess } from '@/lib/server-error-message'
++
++import { useDirectPayStore, type Purchase } from './store'
++
++export type Order = {
++  order_no: string
++  environment: string
++  money_minor: number
++  quota_to_credit: number
++  payment_state: string
++  settlement_state: string
++  expires_at: number
++  checkout_kind: string
++  checkout_value: string
++}
++async function read<T>(path: string): Promise<T> {
++  const r = await api.get(path)
++  return requireServerSuccess(r.data).data as T
++}
++function canShowCheckout(order: Order, now: number): boolean {
++  return (
++    order.expires_at > now &&
++    order.payment_state === 'pending' &&
++    order.settlement_state !== 'credited'
++  )
++}
++export function DirectPayment(props: {
++  userId: number
++  onCredited: () => void
++}) {
++  const { t, i18n } = useTranslation()
++  const locale = toIntlLocale(i18n.resolvedLanguage || i18n.language)
++  const store = useDirectPayStore()
++  const orderNo = store.orders[props.userId] || ''
++  const purchase = store.purchases[props.userId]
++  const [amount, setAmount] = useState('1')
++  const [confirm, setConfirm] = useState(false)
++  const [now, setNow] = useState(Date.now() / 1000)
++  useEffect(() => {
++    const timer = setInterval(() => setNow(Date.now() / 1000), 1000)
++    return () => clearInterval(timer)
++  }, [])
++  const methods = useQuery({
++    queryKey: ['direct-pay-methods', props.userId],
++    queryFn: () =>
++      read<{ method: string; environment: string }[]>(
++        '/api/user/direct-pay/methods'
++      ),
++  })
++  const order = useQuery({
++    queryKey: ['direct-pay-order', props.userId, orderNo],
++    queryFn: () => read<Order>(`/api/user/direct-pay/orders/${orderNo}`),
++    enabled: !!orderNo,
++    refetchInterval: 3000,
++  })
++  const onCredited = props.onCredited
++  useEffect(() => {
++    if (order.data?.settlement_state === 'credited') onCredited()
++  }, [order.data?.settlement_state, onCredited])
++  const quote = useMutation({
++    mutationFn: async (method: string) => {
++      const r = await api.post('/api/user/direct-pay/quote', {
++        amount: Number(amount),
++        method,
++      })
++      const data = requireServerSuccess(r.data).data as Pick<
++        Purchase,
++        'quote' | 'money_minor' | 'quota_to_credit'
++      >
++      store.savePurchase(props.userId, {
++        ...data,
++        amount: Number(amount),
++        method,
++        key: crypto.randomUUID(),
++      })
++      setConfirm(true)
++    },
++  })
++  const create = useMutation({
++    mutationFn: async () => {
++      if (!purchase) return
++      const r = await api.post('/api/user/direct-pay/orders', purchase, {
++        headers: { 'Idempotency-Key': purchase.key },
++      })
++      const data = requireServerSuccess(r.data).data as Order
++      store.saveOrder(props.userId, data.order_no)
++      store.savePurchase(props.userId, undefined)
++      setConfirm(false)
++    },
++    onError: (error) => {
++      if (
++        isAxiosError(error) &&
++        error.response?.data?.code === 'price_changed'
++      ) {
++        store.savePurchase(props.userId, undefined)
++        setConfirm(false)
++      }
++    },
++  })
++  const refresh = useMutation({
++    mutationFn: async (action: string) => {
++      const r = await api.post(
++        `/api/user/direct-pay/orders/${orderNo}/${action}`
++      )
++      requireServerSuccess(r.data)
++      await order.refetch()
++    },
++  })
++  if (!methods.data?.length && !orderNo && !purchase) return null
++  const current = order.data
++  return (
++    <Card>
++      <CardHeader>
++        <CardTitle>{t('Official direct payment')}</CardTitle>
++      </CardHeader>
++      <CardContent className='space-y-4'>
++        <p>
++          {t(
++            'WeChat Native requires scanning from another device. Alipay opens its official checkout.'
++          )}
++        </p>
++        {!orderNo && (
++          <>
++            <Label htmlFor='directpay-amount'>{t('Topup Amount')}</Label>
++            <Input
++              id='directpay-amount'
++              type='number'
++              min={1}
++              step={1}
++              value={amount}
++              onChange={(e) => setAmount(e.target.value)}
++              disabled={!!purchase}
++            />
++            <div className='flex flex-wrap gap-2'>
++              {methods.data?.map((m) => (
++                <Button
++                  key={m.method}
++                  disabled={
++                    !!purchase ||
++                    quote.isPending ||
++                    !Number.isSafeInteger(Number(amount)) ||
++                    Number(amount) <= 0
++                  }
++                  onClick={() => quote.mutate(m.method)}
++                >
++                  {m.method === 'wechat_native'
++                    ? t('WeChat Native')
++                    : t('Alipay PagePay')}{' '}
++                  ·{' '}
++                  {m.environment === 'sandbox'
++                    ? t('Alipay sandbox')
++                    : t('Real money')}
++                </Button>
++              ))}
++            </div>
++            {purchase && (
++              <Button onClick={() => setConfirm(true)}>
++                {t('Resume payment request')}
++              </Button>
++            )}
++          </>
++        )}
++        {order.isError && (
++          <p role='alert'>
++            {t(
++              'Unable to load payment order. Retry without creating another order.'
++            )}
++          </p>
++        )}
++        {current && (
++          <div className='space-y-3' aria-live='polite'>
++            <p className='font-semibold'>
++              {current.environment === 'sandbox'
++                ? t('Alipay sandbox')
++                : t('Real money')}
++            </p>
++            <p>
++              CNY {(current.money_minor / 100).toFixed(2)} · {t('Quota')}:{' '}
++              {formatNumber(current.quota_to_credit, locale)}
++            </p>
++            <p>{current.order_no}</p>
++            <p>
++              {t('Payment status')}: {current.payment_state} ·{' '}
++              {t('Settlement status')}: {current.settlement_state}
++            </p>
++            {current.payment_state === 'paid' &&
++              current.settlement_state !== 'credited' && (
++                <p>{t('Paid, credit is processing')}</p>
++              )}
++            {canShowCheckout(current, now) &&
++              current.checkout_kind === 'qr' && (
++                <QRCodeSVG
++                  value={current.checkout_value}
++                  size={220}
++                  title={t('WeChat payment QR code')}
++                />
++              )}
++            {canShowCheckout(current, now) &&
++              current.checkout_kind === 'redirect' && (
++                <Button
++                  onClick={() =>
++                    window.open(
++                      current.checkout_value,
++                      '_blank',
++                      'noopener,noreferrer'
++                    )
++                  }
++                >
++                  {t('Go to Alipay')}
++                </Button>
++              )}
++            {now >= current.expires_at &&
++              current.settlement_state !== 'credited' && (
++                <p>{t('Checkout expired. Payment verification continues.')}</p>
++              )}
++            <div className='flex gap-2'>
++              <Button
++                disabled={refresh.isPending}
++                onClick={() => refresh.mutate('refresh')}
++              >
++                {t('Refresh')}
++              </Button>
++              <Button
++                variant='outline'
++                disabled={
++                  refresh.isPending || current.settlement_state === 'credited'
++                }
++                onClick={() => refresh.mutate('close')}
++              >
++                {t('Request close')}
++              </Button>
++              {(current.settlement_state === 'credited' ||
++                current.payment_state === 'closed') && (
++                <Button onClick={() => store.saveOrder(props.userId, '')}>
++                  {t('New recharge')}
++                </Button>
++              )}
++            </div>
++          </div>
++        )}
++        <ConfirmDialog
++          open={confirm}
++          onOpenChange={setConfirm}
++          title={t('Confirm Payment')}
++          desc={`CNY ${((purchase?.money_minor || 0) / 100).toFixed(2)} · ${t('Quota')}: ${formatNumber(purchase?.quota_to_credit || 0, locale)}`}
++          handleConfirm={() => create.mutate()}
++          isLoading={create.isPending}
++        />
++      </CardContent>
++    </Card>
++  )
++}
+diff --git a/web/src/features/wallet/direct-pay/store.ts b/web/src/features/wallet/direct-pay/store.ts
+new file mode 100644
+index 000000000..d89d062f3
+--- /dev/null
++++ b/web/src/features/wallet/direct-pay/store.ts
+@@ -0,0 +1,30 @@
++import { create } from 'zustand'
++import { persist } from 'zustand/middleware'
++
++export type Purchase = {
++  amount: number
++  method: string
++  quote: string
++  key: string
++  money_minor: number
++  quota_to_credit: number
++}
++type State = {
++  orders: Record<number, string>
++  purchases: Record<number, Purchase | undefined>
++  saveOrder: (user: number, order: string) => void
++  savePurchase: (user: number, purchase: Purchase | undefined) => void
++}
++export const useDirectPayStore = create<State>()(
++  persist(
++    (set) => ({
++      orders: {},
++      purchases: {},
++      saveOrder: (user, order) =>
++        set((s) => ({ orders: { ...s.orders, [user]: order } })),
++      savePurchase: (user, purchase) =>
++        set((s) => ({ purchases: { ...s.purchases, [user]: purchase } })),
++    }),
++    { name: 'direct-payment-orders-v1' }
++  )
++)
+diff --git a/web/src/features/wallet/index.tsx b/web/src/features/wallet/index.tsx
+index 5a9cb9e08..3261a19a1 100644
+--- a/web/src/features/wallet/index.tsx
++++ b/web/src/features/wallet/index.tsx
+@@ -33,6 +33,7 @@ import { RechargeFormCard } from './components/recharge-form-card'
+ import { SubscriptionPlansCard } from './components/subscription-plans-card'
+ import { WalletStatsCard } from './components/wallet-stats-card'
+ import { DEFAULT_DISCOUNT_RATE, PAYMENT_TYPES } from './constants'
++import { DirectPayment } from './direct-pay/payment'
+ import {
+   useTopupInfo,
+   usePayment,
+@@ -289,6 +290,7 @@ export function Wallet(props: WalletProps) {
+         <SectionPageLayout.Content>
+           <div className='mx-auto flex w-full max-w-7xl flex-col gap-4 sm:gap-5'>
+             <WalletStatsCard user={user} loading={userLoading} />
++            {user && <DirectPayment userId={user.id} onCredited={fetchUser} />}
+ 
+             <div
+               className={
+exit_code=0

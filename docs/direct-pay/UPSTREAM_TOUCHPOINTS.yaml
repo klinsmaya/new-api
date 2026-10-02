@@ -1,0 +1,26 @@
+schema_version: 1
+upstream_repository: QuantumNous/new-api
+baseline_commit: 1a4166d8e8ba9802d2ca56fe8ecf0ed5404e80d5
+payment_sdk: github.com/go-pay/gopay
+sdk_version: v1.5.123
+integration_points:
+  - name: topup_quote_semantics
+    paths: [controller/topup.go, controller/directpay.go, common/quota_math.go, setting/operation_setting/payment_setting.go]
+    symbols: [getPayMoney, getTopUpQuota, directPayQuote, WalletQuotaFromDecimalStrict]
+    tests: [TestMoneyBoundaries, TestDirectPayAccounting]
+  - name: wallet_atomic_credit_and_cache
+    paths: [model/topup.go, model/user.go, model/user_cache.go, model/user_auth_cache.go, model/quota_reserve.go, model/directpay_cache.go]
+    symbols: [creditTopUpQuota, writeUserCache, TryReserveUserQuota, SyncDirectPayCredit]
+    tests: [TestDirectPayAccounting, TestDirectPayCacheRecovery]
+  - name: payment_routes_and_permissions
+    paths: [router/api-router.go, controller/payment_compliance.go, middleware/auth.go, controller/directpay.go]
+    symbols: [UserAuth, AdminAuth, requirePaymentCompliance, DirectPayNotify]
+    tests: [TestDirectPayControls]
+  - name: migrations_and_old_orders
+    paths: [model/main.go, model/directpay.go, main.go]
+    symbols: [CreateDirectPayOrder, SettleDirectPayEvent]
+    tests: [TestDirectPayAccounting]
+  - name: wallet_ui_and_theme_build
+    paths: [web/src/features/wallet, web/src/features/system-settings/integrations/payment-settings-section.tsx, web/package.json]
+    symbols: [DirectPayment, DirectPaymentAdmin]
+    tests: [web/src/features/wallet/direct-pay/__tests__/payment.test.tsx]

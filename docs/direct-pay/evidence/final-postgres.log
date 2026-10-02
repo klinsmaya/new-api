@@ -1,0 +1,25 @@
+=== RUN   TestDirectPayAccounting
+--- PASS: TestDirectPayAccounting (2.68s)
+=== RUN   TestDirectPayCacheRecovery
+--- PASS: TestDirectPayCacheRecovery (0.88s)
+PASS
+ok  	github.com/QuantumNous/new-api/model	3.708s
+=== RUN   TestDirectPayControls
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+
+2026/10/02 16:53:47 [34;1m/workspace/new-api/controller/directpay_test.go:58
+[0m[35m[warn] [0mremoving callback `directpay_switch_failure` from /workspace/new-api/controller/directpay_test.go:58
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+
+2026/10/02 16:53:47 [31;1m/workspace/new-api/controller/directpay.go:187 [35;1mrecord not found
+[0m[33m[6.654ms] [34;1m[rows:0][0m SELECT * FROM "direct_pay_orders" WHERE merchant_order_no = 'private-order' AND user_id = 7 ORDER BY "direct_pay_orders"."id" LIMIT 1
+--- PASS: TestDirectPayControls (0.29s)
+PASS
+ok  	github.com/QuantumNous/new-api/controller	0.598s
+exit_code=0

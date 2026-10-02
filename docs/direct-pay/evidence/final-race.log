@@ -1,0 +1,4 @@
+ok  	github.com/QuantumNous/new-api/model	3.574s
+?   	github.com/QuantumNous/new-api/service/directpay	[no test files]
+ok  	github.com/QuantumNous/new-api/service/directpay/provider	1.358s
+exit_code=0
