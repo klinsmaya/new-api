@@ -12,6 +12,7 @@ import { Label } from '@/components/ui/label'
 import { toIntlLocale } from '@/i18n/languages'
 import { api } from '@/lib/api'
 import { formatNumber } from '@/lib/format'
+import { handleServerError } from '@/lib/handle-server-error'
 import { requireServerSuccess } from '@/lib/server-error-message'
 
 import { useDirectPayStore, type Purchase } from './store'
@@ -102,6 +103,7 @@ export function DirectPayment(props: {
       setConfirm(false)
     },
     onError: (error) => {
+      handleServerError(error)
       if (
         isAxiosError(error) &&
         error.response?.data?.code === 'price_changed'
