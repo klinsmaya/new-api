@@ -77,6 +77,7 @@ func resolveUserSortOptions(sortOptions []UserSortOptions) UserSortOptions {
 // User if you add sensitive fields, don't forget to clean them in setupLogin function.
 // Otherwise, the sensitive information will be saved on local storage in plain text!
 type User struct {
+	DirectPayCreditTotal int64                      `json:"-" gorm:"type:bigint;default:0"`
 	Id                   int                        `json:"id"`
 	Username             string                     `json:"username" gorm:"unique;index" validate:"max=20"`
 	Password             string                     `json:"password" gorm:"not null;" validate:"min=8,max=128"`
@@ -116,16 +117,17 @@ type User struct {
 
 func (user *User) ToBaseUser() *UserBase {
 	cache := &UserBase{
-		Id:          user.Id,
-		Group:       user.Group,
-		Quota:       user.Quota,
-		Status:      user.Status,
-		Role:        user.Role,
-		Username:    user.Username,
-		Setting:     user.Setting,
-		Email:       user.Email,
-		AuthVersion: user.AuthVersion,
-		CacheSchema: userCacheSchemaVersion,
+		DirectPayCreditTotal: user.DirectPayCreditTotal,
+		Id:                   user.Id,
+		Group:                user.Group,
+		Quota:                user.Quota,
+		Status:               user.Status,
+		Role:                 user.Role,
+		Username:             user.Username,
+		Setting:              user.Setting,
+		Email:                user.Email,
+		AuthVersion:          user.AuthVersion,
+		CacheSchema:          userCacheSchemaVersion,
 	}
 	return cache
 }

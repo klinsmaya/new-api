@@ -1,0 +1,7 @@
+=== RUN   TestDirectPayAccounting
+--- PASS: TestDirectPayAccounting (0.80s)
+=== RUN   TestDirectPayCacheRecovery
+--- PASS: TestDirectPayCacheRecovery (0.31s)
+PASS
+ok  	github.com/QuantumNous/new-api/model	1.158s
+exit_code=0

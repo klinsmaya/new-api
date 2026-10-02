@@ -354,6 +354,7 @@ func migrateDB() error {
 		&Log{},
 		&Midjourney{},
 		&TopUp{},
+		&DirectPayOrder{}, &DirectPayEvent{}, &DirectPayLedger{},
 		&QuotaData{},
 		&Task{},
 		&TaskPlugin{},

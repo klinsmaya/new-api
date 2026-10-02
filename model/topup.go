@@ -468,6 +468,10 @@ func ManualCompleteTopUp(tradeNo string, callerIp string) error {
 			return errors.New("充值订单不存在")
 		}
 
+		if topUp.PaymentProvider == "wechat_direct" || topUp.PaymentProvider == "alipay_direct" {
+			return errors.New("direct payment requires verified provider query; use direct-pay refresh")
+		}
+
 		// 幂等处理：已成功直接返回
 		if topUp.Status == common.TopUpStatusSuccess {
 			return nil
