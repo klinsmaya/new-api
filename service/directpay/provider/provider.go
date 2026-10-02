@@ -4,6 +4,7 @@ package provider
 import (
 	"context"
 	"crypto/rsa"
+	"crypto/x509"
 	"encoding/base64"
 	"encoding/json"
 	"encoding/pem"
@@ -62,6 +63,9 @@ func New(c Config) (*Adapter, error) {
 		}
 	}
 	a := &Adapter{cfg: c}
+	if err := a.validateCertificates(true); err != nil {
+		return nil, err
+	}
 	var err error
 	if c.Provider == dp.Alipay {
 		if c.Environment != "sandbox" && c.Environment != "live" {
@@ -136,6 +140,53 @@ func New(c Config) (*Adapter, error) {
 	}
 	return a, nil
 }
+
+// Certificates are explicitly provisioned trust anchors. Never trust a certificate
+// supplied by a callback or automatically fetch an unknown serial. Recheck dates
+// on each operation because a long-running process can outlive its certificates.
+func (a *Adapter) validateCertificates(includeSigner bool) error {
+	if a.cfg.VerificationMode != "certificate" {
+		return nil
+	}
+	materials := map[string]string{a.cfg.PublicKeyID: a.cfg.PublicKey}
+	if a.cfg.Provider == dp.Alipay {
+		materials = map[string]string{"platform": a.cfg.PublicKey}
+		if includeSigner {
+			materials["app"] = a.cfg.AppCertificate
+			materials["root"] = a.cfg.RootCertificate
+		}
+	} else {
+		for id, content := range a.cfg.TrustedVerificationKeys {
+			materials[id] = content
+		}
+	}
+	for id, content := range materials {
+		remaining := []byte(content)
+		count := 0
+		for len(strings.TrimSpace(string(remaining))) > 0 {
+			block, rest := pem.Decode(remaining)
+			if block == nil || block.Type != "CERTIFICATE" {
+				return errors.New("invalid configured certificate")
+			}
+			cert, err := x509.ParseCertificate(block.Bytes)
+			if err != nil || time.Now().Before(cert.NotBefore) || !time.Now().Before(cert.NotAfter) {
+				return errors.New("configured certificate outside validity window")
+			}
+			if a.cfg.Provider == dp.Wechat && (id == "" || !strings.EqualFold(cert.SerialNumber.Text(16), id)) {
+				return errors.New("certificate serial mismatch")
+			}
+			if _, ok := cert.PublicKey.(*rsa.PublicKey); !ok && id != "root" {
+				return errors.New("RSA certificate required")
+			}
+			count++
+			remaining = rest
+		}
+		if count == 0 {
+			return errors.New("configured certificate missing")
+		}
+	}
+	return nil
+}
 func (a *Adapter) bound(o dp.Snapshot) bool {
 	return o.Provider == a.cfg.Provider && o.Environment == a.cfg.Environment && o.Account == a.cfg.Account && o.Revision == a.cfg.Revision && o.AppID == a.cfg.AppID && o.MerchantID == a.cfg.MerchantID
 }
@@ -143,7 +194,7 @@ func (a *Adapter) identity() dp.Snapshot {
 	return dp.Snapshot{Provider: a.cfg.Provider, Environment: a.cfg.Environment, Account: a.cfg.Account, Revision: a.cfg.Revision, AppID: a.cfg.AppID, MerchantID: a.cfg.MerchantID, Currency: "CNY"}
 }
 func (a *Adapter) Create(ctx context.Context, o dp.Snapshot) (dp.Checkout, error) {
-	if !a.bound(o) || o.MoneyMinor <= 0 || o.Currency != "CNY" {
+	if a.validateCertificates(true) != nil || !a.bound(o) || o.MoneyMinor <= 0 || o.Currency != "CNY" {
 		return dp.Checkout{}, dp.ErrEvidence
 	}
 	if a.ali != nil {
@@ -188,7 +239,7 @@ func (a *Adapter) verifyAli(data, sign string) error {
 	return nil
 }
 func (a *Adapter) Query(ctx context.Context, o dp.Snapshot) (dp.Evidence, error) {
-	if !a.bound(o) {
+	if a.validateCertificates(true) != nil || !a.bound(o) {
 		return dp.Evidence{}, dp.ErrEvidence
 	}
 	e := dp.Evidence{Snapshot: a.identity(), Source: "query"}
@@ -285,7 +336,7 @@ func (a *Adapter) Query(ctx context.Context, o dp.Snapshot) (dp.Evidence, error)
 	return e, nil
 }
 func (a *Adapter) Close(ctx context.Context, o dp.Snapshot) error {
-	if !a.bound(o) {
+	if a.validateCertificates(true) != nil || !a.bound(o) {
 		return dp.ErrEvidence
 	}
 	if a.ali != nil {
@@ -306,7 +357,7 @@ func (a *Adapter) Close(ctx context.Context, o dp.Snapshot) error {
 }
 func (a *Adapter) Notify(h http.Header, body []byte) (dp.Evidence, error) {
 	e := dp.Evidence{Snapshot: a.identity(), Source: "notify"}
-	if len(body) == 0 || len(body) > 65536 {
+	if a.validateCertificates(false) != nil || len(body) == 0 || len(body) > 65536 {
 		return e, dp.ErrEvidence
 	}
 	if a.ali != nil {

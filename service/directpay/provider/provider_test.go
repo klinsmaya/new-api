@@ -9,9 +9,11 @@ import (
 	"crypto/rsa"
 	"crypto/sha256"
 	"crypto/x509"
+	"crypto/x509/pkix"
 	"encoding/base64"
 	"encoding/pem"
 	"io"
+	"math/big"
 	"net/http"
 	"net/url"
 	"sort"
@@ -196,5 +198,102 @@ func TestMoneyBoundaries(t *testing.T) {
 		got, err := dp.ParseCNY(s)
 		require.NoError(t, err)
 		assert.Equal(t, want, got)
+	}
+}
+
+// Local certificates exercise the real GoPay certificate path; they are not
+// provider-issued certificates and confer no official sandbox acceptance.
+func fixtureCertificate(t *testing.T, key *rsa.PrivateKey, serial int64, start, end time.Time) string {
+	t.Helper()
+	cert := &x509.Certificate{SerialNumber: big.NewInt(serial), Subject: pkix.Name{CommonName: "local-contract"}, NotBefore: start, NotAfter: end, KeyUsage: x509.KeyUsageDigitalSignature | x509.KeyUsageCertSign, IsCA: true, BasicConstraintsValid: true, SignatureAlgorithm: x509.SHA256WithRSA}
+	der, err := x509.CreateCertificate(rand.Reader, cert, cert, &key.PublicKey, key)
+	require.NoError(t, err)
+	return string(pem.EncodeToMemory(&pem.Block{Type: "CERTIFICATE", Bytes: der}))
+}
+func TestCertificateSDKContract(t *testing.T) {
+	for _, provider := range []string{dp.Alipay, dp.Wechat} {
+		t.Run(provider, func(t *testing.T) {
+			original, key := fixture(t, provider)
+			cfg := original.cfg
+			cfg.VerificationMode = "certificate"
+			cfg.PublicKeyID = "A1"
+			cert := fixtureCertificate(t, key, 161, time.Now().Add(-time.Hour), time.Now().Add(time.Hour))
+			cfg.PublicKey, cfg.AppCertificate, cfg.RootCertificate = cert, cert, cert
+			a, err := New(cfg)
+			require.NoError(t, err)
+			o := a.identity()
+			o.OrderNo = "cert-order"
+			o.MoneyMinor = 100
+			o.ExpiresAt = time.Now().Unix() + 600
+			tamper, wrongSerial := false, false
+			transport := protocolTransport(func(r *http.Request) (*http.Response, error) {
+				hdr := make(http.Header)
+				payload := `{"code":"10000","out_trade_no":"cert-order","trade_no":"cert-trade","trade_status":"TRADE_SUCCESS","total_amount":"1.00","send_pay_date":"2026-10-02 12:00:00"}`
+				var body string
+				if provider == dp.Alipay {
+					sn := a.ali.AliPayPublicCertSN
+					if wrongSerial {
+						sn = "unknown"
+					}
+					sig := signFixture(t, key, payload)
+					if tamper {
+						payload = strings.Replace(payload, "1.00", "9.00", 1)
+					}
+					body = `{"alipay_trade_query_response":` + payload + `,"sign":"` + sig + `","alipay_cert_sn":"` + sn + `"}`
+				} else {
+					payload = `{"appid":"app","mchid":"merchant","out_trade_no":"cert-order","transaction_id":"cert-trade","trade_type":"NATIVE","trade_state":"SUCCESS","success_time":"2026-10-02T12:00:00+08:00","amount":{"total":100,"currency":"CNY"}}`
+					stamp := strconv.FormatInt(time.Now().Unix(), 10)
+					hdr.Set("Wechatpay-Timestamp", stamp)
+					hdr.Set("Wechatpay-Nonce", "cert")
+					hdr.Set("Wechatpay-Serial", "A1")
+					if wrongSerial {
+						hdr.Set("Wechatpay-Serial", "BAD")
+					}
+					hdr.Set("Wechatpay-Signature", signFixture(t, key, stamp+"\ncert\n"+payload+"\n"))
+					body = payload
+					if tamper {
+						body += " "
+					}
+				}
+				return &http.Response{StatusCode: 200, Header: hdr, Body: io.NopCloser(strings.NewReader(body)), Request: r}, nil
+			})
+			if provider == dp.Alipay {
+				a.ali.SetHttpClient(xhttp.NewClient().SetTransport(transport))
+			} else {
+				a.wx.SetHttpClient(xhttp.NewClient().SetTransport(transport))
+			}
+			proof, err := a.Query(t.Context(), o)
+			require.NoError(t, err)
+			assert.EqualValues(t, 100, proof.MoneyMinor)
+			tamper = true
+			_, err = a.Query(t.Context(), o)
+			require.Error(t, err)
+			tamper = false
+			wrongSerial = true
+			_, err = a.Query(t.Context(), o)
+			require.Error(t, err)
+			for _, window := range [][2]time.Time{{time.Now().Add(-2 * time.Hour), time.Now().Add(-time.Hour)}, {time.Now().Add(time.Hour), time.Now().Add(2 * time.Hour)}} {
+				invalid := cfg
+				invalid.PublicKey = fixtureCertificate(t, key, 161, window[0], window[1])
+				_, err = New(invalid)
+				require.Error(t, err)
+				// Expiry after construction must also fail before contacting a gateway.
+				a.cfg.PublicKey = invalid.PublicKey
+				_, err = a.Query(t.Context(), o)
+				require.Error(t, err)
+			}
+			if provider == dp.Wechat {
+				invalid := cfg
+				invalid.PublicKeyID = "A2"
+				_, err = New(invalid)
+				require.Error(t, err)
+				cfg.TrustedVerificationKeys = map[string]string{"A2": fixtureCertificate(t, key, 162, time.Now().Add(-time.Hour), time.Now().Add(time.Hour))}
+				_, err = New(cfg)
+				require.NoError(t, err)
+				cfg.TrustedVerificationKeys["A2"] = cert
+				_, err = New(cfg)
+				require.Error(t, err)
+			}
+		})
 	}
 }

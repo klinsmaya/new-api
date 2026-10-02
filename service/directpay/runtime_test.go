@@ -67,3 +67,10 @@ func TestHistoricalReconciliationWithCreationDisabled(t *testing.T) {
 	require.NoError(t, db.First(&user, user.Id).Error)
 	assert.Equal(t, 1010, user.Quota)
 }
+
+func TestProductionCreationSafetyGate(t *testing.T) {
+	r := &Runtime{Config: Configuration{DeploymentTier: "production", CreateEnabled: true, AllowedUsers: []int{1}}}
+	// Must reject before touching any database/config switch: known baseline
+	// cache-loss counterexample prevents production activation in this candidate.
+	assert.False(t, r.CanCreate(1))
+}

@@ -142,7 +142,9 @@ func Initialize() error {
 	return nil
 }
 func (r *Runtime) CanCreate(userID int) bool {
-	if !r.Config.CreateEnabled {
+	// Local fault injection reproduced a baseline batch/cache-loss overspend.
+	// Production activation remains hard-blocked until that wallet gate is repaired.
+	if r.Config.DeploymentTier == "production" || !r.Config.CreateEnabled {
 		return false
 	}
 	var option model.Option

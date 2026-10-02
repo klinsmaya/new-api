@@ -1,6 +1,7 @@
 package model
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"os"
@@ -211,4 +212,104 @@ func TestDirectPayCacheRecovery(t *testing.T) {
 	q, err = common.RDB.HGet(t.Context(), getUserCacheKey(user.Id), "Quota").Int()
 	require.NoError(t, err)
 	assert.Equal(t, 5300, q)
+}
+
+type lostDirectPayReply struct{ fired bool }
+
+func (h *lostDirectPayReply) BeforeProcess(ctx context.Context, cmd redis.Cmder) (context.Context, error) {
+	return ctx, nil
+}
+func (h *lostDirectPayReply) AfterProcess(ctx context.Context, cmd redis.Cmder) error {
+	if !h.fired && cmd.Name() == "eval" && cmd.Err() == nil {
+		h.fired = true
+		return errors.New("injected reply lost after Redis committed Lua")
+	}
+	return nil
+}
+func (h *lostDirectPayReply) BeforeProcessPipeline(ctx context.Context, cmds []redis.Cmder) (context.Context, error) {
+	return ctx, nil
+}
+func (h *lostDirectPayReply) AfterProcessPipeline(ctx context.Context, cmds []redis.Cmder) error {
+	return nil
+}
+func TestDirectPayRedisFaultWindows(t *testing.T) {
+	addr := os.Getenv("DIRECTPAY_TEST_REDIS")
+	if addr == "" {
+		t.Skip("requires isolated real Redis")
+	}
+	directPayDB(t, false)
+	old, enabled := common.RDB, common.RedisEnabled
+	common.RDB = redis.NewClient(&redis.Options{Addr: addr, MaxRetries: -1})
+	common.RedisEnabled = true
+	t.Cleanup(func() { _ = common.RDB.Close(); common.RDB = old; common.RedisEnabled = enabled })
+	user := createReserveTestUser(t, 5000)
+	key := getUserCacheKey(user.Id)
+	require.NoError(t, common.RDB.Del(t.Context(), key, getUserAuthFenceKey(user.Id), getUserAuthVersionKey(user.Id)).Err())
+	require.NoError(t, populateUserCache(user))
+	_, err := cacheTryReserveUserQuota(user.Id, 700)
+	require.NoError(t, err)
+	_, proof := directPayPurchase(t, user, "fault")
+	require.NoError(t, ReceiveDirectPayEvent(proof))
+	var ev DirectPayEvent
+	require.NoError(t, DB.First(&ev).Error)
+	require.NoError(t, SettleDirectPayEvent(ev.ID))
+	// Actual Redis executes Lua; only the client-visible successful response is lost.
+	hook := &lostDirectPayReply{}
+	common.RDB.AddHook(hook)
+	require.ErrorContains(t, SyncDirectPayCredit(user.Id), "reply lost")
+	require.NoError(t, SyncDirectPayCredit(user.Id))
+	quota, err := common.RDB.HGet(t.Context(), key, "Quota").Int()
+	require.NoError(t, err)
+	assert.Equal(t, 5300, quota)
+	total, err := common.RDB.HGet(t.Context(), key, "DirectPayCreditTotal").Int64()
+	require.NoError(t, err)
+	assert.EqualValues(t, 1000, total)
+	// A previous worker's stale cumulative snapshot cannot move the watermark back.
+	require.NoError(t, DB.Model(&User{}).Where("id = ?", user.Id).Update("direct_pay_credit_total", 500).Error)
+	require.NoError(t, SyncDirectPayCredit(user.Id))
+	quota, err = common.RDB.HGet(t.Context(), key, "Quota").Int()
+	require.NoError(t, err)
+	assert.Equal(t, 5300, quota)
+	require.NoError(t, DB.Model(&User{}).Where("id = ?", user.Id).Update("direct_pay_credit_total", 1000).Error)
+	// Old-version hydration after expiry contains committed credit but no watermark.
+	require.NoError(t, common.RDB.Del(t.Context(), key).Err())
+	require.NoError(t, common.RDB.HSet(t.Context(), key, "Id", user.Id, "Quota", 6000, "CacheSchema", 2).Err())
+	require.Error(t, SyncDirectPayCredit(user.Id))
+	quota, err = common.RDB.HGet(t.Context(), key, "Quota").Int()
+	require.NoError(t, err)
+	assert.Equal(t, 6000, quota)
+	// Delayed compatible hydration preserves its matching (old balance, old total)
+	// pair; credit replay catches it up exactly once without overwriting the hash.
+	require.NoError(t, common.RDB.Del(t.Context(), key).Err())
+	require.NoError(t, populateUserCache(user))
+	require.NoError(t, SyncDirectPayCredit(user.Id))
+	require.NoError(t, populateUserCache(user))
+	quota, err = common.RDB.HGet(t.Context(), key, "Quota").Int()
+	require.NoError(t, err)
+	assert.Equal(t, 6000, quota)
+	t.Log("real Redis: unknown-result retry, out-of-order total, legacy hydration rejection, delayed hydration PASS")
+}
+
+// This is a release-blocking characterization, not a claim of wallet safety.
+// It intentionally does not flush or manually adjust DB before Redis loss.
+func TestDirectPayBaselineBatchLossCounterexample(t *testing.T) {
+	directPayDB(t, false)
+	useUserCacheMiniRedis(t)
+	resetBatchUpdateTestState(t)
+	old := common.BatchUpdateEnabled
+	common.BatchUpdateEnabled = true
+	t.Cleanup(func() { common.BatchUpdateEnabled = old })
+	user := createReserveTestUser(t, 5000)
+	require.NoError(t, populateUserCache(user))
+	ok, err := TryReserveUserQuota(user.Id, 4000)
+	require.NoError(t, err)
+	require.True(t, ok)
+	assert.Equal(t, 5000, getUserQuotaFromDB(t, user.Id))
+	require.NoError(t, common.RDB.Del(t.Context(), getUserCacheKey(user.Id)).Err())
+	ok, err = TryReserveUserQuota(user.Id, 4000)
+	require.NoError(t, err)
+	// Two admitted reservations exceed the committed wallet. This baseline risk
+	// must block production activation; a cumulative credit watermark cannot fix it.
+	assert.True(t, ok, "if baseline is repaired, replace this characterization with safety assertions and review release gate")
+	t.Log("CONFIRMED_UNSAFE_BASELINE: cache loss before batch flush admitted 8000 against 5000")
 }

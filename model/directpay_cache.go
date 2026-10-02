@@ -21,7 +21,10 @@ func SyncDirectPayCredit(userID int) error {
 	const script = `
 if tonumber(redis.call('HGET', KEYS[1], 'Id') or '0') ~= tonumber(ARGV[1])
  or redis.call('HEXISTS', KEYS[1], 'Quota') == 0 then return 0 end
-local previous = tonumber(redis.call('HGET', KEYS[1], 'DirectPayCreditTotal') or '0')
+-- An old hydrator may already include the credit in Quota without its watermark.
+-- Never infer zero: replaying here would mint a second spendable credit.
+local previous = tonumber(redis.call('HGET', KEYS[1], 'DirectPayCreditTotal'))
+if previous == nil then return -2 end
 local incoming = tonumber(ARGV[2])
 if previous >= incoming then return 1 end
 local delta = incoming - previous

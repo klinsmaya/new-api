@@ -1,0 +1,19 @@
+=== RUN   TestDirectPayRedisFaultWindows
+    directpay_test.go:290: real Redis: unknown-result retry, out-of-order total, legacy hydration rejection, delayed hydration PASS
+--- PASS: TestDirectPayRedisFaultWindows (0.02s)
+=== RUN   TestDirectPayBaselineBatchLossCounterexample
+    directpay_test.go:314: CONFIRMED_UNSAFE_BASELINE: cache loss before batch flush admitted 8000 against 5000
+--- PASS: TestDirectPayBaselineBatchLossCounterexample (0.01s)
+PASS
+ok  	github.com/QuantumNous/new-api/model	0.076s
+testing: warning: no tests to run
+PASS
+ok  	github.com/QuantumNous/new-api/service/directpay	0.017s [no tests to run]
+=== RUN   TestCertificateSDKContract
+=== RUN   TestCertificateSDKContract/alipay_direct
+=== RUN   TestCertificateSDKContract/wechat_direct
+--- PASS: TestCertificateSDKContract (0.09s)
+    --- PASS: TestCertificateSDKContract/alipay_direct (0.04s)
+    --- PASS: TestCertificateSDKContract/wechat_direct (0.05s)
+PASS
+ok  	github.com/QuantumNous/new-api/service/directpay/provider	0.103s
