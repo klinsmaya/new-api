@@ -15,7 +15,7 @@ import (
 type DirectPayOrder struct {
 	ID          uint `json:"id"`
 	dp.Snapshot `gorm:"embedded"`
-	// Explicit indexed order identity; Snapshot.OrderNo is ignored by GORM via embedded override below.
+	// Indexed copy of the snapshot order identity; both are set only at creation.
 	MerchantOrderNo string  `json:"-" gorm:"size:32;uniqueIndex"`
 	TopUpID         int     `json:"-" gorm:"uniqueIndex"`
 	UserID          int     `json:"user_id" gorm:"uniqueIndex:idx_dp_request,priority:1;index"`
@@ -39,13 +39,14 @@ type DirectPayOrder struct {
 	LastError       string  `json:"last_error,omitempty" gorm:"size:64"`
 }
 type DirectPayEvent struct {
-	ID        uint   `json:"id"`
-	EventKey  string `json:"event_key" gorm:"size:64;uniqueIndex"`
-	OrderNo   string `json:"order_no" gorm:"size:32;index"`
-	Evidence  string `json:"-" gorm:"type:text"`
-	Status    string `json:"status" gorm:"size:24;index"`
-	Reason    string `json:"reason,omitempty" gorm:"size:64"`
-	CreatedAt int64  `json:"created_at"`
+	NextAttemptAt int64  `json:"-" gorm:"index"`
+	ID            uint   `json:"id"`
+	EventKey      string `json:"event_key" gorm:"size:64;uniqueIndex"`
+	OrderNo       string `json:"order_no" gorm:"size:32;index"`
+	Evidence      string `json:"-" gorm:"type:text"`
+	Status        string `json:"status" gorm:"size:24;index"`
+	Reason        string `json:"reason,omitempty" gorm:"size:64"`
+	CreatedAt     int64  `json:"created_at"`
 }
 type DirectPayLedger struct {
 	ID            uint   `json:"id"`
@@ -120,6 +121,9 @@ func SettleDirectPayEvent(id uint) error {
 		}
 		var o DirectPayOrder
 		if err := lockForUpdate(tx).Where("merchant_order_no = ?", initial.OrderNo).First(&o).Error; err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return tx.Model(&initial).Updates(map[string]any{"status": "quarantined", "reason": "order_not_found"}).Error
+			}
 			return err
 		}
 		var event DirectPayEvent
@@ -197,4 +201,13 @@ func SettleDirectPayEvent(id uint) error {
 		}
 		return tx.Model(&event).Update("status", "processed").Error
 	})
+}
+
+// DirectPayAccountBinding pins non-secret account identity and throttles queries
+// across processes. Rotation adds a new revision, never overwrites a binding.
+type DirectPayAccountBinding struct {
+	ID            uint
+	Reference     string `gorm:"size:65;uniqueIndex"`
+	Fingerprint   string `gorm:"size:64"`
+	NextRequestAt int64
 }

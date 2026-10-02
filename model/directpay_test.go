@@ -7,6 +7,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strconv"
+	"strings"
 	"testing"
 	"time"
 
@@ -27,6 +28,9 @@ func directPayDB(t *testing.T, child bool) string {
 	old := DB
 	oldTypes := common.MainDatabaseType()
 	dsn := os.Getenv("DIRECTPAY_TEST_DSN")
+	if os.Getenv("DIRECTPAY_TEST_DB") != "" {
+		require.True(t, strings.Contains(dsn, "127.0.0.1") && strings.Contains(dsn, "directpay"), "dedicated loopback test DB required")
+	}
 	kind := os.Getenv("DIRECTPAY_TEST_DB")
 	var driver gorm.Dialector
 	switch kind {
@@ -77,6 +81,15 @@ func TestDirectPayAccounting(t *testing.T) {
 		return
 	}
 	dsn := directPayDB(t, false)
+	// An authenticated notification for an unknown order is isolated, so it
+	// cannot occupy the head of the Inbox forever.
+	require.NoError(t, ReceiveDirectPayEvent(dp.Evidence{Snapshot: dp.Snapshot{OrderNo: "missing"}, State: "paid"}))
+	var orphan DirectPayEvent
+	require.NoError(t, DB.Where("order_no = ?", "missing").First(&orphan).Error)
+	require.NoError(t, SettleDirectPayEvent(orphan.ID))
+	require.NoError(t, DB.First(&orphan, orphan.ID).Error)
+	assert.Equal(t, "quarantined", orphan.Status)
+	require.NoError(t, DB.Delete(&orphan).Error)
 	user := createReserveTestUser(t, 5000)
 	o, e := directPayPurchase(t, user, "first")
 	replay := o

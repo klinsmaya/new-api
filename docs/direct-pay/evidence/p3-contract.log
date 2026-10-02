@@ -1,0 +1,16 @@
+=== RUN   TestHistoricalReconciliationWithCreationDisabled
+
+2026/10/02 17:00:27 [31;1m/workspace/new-api/model/directpay.go:68 [35;1mrecord not found
+[0m[33m[0.113ms] [34;1m[rows:0][0m SELECT * FROM `direct_pay_orders` WHERE user_id = 1 AND request_key = "key" ORDER BY `direct_pay_orders`.`id` LIMIT 1
+--- PASS: TestHistoricalReconciliationWithCreationDisabled (0.01s)
+PASS
+ok  	github.com/QuantumNous/new-api/service/directpay	0.027s
+=== RUN   TestAlipaySDKContract
+--- PASS: TestAlipaySDKContract (0.09s)
+=== RUN   TestWechatSDKContract
+--- PASS: TestWechatSDKContract (0.23s)
+=== RUN   TestMoneyBoundaries
+--- PASS: TestMoneyBoundaries (0.00s)
+PASS
+ok  	github.com/QuantumNous/new-api/service/directpay/provider	(cached)
+exit_code=0

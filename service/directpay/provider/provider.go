@@ -4,6 +4,9 @@ package provider
 import (
 	"context"
 	"crypto/rsa"
+	"encoding/base64"
+	"encoding/json"
+	"encoding/pem"
 	"errors"
 	"net/http"
 	"net/url"
@@ -14,21 +17,23 @@ import (
 	"github.com/QuantumNous/new-api/common"
 	dp "github.com/QuantumNous/new-api/types/directpay"
 	"github.com/go-pay/crypto/xpem"
+	"github.com/go-pay/crypto/xrsa"
 	"github.com/go-pay/gopay"
 	"github.com/go-pay/gopay/alipay"
 	wx "github.com/go-pay/gopay/wechat/v3"
 )
 
 type Config struct {
-	Provider         string `json:"provider"`
-	Environment      string `json:"environment"`
-	Account          string `json:"account"`
-	Revision         string `json:"revision"`
-	AppID            string `json:"app_id"`
-	MerchantID       string `json:"merchant_id"`
-	VerificationMode string `json:"verification_mode"`
-	Serial           string `json:"serial"`
-	PublicKeyID      string `json:"public_key_id"`
+	TrustedVerificationKeys map[string]string `json:"trusted_verification_keys"`
+	Provider                string            `json:"provider"`
+	Environment             string            `json:"environment"`
+	Account                 string            `json:"account"`
+	Revision                string            `json:"revision"`
+	AppID                   string            `json:"app_id"`
+	MerchantID              string            `json:"merchant_id"`
+	VerificationMode        string            `json:"verification_mode"`
+	Serial                  string            `json:"serial"`
+	PublicKeyID             string            `json:"public_key_id"`
 	// These values are loaded exclusively from an operator-mounted Secret, never returned to HTTP callers.
 	PrivateKey      string `json:"private_key"`
 	APIv3Key        string `json:"api_v3_key"`
@@ -39,10 +44,11 @@ type Config struct {
 	ReturnURL       string `json:"-"`
 }
 type Adapter struct {
-	cfg      Config
-	ali      *alipay.Client
-	wx       *wx.ClientV3
-	verifier *rsa.PublicKey
+	cfg       Config
+	ali       *alipay.Client
+	wx        *wx.ClientV3
+	verifier  *rsa.PublicKey
+	verifiers map[string]*rsa.PublicKey
 }
 
 func New(c Config) (*Adapter, error) {
@@ -61,6 +67,15 @@ func New(c Config) (*Adapter, error) {
 		if c.Environment != "sandbox" && c.Environment != "live" {
 			return nil, errors.New("invalid Alipay environment")
 		}
+		if block, _ := pem.Decode([]byte(c.PrivateKey)); block != nil {
+			c.PrivateKey = base64.StdEncoding.EncodeToString(block.Bytes)
+		}
+		if c.VerificationMode == "public_key" {
+			if block, _ := pem.Decode([]byte(c.PublicKey)); block != nil {
+				c.PublicKey = base64.StdEncoding.EncodeToString(block.Bytes)
+			}
+		}
+		a.cfg = c
 		a.ali, err = alipay.NewClient(c.AppID, c.PrivateKey, c.Environment == "live")
 		if err != nil {
 			return nil, errors.New("invalid Alipay signing key")
@@ -68,7 +83,7 @@ func New(c Config) (*Adapter, error) {
 		a.ali.SetSignType(alipay.RSA2).SetCharset(alipay.UTF8).SetLocation(alipay.LocationShanghai).SetNotifyUrl(c.NotifyURL).SetReturnUrl(c.ReturnURL)
 		switch c.VerificationMode {
 		case "public_key":
-			a.verifier, err = xpem.DecodePublicKey([]byte(c.PublicKey))
+			a.verifier, err = xpem.DecodePublicKey([]byte(xrsa.FormatAlipayPublicKey(c.PublicKey)))
 		case "certificate":
 			err = a.ali.SetCertSnByContent([]byte(c.AppCertificate), []byte(c.RootCertificate), []byte(c.PublicKey))
 			if err == nil {
@@ -101,6 +116,23 @@ func New(c Config) (*Adapter, error) {
 	}
 	if err != nil {
 		return nil, errors.New("invalid verification material")
+	}
+	if a.wx != nil {
+		a.verifiers = map[string]*rsa.PublicKey{c.PublicKeyID: a.verifier}
+		for id, content := range c.TrustedVerificationKeys {
+			if id == "" || (c.VerificationMode == "public_key" && !strings.HasPrefix(id, "PUB_KEY_ID_")) {
+				return nil, errors.New("invalid trusted verification key ID")
+			}
+			key, err := xpem.DecodePublicKey([]byte(content))
+			if err != nil || key == nil {
+				return nil, errors.New("invalid trusted verification key")
+			}
+			if id == c.PublicKeyID {
+				return nil, errors.New("duplicate primary verification key")
+			}
+			a.verifiers[id] = key
+			a.wx.SnCertMap.Store(id, key)
+		}
 	}
 	return a, nil
 }
@@ -162,14 +194,35 @@ func (a *Adapter) Query(ctx context.Context, o dp.Snapshot) (dp.Evidence, error)
 	e := dp.Evidence{Snapshot: a.identity(), Source: "query"}
 	e.OrderNo = o.OrderNo
 	if a.ali != nil {
-		r, err := a.ali.TradeQuery(ctx, gopay.BodyMap{"out_trade_no": o.OrderNo})
-		if err != nil || r == nil || r.Response == nil {
+		// SelfV2 retains exact signed JSON even on business errors; TradeQuery
+		// returns before extracting SignData for TRADE_NOT_EXIST in this SDK.
+		var envelope struct {
+			Response json.RawMessage `json:"alipay_trade_query_response"`
+			Sign     string          `json:"sign"`
+			CertSN   string          `json:"alipay_cert_sn"`
+		}
+		err := a.ali.PostAliPayAPISelfV2(ctx, gopay.BodyMap{"biz_content": gopay.BodyMap{"out_trade_no": o.OrderNo}}, "alipay.trade.query", &envelope)
+		if err != nil || len(envelope.Response) == 0 {
 			return e, dp.ErrUnknown
 		}
-		if err = a.verifyAli(r.SignData, r.Sign); err != nil {
+		if a.cfg.VerificationMode == "certificate" && envelope.CertSN != a.ali.AliPayPublicCertSN {
+			return e, dp.ErrEvidence
+		}
+		if err = a.verifyAli(string(envelope.Response), envelope.Sign); err != nil {
 			return e, err
 		}
-		p := r.Response
+		var p alipay.TradeQuery
+		if common.Unmarshal(envelope.Response, &p) != nil {
+			return e, dp.ErrEvidence
+		}
+		if p.Code != "10000" {
+			if p.SubCode == "ACQ.TRADE_NOT_EXIST" {
+				e.State = "not_found"
+				e.QueryBoundIdentity = true
+				return e, nil
+			}
+			return e, dp.ErrUnknown
+		}
 		if p.OutTradeNo != o.OrderNo || (p.TransCurrency != "" && p.TransCurrency != "CNY") {
 			return e, dp.ErrEvidence
 		}
@@ -299,10 +352,10 @@ func (a *Adapter) Notify(h http.Header, body []byte) (dp.Evidence, error) {
 		e.PaidAt = paid.Unix()
 	} else {
 		stamp, err := strconv.ParseInt(h.Get("Wechatpay-Timestamp"), 10, 64)
-		if err != nil || stamp < time.Now().Unix()-300 || stamp > time.Now().Unix()+300 || h.Get("Wechatpay-Serial") != a.cfg.PublicKeyID || h.Get("Wechatpay-Nonce") == "" || strings.HasPrefix(h.Get("Wechatpay-Signature"), "WECHATPAY/SIGNTEST/") {
+		if err != nil || stamp < time.Now().Unix()-300 || stamp > time.Now().Unix()+300 || a.verifiers[h.Get("Wechatpay-Serial")] == nil || h.Get("Wechatpay-Nonce") == "" || strings.HasPrefix(h.Get("Wechatpay-Signature"), "WECHATPAY/SIGNTEST/") {
 			return e, dp.ErrEvidence
 		}
-		if err := wx.V3VerifySignByPK(h.Get("Wechatpay-Timestamp"), h.Get("Wechatpay-Nonce"), string(body), h.Get("Wechatpay-Signature"), a.verifier); err != nil {
+		if err := wx.V3VerifySignByPK(h.Get("Wechatpay-Timestamp"), h.Get("Wechatpay-Nonce"), string(body), h.Get("Wechatpay-Signature"), a.verifiers[h.Get("Wechatpay-Serial")]); err != nil {
 			return e, dp.ErrEvidence
 		}
 		var envelope struct {
