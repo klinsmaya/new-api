@@ -16,6 +16,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
+import { DirectPaymentAdmin } from '@/features/wallet/direct-pay/admin'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Code2, Eye, ShieldAlert } from 'lucide-react'
@@ -800,6 +801,7 @@ export function PaymentSettingsSection({
 
   return (
     <SettingsSection title={t('Payment Gateway')}>
+      <DirectPaymentAdmin />
       {!complianceConfirmed ? (
         <Alert variant='destructive' className='mb-6'>
           <ShieldAlert className='h-4 w-4' />

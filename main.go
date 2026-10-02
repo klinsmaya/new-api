@@ -31,6 +31,7 @@ import (
 	"github.com/QuantumNous/new-api/router"
 	"github.com/QuantumNous/new-api/service"
 	"github.com/QuantumNous/new-api/service/authz"
+	directpay "github.com/QuantumNous/new-api/service/directpay"
 	_ "github.com/QuantumNous/new-api/setting/performance_setting"
 	"github.com/QuantumNous/new-api/setting/ratio_setting"
 
@@ -352,6 +353,10 @@ func InitResources() error {
 		return err
 	}
 
+	if err := directpay.Initialize(); err != nil {
+		return err
+	}
+	directpay.Start()
 	perfmetrics.Init()
 
 	// 启动系统监控

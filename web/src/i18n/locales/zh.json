@@ -2654,7 +2654,7 @@
     "footer.columns.related.links.oneApi": "One API",
     "footer.columns.related.title": "相关项目",
     "footer.defaultCopyright": "版权所有。",
-    "footer.new\u0061pi.projectAttributionSuffix": "版权所有，由项目贡献者设计与开发。",
+    "footer.newapi.projectAttributionSuffix": "版权所有，由项目贡献者设计与开发。",
     "For advanced custom channels this applies only to /v1/responses routes without protocol conversion.": "高级自定义渠道仅对 /v1/responses 且不做协议转换的路由生效。",
     "For channels added after May 10, 2025, no need to remove \".\" from model names during deployment": "对于 2025 年 5 月 10 日之后添加的渠道，在部署时无需从模型名称中移除 \".\"",
     "For private deployments, format: https://fastgpt.run/api/openapi": "对于私有部署，格式为：https://fastgpt.run/api/openapi",
@@ -6863,6 +6863,22 @@
     "Zhipu": "智谱",
     "Zhipu GLM": "智谱GLM",
     "Zhipu V4": "智谱 V4",
-    "Zoom": "缩放"
+    "Zoom": "缩放",
+    "Alipay PagePay": "支付宝电脑网站支付",
+    "Alipay sandbox": "支付宝沙箱",
+    "Checkout expired. Payment verification continues.": "收银台已过期，后台继续核实付款。",
+    "Enable direct payments": "允许直连新订单",
+    "Go to Alipay": "前往支付宝",
+    "New recharge": "新建充值",
+    "Official direct payment": "官方直连支付",
+    "Paid, credit is processing": "已支付，到账处理中",
+    "Payment status": "支付状态",
+    "Real money": "真实资金",
+    "Request close": "申请关闭",
+    "Resume payment request": "恢复支付请求",
+    "Settlement status": "到账状态",
+    "Stop new direct payments": "停止直连新订单",
+    "WeChat Native": "微信 Native 扫码",
+    "WeChat payment QR code": "微信付款二维码"
   }
 }
