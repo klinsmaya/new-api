@@ -58,3 +58,19 @@ Important new outcome: a **confirmed inherited batch/cache-loss overspend** is r
 Final executed evidence: expanded-postgres.log / expanded-mysql.log (each exit 0), certificate-contract.log (exit 0), expanded-race.log (exit 0), final-safety-regression.log (exit 0), expanded-typecheck.log / expanded-lint.log (0), expanded-ui.log (11/11, 0), browser-build.log (0), full-app-rehearsal.log / container-rehearsal.log (0). Fixture image builds are 0. Official Dockerfile builder target is exit 1 due anonymous registry 429; see official-dockerfile-build.log.
 
 P0 implementation baseline, P1-P4 candidate code and expanded local checks, P6 local upgrade/rollback tooling and executed rehearsals have deliverables. P5 official integration remains BLOCKED_EXTERNAL. G1/G2 remain NOT ACCEPTED because the inherited wallet safety finding, operational/load gates, official provider acceptance and distribution-image build are not cleared. This does not claim full production P0-P6 acceptance.
+
+## Bounded wallet follow-up, 2026-10-02
+
+See WALLET_FIX_BOUNDARY.md. `wallet-diagnostic-before.log` is the intentionally failing stale-cache regression before correction (exit 1). The batch characterization cases intentionally assert the inherited defective outcome, not wallet acceptance.
+
+All commands used `.directpay-tools/go1.26.8/go/bin/go` with task-local GOCACHE/GOPATH:
+
+| Command / fixture | Exit | Evidence |
+|---|---:|---|
+| `go test ./model -run 'TestWalletReserveCacheLossConfigurationMatrix\|TestWalletSynchronousReserve' -count=1 -v`, SQLite + real Redis (`WALLET_TEST_REDIS=127.0.0.1:16379`, isolated DB9) | 0 | wallet-real-redis.log |
+| Same, `DIRECTPAY_TEST_DB=postgres` with isolated PostgreSQL 16 | 0 | wallet-postgres.log |
+| Same, `DIRECTPAY_TEST_DB=mysql` with isolated MySQL 8 | 0 | wallet-mysql.log |
+| `go test ./model ./service -p=1 -count=1` | 0 | wallet-regression.log |
+| `go test -race ./model -run 'TestWalletReserveCacheLossConfigurationMatrix\|TestWalletSynchronousReserve\|TestTryReserveUserQuota' -count=1` | 0 | wallet-race.log |
+
+Earlier post-fix focused deterministic run also passed (wallet-diagnostic-after.log, exit 0). Final two-process assertions require exactly one admitted and one rejected result. These tests clear the synchronous stale-cache case only. Enabled batch consumption, mixed fleets, unknown SQL commit outcome, operational load and official provider gates are not cleared.

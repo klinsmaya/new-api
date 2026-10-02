@@ -12,3 +12,7 @@ This is a development candidate, NOT production ready. See LOCAL_REHEARSAL.md fo
 - Review-required events have authenticated reconciliation actions, but a complete operational exception workflow needs further product integration. Generic admin completion is rejected for direct orders.
 - P7 refunds are NOT_IMPLEMENTED and disabled. No subscriptions, auto-renewal, H5/WAP, multi-merchant routing or third-party gateway scope was added.
 - No push, PR, merge, deployment, production migration/configuration or real funds operation was performed.
+
+## Wallet diagnosis continuation
+
+The recovered-stale-Redis synchronous reservation defect is fixed with a conditional SQL debit and cache invalidation. The Redis + batch-update cache-loss overspend remains reproducible, including across a correct direct-pay credit. See WALLET_FIX_BOUNDARY.md for exact configurations, evidence and the pending whole-site wallet persistence scope decision. Production creation stays hard-disabled.

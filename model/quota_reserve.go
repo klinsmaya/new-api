@@ -103,19 +103,34 @@ func cacheApplyTokenQuotaDelta(id int, key string, delta int64) (cacheQuotaResul
 	return quotaResultFromLua(result, err)
 }
 
+var errReservedUserQuotaInsufficient = errors.New("wallet balance changed before reservation persisted")
+
 // persistUserQuotaDelta 把已在缓存侧预扣成功的增量落库；批量模式下入队，
-// 直写模式下要求行存在（用户已删除时报错，交由调用方补偿缓存）。
+// 直写模式下要求行存在且预扣余额足够（失败交由调用方补偿缓存）。
 func persistUserQuotaDelta(id int, delta int) error {
 	if common.BatchUpdateEnabled {
 		addNewRecord(BatchUpdateTypeUserQuota, id, delta)
 		return nil
 	}
-	result := DB.Model(&User{}).Where("id = ?", id).Update("quota", gorm.Expr("quota + ?", delta))
+	query := DB.Model(&User{}).Where("id = ?", id)
+	// Redis may have recovered with a balance from before a DB fallback. A cache
+	// reservation is only a hint; synchronous admission still needs the SQL guard.
+	if delta < 0 {
+		query = query.Where("quota >= ?", -delta)
+	}
+	result := query.Update("quota", gorm.Expr("quota + ?", delta))
 	if result.Error != nil {
 		return result.Error
 	}
 	if result.RowsAffected != 1 {
-		return gorm.ErrRecordNotFound
+		var count int64
+		if err := DB.Model(&User{}).Where("id = ?", id).Count(&count).Error; err != nil {
+			return err
+		}
+		if count == 0 {
+			return gorm.ErrRecordNotFound
+		}
+		return errReservedUserQuotaInsufficient
 	}
 	return nil
 }
@@ -192,6 +207,13 @@ func TryReserveUserQuota(id int, quota int) (bool, error) {
 		compensated, compensateErr := cacheApplyUserQuotaDelta(id, int64(quota))
 		if compensateErr != nil || compensated != cacheQuotaOK {
 			common.SysError(fmt.Sprintf("failed to compensate reserved user quota: result=%d error=%v", compensated, compensateErr))
+		}
+		if errors.Is(err, errReservedUserQuotaInsufficient) {
+			// Discard this known-stale hint; never overwrite live quota with a DB value.
+			if invalidateErr := invalidateUserCache(id); invalidateErr != nil {
+				common.SysLog("failed to invalidate stale reservation cache: " + invalidateErr.Error())
+			}
+			return false, nil
 		}
 		return false, err
 	}

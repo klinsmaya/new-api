@@ -20,3 +20,7 @@ Third incremental review completed: no severe funds/secret exposure issue found 
 ## Follow-up independent read-only review
 
 Reviewer identified and confirmed two further P1 issues: (1) old-version hydration with no cumulative watermark could double credit cache; (2) one expired primary certificate rejected valid rotated anchors and could block historical startup/settlement. Both were repaired and covered by explicit counterexamples. Final review found no new severe direct-pay funds/secret defect. A lower-priority certificate-ID case mismatch was resolved by strictly rejecting noncanonical configured IDs. Production runtime and admin enable endpoint both deny activation. Reviewer did not run tests; actual executed evidence is separately recorded in LOCAL_REHEARSAL.md.
+
+## Bounded synchronous wallet correction review — 2026-10-02
+
+Independent agent `review_directpay` read the final uncommitted quota guard and tests without writing files. It found no new severe funds issue in this narrow change; verified unchanged batch branch, conditional synchronous SQL admission, distinct insufficient/deleted-user outcomes and exactly-one-success two-process assertions. It explicitly excludes mixed batch nodes and the inherited batch-cache-loss defect. Reviewer did not execute tests; the primary agent's database, real Redis, regression and race runs are recorded separately in TEST_REPORT.md. Whole-site synchronous wallet persistence remains pending scope confirmation. Production creation remains hard-disabled.
