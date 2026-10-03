@@ -1,0 +1,25 @@
+=== RUN   TestDirectPayBatchLossReservationSafety
+--- PASS: TestDirectPayBatchLossReservationSafety (0.01s)
+=== RUN   TestWalletReserveCacheLossConfigurationMatrix
+=== RUN   TestWalletReserveCacheLossConfigurationMatrix/database_only_batch_flag
+    wallet_reserve_consistency_test.go:80: redis=false batch=true direct_credit=false second_admitted=false final_db=1000
+=== RUN   TestWalletReserveCacheLossConfigurationMatrix/redis_synchronous
+    wallet_reserve_consistency_test.go:80: redis=true batch=false direct_credit=false second_admitted=false final_db=1000
+=== RUN   TestWalletReserveCacheLossConfigurationMatrix/redis_batch_unflushed
+    wallet_reserve_consistency_test.go:80: redis=true batch=true direct_credit=false second_admitted=false final_db=1000
+=== RUN   TestWalletReserveCacheLossConfigurationMatrix/redis_batch_with_direct_credit
+    wallet_reserve_consistency_test.go:80: redis=true batch=true direct_credit=true second_admitted=false final_db=2000
+--- PASS: TestWalletReserveCacheLossConfigurationMatrix (0.05s)
+    --- PASS: TestWalletReserveCacheLossConfigurationMatrix/database_only_batch_flag (0.01s)
+    --- PASS: TestWalletReserveCacheLossConfigurationMatrix/redis_synchronous (0.01s)
+    --- PASS: TestWalletReserveCacheLossConfigurationMatrix/redis_batch_unflushed (0.01s)
+    --- PASS: TestWalletReserveCacheLossConfigurationMatrix/redis_batch_with_direct_credit (0.02s)
+=== RUN   TestWalletSynchronousReserveRejectsRecoveredStaleCache
+[SYS] 2026/10/03 - 13:50:12 | user quota cache reserve unavailable, falling back to database: dial tcp 127.0.0.1:1: connect: connection refused 
+--- PASS: TestWalletSynchronousReserveRejectsRecoveredStaleCache (0.01s)
+=== RUN   TestWalletSynchronousReserveTwoProcesses
+--- PASS: TestWalletSynchronousReserveTwoProcesses (0.05s)
+=== RUN   TestWalletSynchronousSettlementAndFailure
+--- PASS: TestWalletSynchronousSettlementAndFailure (0.01s)
+PASS
+ok  	github.com/QuantumNous/new-api/model	0.171s

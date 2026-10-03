@@ -1,0 +1,34 @@
+=== RUN   TestDirectPayAccounting
+--- PASS: TestDirectPayAccounting (0.66s)
+=== RUN   TestDirectPayCacheRecovery
+--- PASS: TestDirectPayCacheRecovery (0.29s)
+=== RUN   TestDirectPayRedisFaultWindows
+    directpay_test.go:238: requires isolated real Redis
+--- SKIP: TestDirectPayRedisFaultWindows (0.00s)
+=== RUN   TestDirectPayBatchLossReservationSafety
+--- PASS: TestDirectPayBatchLossReservationSafety (0.30s)
+=== RUN   TestDirectPayWalletCapacityBoundary
+--- PASS: TestDirectPayWalletCapacityBoundary (0.33s)
+=== RUN   TestWalletReserveCacheLossConfigurationMatrix
+=== RUN   TestWalletReserveCacheLossConfigurationMatrix/database_only_batch_flag
+    wallet_reserve_consistency_test.go:80: redis=false batch=true direct_credit=false second_admitted=false final_db=1000
+=== RUN   TestWalletReserveCacheLossConfigurationMatrix/redis_synchronous
+    wallet_reserve_consistency_test.go:80: redis=true batch=false direct_credit=false second_admitted=false final_db=1000
+=== RUN   TestWalletReserveCacheLossConfigurationMatrix/redis_batch_unflushed
+    wallet_reserve_consistency_test.go:80: redis=true batch=true direct_credit=false second_admitted=false final_db=1000
+=== RUN   TestWalletReserveCacheLossConfigurationMatrix/redis_batch_with_direct_credit
+    wallet_reserve_consistency_test.go:80: redis=true batch=true direct_credit=true second_admitted=false final_db=2000
+--- PASS: TestWalletReserveCacheLossConfigurationMatrix (1.20s)
+    --- PASS: TestWalletReserveCacheLossConfigurationMatrix/database_only_batch_flag (0.26s)
+    --- PASS: TestWalletReserveCacheLossConfigurationMatrix/redis_synchronous (0.29s)
+    --- PASS: TestWalletReserveCacheLossConfigurationMatrix/redis_batch_unflushed (0.32s)
+    --- PASS: TestWalletReserveCacheLossConfigurationMatrix/redis_batch_with_direct_credit (0.33s)
+=== RUN   TestWalletSynchronousReserveRejectsRecoveredStaleCache
+[SYS] 2026/10/03 - 13:50:17 | user quota cache reserve unavailable, falling back to database: dial tcp 127.0.0.1:1: connect: connection refused 
+--- PASS: TestWalletSynchronousReserveRejectsRecoveredStaleCache (0.33s)
+=== RUN   TestWalletSynchronousReserveTwoProcesses
+--- PASS: TestWalletSynchronousReserveTwoProcesses (0.42s)
+=== RUN   TestWalletSynchronousSettlementAndFailure
+--- PASS: TestWalletSynchronousSettlementAndFailure (0.29s)
+PASS
+ok  	github.com/QuantumNous/new-api/model	3.874s

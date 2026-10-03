@@ -1,3 +1,5 @@
+> Current wallet status (2026-10-03): the approved synchronous wallet fix is implemented. Earlier batch-defect/pending-approval statements below describe previous stages; the final continuation section supersedes them. Production gates remain closed.
+
 # Release blockers and limits
 
 This is a development candidate, NOT production ready. See LOCAL_REHEARSAL.md for expanded executed evidence.
@@ -16,3 +18,7 @@ This is a development candidate, NOT production ready. See LOCAL_REHEARSAL.md fo
 ## Wallet diagnosis continuation
 
 The recovered-stale-Redis synchronous reservation defect is fixed with a conditional SQL debit and cache invalidation. The Redis + batch-update cache-loss overspend remains reproducible, including across a correct direct-pay credit. See WALLET_FIX_BOUNDARY.md for exact configurations, evidence and the pending whole-site wallet persistence scope decision. Production creation stays hard-disabled.
+
+## 2026-10-03 wallet continuation
+
+The user subsequently approved synchronous wallet persistence. The inherited batch cache-loss counterexample is now fixed for a homogeneous candidate fleet and covered by three-engine tests; the earlier statements that it remains unimplemented are historical. Mixed legacy batch writers, unverified old queue drains, SQL ambiguous commit outcomes and non-idempotent usage refunds remain outside this fix. The old payment-only rollback rehearsal cannot validate wallet rollback. Production creation remains hard-disabled pending all remaining official, operational/load and distribution gates. See updated WALLET_FIX_BOUNDARY.md and OPERATIONS_AND_ROLLBACK.md.

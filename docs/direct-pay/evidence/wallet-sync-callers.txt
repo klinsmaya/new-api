@@ -1,0 +1,24 @@
+service/task_billing.go:121:		return model.DecreaseUserQuota(task.UserId, delta, false)
+service/task_billing.go:123:	return model.IncreaseUserQuota(task.UserId, -delta, false)
+service/quota.go:442:			err = model.DecreaseUserQuota(relayInfo.UserId, quota, false)
+service/quota.go:444:			err = model.IncreaseUserQuota(relayInfo.UserId, -quota, false)
+service/midjourney.go:102:	if err := model.IncreaseUserQuota(task.UserId, quota, false); err != nil {
+service/billing_session.go:272:		if err := model.DecreaseUserQuota(funding.userId, delta, false); err != nil {
+service/billing_session.go:296:		if err := model.IncreaseUserQuota(funding.userId, delta, false); err != nil {
+service/funding_source.go:46:	reserved, err := model.TryReserveUserQuota(w.userId, amount)
+service/funding_source.go:62:		return model.DecreaseUserQuota(w.userId, delta, false)
+service/funding_source.go:64:	return model.IncreaseUserQuota(w.userId, -delta, false)
+service/funding_source.go:73:	return model.IncreaseUserQuota(w.userId, w.consumed, false)
+model/user.go:724:			_ = IncreaseUserQuota(user.Id, common.QuotaForInvitee, true)
+model/user.go:728:			//_ = IncreaseUserQuota(inviterId, common.QuotaForInviter)
+model/user.go:781:			_ = IncreaseUserQuota(user.Id, common.QuotaForInvitee, true)
+model/user.go:1344:func IncreaseUserQuota(id int, quota int, db bool) (err error) {
+model/user.go:1382:func DecreaseUserQuota(id int, quota int, db bool) (err error) {
+model/user.go:1403:func DeltaUpdateUserQuota(id int, delta int) (err error) {
+model/user.go:1408:		return IncreaseUserQuota(id, delta, false)
+model/user.go:1410:		return DecreaseUserQuota(id, -delta, false)
+model/checkin.go:134:	if err := IncreaseUserQuota(userId, quotaAwarded, true); err != nil {
+model/quota_reserve.go:82:func cacheTryReserveUserQuota(userID int, amount int64) (cacheQuotaResult, error) {
+model/quota_reserve.go:176:func TryReserveUserQuota(id int, quota int) (bool, error) {
+model/quota_reserve.go:187:	result, err := cacheTryReserveUserQuota(id, int64(quota))
+model/quota_reserve.go:190:			result, err = cacheTryReserveUserQuota(id, int64(quota))

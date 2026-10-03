@@ -11,7 +11,7 @@ integration_points:
   - name: wallet_atomic_credit_and_cache
     paths: [model/topup.go, model/user.go, model/user_cache.go, model/user_auth_cache.go, model/quota_reserve.go, model/directpay_cache.go]
     symbols: [creditTopUpQuota, writeUserCache, TryReserveUserQuota, SyncDirectPayCredit]
-    tests: [TestDirectPayAccounting, TestDirectPayCacheRecovery, TestDirectPayRedisFaultWindows, TestDirectPayBaselineBatchLossCounterexample, TestDirectPayWalletCapacityBoundary]
+    tests: [TestDirectPayAccounting, TestDirectPayCacheRecovery, TestDirectPayRedisFaultWindows, TestDirectPayBatchLossReservationSafety, TestDirectPayWalletCapacityBoundary]
   - name: payment_routes_and_permissions
     paths: [router/api-router.go, controller/payment_compliance.go, middleware/auth.go, controller/directpay.go]
     symbols: [UserAuth, AdminAuth, requirePaymentCompliance, DirectPayNotify]
@@ -33,3 +33,8 @@ integration_points:
     paths: [Dockerfile]
     symbols: [builder2]
     tests: [docs/direct-pay/BUILDER_SECURITY.md]
+
+  - name: synchronous_wallet_persistence
+    paths: [model/quota_reserve.go, model/user.go, model/utils.go, service/funding_source.go, service/billing_session.go, service/quota.go, service/task_billing.go]
+    symbols: [persistUserQuotaDelta, IncreaseUserQuota, DecreaseUserQuota]
+    tests: [TestWalletReserveCacheLossConfigurationMatrix, TestWalletSynchronousReserveTwoProcesses, TestWalletSynchronousSettlementAndFailure]

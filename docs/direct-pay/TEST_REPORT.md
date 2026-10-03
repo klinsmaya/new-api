@@ -74,3 +74,22 @@ All commands used `.directpay-tools/go1.26.8/go/bin/go` with task-local GOCACHE/
 | `go test -race ./model -run 'TestWalletReserveCacheLossConfigurationMatrix\|TestWalletSynchronousReserve\|TestTryReserveUserQuota' -count=1` | 0 | wallet-race.log |
 
 Earlier post-fix focused deterministic run also passed (wallet-diagnostic-after.log, exit 0). Final two-process assertions require exactly one admitted and one rejected result. These tests clear the synchronous stale-cache case only. Enabled batch consumption, mixed fleets, unknown SQL commit outcome, operational load and official provider gates are not cleared.
+
+## Approved synchronous wallet continuation — 2026-10-03
+
+Go 1.26.8, task-local GOCACHE/GOPATH. SQLite driver modernc.org/sqlite v1.40.1; actual PostgreSQL 16.15, MySQL 8.0.46, Redis 7.4.11. External engines were isolated loopback fixtures, not production. No schema/dependency change. Minimum database versions were not separately run.
+
+| Final command / environment | Exit | Evidence |
+|---|---:|---|
+| `go test ./model -run 'TestWallet\|TestDirectPayBatchLoss' -count=1 -v`, SQLite + `WALLET_TEST_REDIS=127.0.0.1:16379` | 0 | wallet-sync-sqlite.log |
+| `go test ./model -run 'TestWallet\|TestDirectPay' -count=1 -v`, `DIRECTPAY_TEST_DB=postgres`, fixture DSN + real Redis DB9 | 0 | wallet-sync-postgres.log |
+| Same, `DIRECTPAY_TEST_DB=mysql`, fixture DSN + real Redis DB9 | 0 | wallet-sync-mysql.log |
+| `go test -race ./model ./service -run 'Wallet\|TryReserve\|Batch\|Funding\|BillingSession' -p=1 -count=1` | 0 | wallet-sync-race.log |
+
+Exact fixture DSN shapes remain those in the preceding wallet run; all three-engine tests were rerun after the zero-delta correction. Tests cover cache loss with/without direct credit, batching configuration matrix, two separate processes with exactly one admission, Redis unavailable→SQL fallback→stale Redis recovery, immediate debt/refund persistence, cap and zero-delta handling, SQL-failure compensation, unchanged token batching and statistics regression. The former batch counterexample is now a safety assertion; preserved earlier failure logs remain historical evidence.
+
+No throughput/p99 acceptance claim is made. Load and drain/rollback requirements are in OPERATIONS_AND_ROLLBACK.md. Production creation remains hard-disabled and official integration/distribution gates remain unresolved.
+
+Final complete `go test ./model ./service ./controller -p=1 -count=1`: exit 1, model and service passed; controller failed only `TestSecurityAccountDeletionConcurrentRequestsHaveOneWinner` with SQLite busy/zero winner (wallet-sync-regression.log). This same unrelated concurrency flake was recorded in the previous candidate. No auth/deletion code changed. Diagnostic `go test ./controller -run '^TestSecurityAccountDeletionConcurrentRequestsHaveOneWinner$' -count=5` passed, exit 0 (wallet-sync-controller-flake.log); one complete `go test ./controller -count=1` rerun passed, exit 0 (wallet-sync-controller-rerun.log). The failed full command is retained, not represented as a passing first run.
+
+Code stage: e8514ade0ed61440a6c85272f54b21a64bd967ef. Independent final review passed after the zero-delta correction. `git diff --check` passed. No push, PR, deployment, production migration or real payment occurred. Local fixture containers were removed after verification; no broad cache cleanup was performed.
