@@ -14,6 +14,7 @@ import (
 	"github.com/go-redis/redis/v8"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"gorm.io/gorm"
 )
 
 // Optional external Redis is a dedicated loopback fixture; DB 9 is test-only.
@@ -42,8 +43,8 @@ func TestWalletReserveCacheLossConfigurationMatrix(t *testing.T) {
 	}{
 		{"database_only_batch_flag", false, true, false, false, 1000},
 		{"redis_synchronous", true, false, false, false, 1000},
-		{"redis_batch_unflushed", true, true, false, true, -3000},
-		{"redis_batch_with_direct_credit", true, true, true, true, -2000},
+		{"redis_batch_unflushed", true, true, false, false, 1000},
+		{"redis_batch_with_direct_credit", true, true, true, false, 2000},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			directPayDB(t, false)
@@ -66,7 +67,7 @@ func TestWalletReserveCacheLossConfigurationMatrix(t *testing.T) {
 				require.NoError(t, DB.Where("order_no = ?", proof.OrderNo).First(&ev).Error)
 				require.NoError(t, SettleDirectPayEvent(ev.ID))
 				require.NoError(t, SyncDirectPayCredit(user.Id))
-				assert.Equal(t, 6000, getUserQuotaFromDB(t, user.Id))
+				assert.Equal(t, 2000, getUserQuotaFromDB(t, user.Id))
 			}
 			if tc.redis {
 				require.NoError(t, common.RDB.Del(t.Context(), getUserCacheKey(user.Id)).Err())
@@ -86,7 +87,7 @@ func TestWalletSynchronousReserveRejectsRecoveredStaleCache(t *testing.T) {
 	walletConsistencyRedis(t)
 	resetBatchUpdateTestState(t)
 	old := common.BatchUpdateEnabled
-	common.BatchUpdateEnabled = false
+	common.BatchUpdateEnabled = true
 	t.Cleanup(func() { common.BatchUpdateEnabled = old })
 	user := createReserveTestUser(t, 5000)
 	require.NoError(t, populateUserCache(user))
@@ -112,7 +113,7 @@ func TestWalletSynchronousReserveRejectsRecoveredStaleCache(t *testing.T) {
 func TestWalletSynchronousReserveTwoProcesses(t *testing.T) {
 	if os.Getenv("WALLET_GUARD_CHILD") == "1" {
 		directPayDB(t, true)
-		common.BatchUpdateEnabled = false
+		common.BatchUpdateEnabled = true
 		common.RedisEnabled = true
 		dbIndex, err := strconv.Atoi(os.Getenv("WALLET_GUARD_REDIS_DB"))
 		require.NoError(t, err)
@@ -129,7 +130,7 @@ func TestWalletSynchronousReserveTwoProcesses(t *testing.T) {
 	redisAddr := walletConsistencyRedis(t)
 	resetBatchUpdateTestState(t)
 	old := common.BatchUpdateEnabled
-	common.BatchUpdateEnabled = false
+	common.BatchUpdateEnabled = true
 	t.Cleanup(func() { common.BatchUpdateEnabled = old })
 	user := createReserveTestUser(t, 5000)
 	require.NoError(t, populateUserCache(user))
@@ -164,4 +165,46 @@ func TestWalletSynchronousReserveTwoProcesses(t *testing.T) {
 	recovered, err := GetUserCache(user.Id)
 	require.NoError(t, err)
 	assert.Equal(t, 1000, recovered.Quota)
+}
+
+// Successful return must survive loss of all process-local batch state. Actual
+// usage may create debt; a rejected cap/failing SQL must not create a refund.
+func TestWalletSynchronousSettlementAndFailure(t *testing.T) {
+	directPayDB(t, false)
+	walletConsistencyRedis(t)
+	resetBatchUpdateTestState(t)
+	common.BatchUpdateEnabled = true
+	user := createReserveTestUser(t, 100)
+	require.NoError(t, populateUserCache(user))
+	require.NoError(t, IncreaseUserQuota(user.Id, 0, false), "zero settlement is a no-op, including MySQL changed-rows mode")
+	require.NoError(t, DecreaseUserQuota(user.Id, 150, false))
+	assert.Equal(t, -50, getUserQuotaFromDB(t, user.Id))
+	require.NoError(t, IncreaseUserQuota(user.Id, 70, false))
+	assert.Equal(t, 20, getUserQuotaFromDB(t, user.Id))
+	cached, err := GetUserCache(user.Id)
+	require.NoError(t, err)
+	assert.Equal(t, 20, cached.Quota)
+	batchUpdate()
+	assert.Equal(t, 20, getUserQuotaFromDB(t, user.Id), "flush must not apply wallet mutations twice")
+
+	require.NoError(t, DB.Model(&User{}).Where("id = ?", user.Id).Update("quota", common.MaxWalletQuota).Error)
+	require.NoError(t, invalidateUserCache(user.Id))
+	require.ErrorIs(t, IncreaseUserQuota(user.Id, 1, false), ErrWalletQuotaLimitExceeded)
+	assert.Equal(t, common.MaxWalletQuota, getUserQuotaFromDB(t, user.Id))
+	cached, err = GetUserCache(user.Id)
+	require.NoError(t, err)
+	assert.Equal(t, common.MaxWalletQuota, cached.Quota)
+
+	fault := fmt.Errorf("fixture: wallet SQL unavailable")
+	require.NoError(t, DB.Callback().Update().Before("gorm:update").Register("wallet_fixture_failure", func(tx *gorm.DB) { tx.AddError(fault) }))
+	t.Cleanup(func() { DB.Callback().Update().Remove("wallet_fixture_failure") })
+	require.ErrorIs(t, IncreaseUserQuota(user.Id, 1, false), fault)
+	require.ErrorIs(t, DecreaseUserQuota(user.Id, 10, false), fault)
+	ok, err := TryReserveUserQuota(user.Id, 10)
+	require.ErrorIs(t, err, fault)
+	assert.False(t, ok)
+	assert.Equal(t, common.MaxWalletQuota, getUserQuotaFromDB(t, user.Id))
+	cached, err = GetUserCache(user.Id)
+	require.NoError(t, err)
+	assert.Equal(t, common.MaxWalletQuota, cached.Quota, "failed SQL must not change cache balance")
 }

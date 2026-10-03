@@ -105,13 +105,9 @@ func cacheApplyTokenQuotaDelta(id int, key string, delta int64) (cacheQuotaResul
 
 var errReservedUserQuotaInsufficient = errors.New("wallet balance changed before reservation persisted")
 
-// persistUserQuotaDelta 把已在缓存侧预扣成功的增量落库；批量模式下入队，
-// 直写模式下要求行存在且预扣余额足够（失败交由调用方补偿缓存）。
+// persistUserQuotaDelta synchronously persists wallet reservations, independently
+// of token/statistics batching. Failed writes are compensated by the caller.
 func persistUserQuotaDelta(id int, delta int) error {
-	if common.BatchUpdateEnabled {
-		addNewRecord(BatchUpdateTypeUserQuota, id, delta)
-		return nil
-	}
 	query := DB.Model(&User{}).Where("id = ?", id)
 	// Redis may have recovered with a balance from before a DB fallback. A cache
 	// reservation is only a hint; synchronous admission still needs the SQL guard.
@@ -175,8 +171,8 @@ func reserveTokenQuotaDB(id int, quota int) (bool, error) {
 }
 
 // TryReserveUserQuota atomically checks and deducts a user's wallet quota.
-// 缓存命中时以缓存余额为准（避免批量模式下过期的数据库余额放大并发超扣）；
-// Redis 异常或水合失败时降级为数据库条件更新，保证服务可用。
+// Cache admission is provisional: every successful reservation is persisted by
+// a conditional SQL debit before return, including when batching is enabled.
 func TryReserveUserQuota(id int, quota int) (bool, error) {
 	if quota < 0 {
 		return false, errors.New("quota 不能为负数！")

@@ -290,9 +290,9 @@ func TestDirectPayRedisFaultWindows(t *testing.T) {
 	t.Log("real Redis: unknown-result retry, out-of-order total, legacy hydration rejection, delayed hydration PASS")
 }
 
-// This is a release-blocking characterization, not a claim of wallet safety.
+// Regression for the inherited cache-loss overspend with batching enabled.
 // It intentionally does not flush or manually adjust DB before Redis loss.
-func TestDirectPayBaselineBatchLossCounterexample(t *testing.T) {
+func TestDirectPayBatchLossReservationSafety(t *testing.T) {
 	directPayDB(t, false)
 	useUserCacheMiniRedis(t)
 	resetBatchUpdateTestState(t)
@@ -304,14 +304,13 @@ func TestDirectPayBaselineBatchLossCounterexample(t *testing.T) {
 	ok, err := TryReserveUserQuota(user.Id, 4000)
 	require.NoError(t, err)
 	require.True(t, ok)
-	assert.Equal(t, 5000, getUserQuotaFromDB(t, user.Id))
+	assert.Equal(t, 1000, getUserQuotaFromDB(t, user.Id))
 	require.NoError(t, common.RDB.Del(t.Context(), getUserCacheKey(user.Id)).Err())
 	ok, err = TryReserveUserQuota(user.Id, 4000)
 	require.NoError(t, err)
-	// Two admitted reservations exceed the committed wallet. This baseline risk
-	// must block production activation; a cumulative credit watermark cannot fix it.
-	assert.True(t, ok, "if baseline is repaired, replace this characterization with safety assertions and review release gate")
-	t.Log("CONFIRMED_UNSAFE_BASELINE: cache loss before batch flush admitted 8000 against 5000")
+	assert.False(t, ok)
+	batchUpdate()
+	assert.Equal(t, 1000, getUserQuotaFromDB(t, user.Id))
 }
 
 func TestDirectPayWalletCapacityBoundary(t *testing.T) {
